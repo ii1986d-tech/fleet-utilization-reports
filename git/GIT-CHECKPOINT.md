@@ -9,6 +9,7 @@
 - Builder report: sprints/sprint-001/BUILDER-REPORT.md
 - Architect acceptance: **ACCEPTED WITH FOLLOW-UP** (2026-07-29)
 - Pack end status: **PACK_ACCEPTED_WITH_FOLLOW_UP**
+- DB follow-up docs commit: `617214943e583bf980094e527f9fa3206fa6b8a0`
 - DB follow-up: **DATABASE_APPLY_BLOCKED_ENVIRONMENT**
 - Gate DATABASE_APPLY_REQUIRED_BEFORE_PACK-002: **OPEN**
 
