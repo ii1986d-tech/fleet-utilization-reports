@@ -1,36 +1,44 @@
-# Architect Review — Sprint 001
+# Architect Review — Sprint 001 / PACK-001
 
-> Prepared by Builder after PACK-001 Apply — awaiting Architect decision
+> Architect Review 2026-07-29 · Database follow-up update same day
 
 ## Decision
 
-[OFFEN] ACCEPTED / ACCEPTED WITH FOLLOW-UP / REWORK REQUIRED / REPLAN REQUIRED / ABORT
+**ACCEPTED WITH FOLLOW-UP** (code) — database runtime gate still open
+
+Canonical pack status remains: **PACK_ACCEPTED_WITH_FOLLOW_UP**
+
+Database follow-up status: **DATABASE_APPLY_BLOCKED_ENVIRONMENT**
 
 ## Acceptance matrix
 
 | Criterion | Result | Evidence | Review note |
 |---|---|---|---|
-| Scope TASK-001…006 only | Builder: PASS | Diff vs Phase-0 baseline | |
-| Typecheck / lint / build | Builder: PASS | npm scripts | |
-| Migrations SQL present for DATA-MODEL | Builder: PASS | `supabase/migrations/` | Ops apply pending |
-| RLS + role claim documented | Builder: PASS | `docs/AUTH-ROLES.md` | |
-| Frotcom mock-only | Builder: PASS | tests + live throws | |
-| Smoke tests | Builder: PASS | 5/5 Vitest | |
-| No secrets / no launcher package edits | Builder: PASS | git status | |
+| Scope TASK-001…006 only | PASS | Diff review | unchanged |
+| Typecheck / lint / build / tests | PASS | Re-run 2026-07-29 after apply attempt | |
+| Migrations SQL vs DATA-MODEL | PASS (static) | SQL_STATIC_REVIEW | |
+| Migrations apply on clean DB | **NOT_EXECUTED** | No Docker/Postgres locally | DATABASE_APPLY_BLOCKED_ENVIRONMENT |
+| Auth role path + RLS SQL present | PASS | files present | runtime RLS tests not possible without DB |
+| Frotcom mock-only | PASS | prior review | |
+| GIT-CHECKPOINT | PASS | updated | |
 
 ## Scope compliance
 
-Builder asserts no PACK-002…006 features, no live Frotcom endpoints, no invented API paths.
+PASS — follow-up added only `supabase/config.toml` via `supabase init` (CLI project config), no product features.
 
 ## New decisions and risks
 
-None raised by Builder. DS-001 remains open (Phase 5 only). Migration apply evidence still operational follow-up.
+- Environment lacks Docker/Podman and PostgreSQL client/server; cannot honestly close DATABASE_APPLY_REQUIRED_BEFORE_PACK-002.
+- Do **not** mark DATABASE_APPLY_VALIDATED.
 
 ## Required STATE updates
 
-After Architect decision: set pack status ACCEPTED / REWORK; update `planning/STATE.md` and `project-state.json`.
+Applied: gate remains open; status documents record BLOCKED_ENVIRONMENT.
 
 ## Next allowed action
 
-Architect: review repository evidence and return a Decision value above.  
-If ACCEPTED / ACCEPTED WITH FOLLOW-UP: allow PACK-002 planning or migration-apply follow-up task.
+1. Install Docker Desktop (or Podman) and ensure it is on PATH.
+2. Run: `npx supabase start` then `npx supabase db reset` (applies `supabase/migrations/*` to clean local DB).
+3. Execute table/constraint/seed/RLS validation + role JWT tests.
+4. Re-open validation follow-up to close gate with evidence.
+5. Only then start PACK-002 dry run.

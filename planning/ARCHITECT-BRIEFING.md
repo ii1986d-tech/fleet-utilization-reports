@@ -1,31 +1,31 @@
 # Architect Briefing
 
-> Updated after PACK-001 Apply 2026-07-29
+> Updated after DB apply follow-up attempt 2026-07-29
 
 ## Where things stand
 
-PACK-001 foundation is implemented and validated locally (typecheck, lint, test, build). End status: **PACK_IMPLEMENTED_AWAITING_ARCHITECT_REVIEW**. Phase-0 baseline commit exists; PACK-001 commit follows.
+PACK-001 remains **ACCEPTED WITH FOLLOW-UP**. Attempted local Supabase apply failed because Docker/Podman and PostgreSQL are not available on this machine. Status: **DATABASE_APPLY_BLOCKED_ENVIRONMENT**. Gate not closed.
 
 ## Delta since last sprint
 
-- Next.js App Router + TS strict app shell
-- Supabase client/server helpers
-- SQL migrations + RLS for DATA-MODEL entities
-- Vitest smoke (5 tests)
-- Frotcom mock adapter (live mode explicitly blocked)
+- `npx supabase init` produced `supabase/config.toml` for future local stacks
+- `npx supabase start` failed: `docker: command not found (podman also not found)`
+- npm gates re-validated PASS
 
 ## Builder evidence
 
-- `sprints/sprint-001/BUILDER-REPORT.md`
-- `npm run typecheck|lint|test|build` PASS
-- Migrations: files present; remote apply pending operator Supabase
+- Impl: `8a922df5e6e7b940e86344364f7d68a6468c5549`
+- Apply attempt logged in `sprints/sprint-001/BUILDER-REPORT.md`
 
 ## Decisions / risks requiring Architect action
 
-- Confirm ACCEPT / ACCEPT WITH FOLLOW-UP / REWORK on PACK-001
-- Decide whether migration-apply evidence is required before ACCEPTED
-- DS-001 still open for later packs
+- Environment unblock is an ops prerequisite, not a product Decision Stop
+- Do not start PACK-002 until DATABASE_APPLY_VALIDATED
 
 ## Recommended next action
 
-Complete Architect Review. If accepted, next pack is PACK-002 (assignments CRUD) or a thin follow-up for Supabase `db push` evidence.
+1. Install Docker Desktop (or Podman); restart shell so `docker` is on PATH
+2. `npx supabase start` → `npx supabase db reset`
+3. Run table/constraint/seed/RLS role tests; record evidence
+4. Re-issue validation follow-up to close the gate
+5. Then PACK-002 dry run

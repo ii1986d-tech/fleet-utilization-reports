@@ -1,30 +1,28 @@
 # State — Fleet Utilization Reports (FUR-001)
 
-- Status: **REVIEW**
-- Readiness: **70%**
+- Status: **ACCEPTED**
+- Readiness: **75%**
 - Active profile: **Professional**
 - Required profile: **Professional**
 - Complexity: **62/100**
 - Economic verdict: **CONDITIONAL**
-- Updated: 2026-07-29T17:00:00.000Z
+- Updated: 2026-07-29T18:20:00.000Z
 - Launcher: **v4.4.1** ZIP-export SoT
-- Active pack: **PACK-001** → **PACK_IMPLEMENTED_AWAITING_ARCHITECT_REVIEW**
+- Active pack: **PACK-001** → **PACK_ACCEPTED_WITH_FOLLOW_UP**
+- DB follow-up: **DATABASE_APPLY_BLOCKED_ENVIRONMENT**
 
 ## Next mandatory action
 
-Architect Review of PACK-001 (`sprints/sprint-001/ARCHITECT-REVIEW.md`). Optionally apply SQL migrations to a linked Supabase project and attach evidence.
+Unblock local database environment (Docker Desktop or Podman), then re-run database apply validation (`npx supabase start` + `npx supabase db reset` + RLS checks). **Do not start PACK-002** until DATABASE_APPLY_VALIDATED.
 
 ## Active blockers
 
-- [HIGH] Architect review pending for PACK-001
-- [MED] Supabase migration apply evidence not yet produced in this environment (SQL ready)
+- [HIGH] DATABASE_APPLY_REQUIRED_BEFORE_PACK-002 — blocked by missing Docker/Postgres (**DATABASE_APPLY_BLOCKED_ENVIRONMENT**)
 - [HIGH] DS-001 Frotcom API contract unverified (blocks Phase 5 only)
-- [MED] DS-002 / DS-003 remain open (non-blocking for foundation)
+- [MED] DS-002 / DS-003 remain open (non-blocking for PACK-002 design)
 
-## Phase 0 completed
+## Completed
 
-- Requirements, discovery, blueprint, data model, ADRs, risks, assumptions, backlog, test matrix, Phase-1 handoff
-
-## PACK-001 completed (awaiting review)
-
-- Next.js foundation, Supabase wiring, RLS stubs, Vitest smoke, Frotcom mocks
+- Phase 0 documentation
+- PACK-001 foundation (Architect: ACCEPTED WITH FOLLOW-UP)
+- Environment probe for DB apply (failed: no Docker/Postgres)

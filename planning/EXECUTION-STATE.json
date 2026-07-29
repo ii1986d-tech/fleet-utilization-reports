@@ -1,5 +1,5 @@
 {
-  "status": "REVIEW",
+  "status": "ACCEPTED",
   "history": [
     "DRAFT",
     "INTAKE_COMPLETE",
@@ -10,14 +10,15 @@
     "APPROVED",
     "BUILDING",
     "VALIDATING",
-    "REVIEW"
+    "REVIEW",
+    "ACCEPTED"
   ],
   "activePack": "PACK-001",
-  "packStatus": "PACK_IMPLEMENTED_AWAITING_ARCHITECT_REVIEW",
-  "readiness": 70,
+  "packStatus": "PACK_ACCEPTED_WITH_FOLLOW_UP",
+  "dbFollowUpStatus": "DATABASE_APPLY_BLOCKED_ENVIRONMENT",
+  "readiness": 75,
   "blockers": [
-    "Architect review pending",
-    "Supabase migration apply evidence pending operator project",
+    "DATABASE_APPLY_REQUIRED_BEFORE_PACK-002 (blocked: no Docker/Postgres)",
     "DS-001 Frotcom contract (Phase 5 only)"
   ]
 }
