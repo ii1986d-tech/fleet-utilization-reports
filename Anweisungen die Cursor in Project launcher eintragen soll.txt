@@ -1,0 +1,1076 @@
+PROJEKTSTART: FUR-001 – FLEET UTILIZATION REPORTS
+
+Du arbeitest als verantwortlicher Softwarearchitekt und Senior Full-Stack-Entwickler innerhalb des vorhandenen Project-Launcher-Workflows.
+
+Das Projekt soll nicht als beliebiges neues SaaS-Produkt entwickelt werden, sondern als kleines, klar begrenztes internes Management- und Reporting-Tool für eine Spedition.
+
+Das System soll tägliche und historische Fahrzeugnutzungsdaten aus Frotcom abrufen, speichern, auswerten und für Manager darstellen.
+
+==================================================
+1. VERBINDLICHE ARBEITSWEISE
+==================================================
+
+1. Lies zuerst vollständig:
+   - alle Project-Launcher-Dateien,
+   - vorhandene README-Dateien,
+   - planning/,
+   - sprints/,
+   - .project-launcher/,
+   - package.json,
+   - vorhandene Umgebungs- und Konfigurationsdateien,
+   - vorhandenen Quellcode.
+
+2. Prüfe zuerst den tatsächlichen Projektzustand.
+   Erfinde keine bereits vorhandenen Komponenten, Tabellen, Endpunkte oder Funktionen.
+
+3. Arbeite nach dem vorhandenen Project-Launcher-Prozess:
+   - Ist-Zustand erfassen
+   - Anforderungen präzisieren
+   - Architektur festlegen
+   - Risiken dokumentieren
+   - Arbeitspakete bilden
+   - Arbeitspakete einzeln implementieren
+   - Tests ausführen
+   - Ergebnisse dokumentieren
+   - State- und Handoff-Dateien aktualisieren
+
+4. Stelle nicht bei jedem kleinen Detail Rückfragen.
+   Nutze sinnvolle, konservative Standardannahmen und dokumentiere sie in ASSUMPTIONS.md.
+
+5. Stoppe nur bei echten Entscheidungspunkten:
+   - unbekannter oder widersprüchlicher Frotcom-API-Vertrag,
+   - notwendige Zugangsdaten fehlen,
+   - eine irreversible Datenbankänderung wäre erforderlich,
+   - bestehende produktive Funktionen könnten beschädigt werden,
+   - fachliche Definitionen beeinflussen das Berichtsergebnis wesentlich,
+   - Datenschutz oder Zugriffsrechte sind ungeklärt.
+
+6. Keine produktiven Zugangsdaten:
+   - niemals Passwörter, API-Token oder Secrets in Dateien eintragen,
+   - niemals Secrets committen,
+   - nur Environment-Variablen und Platzhalter verwenden,
+   - .env.example ohne echte Zugangsdaten pflegen,
+   - .env.local muss in .gitignore bleiben.
+
+7. Bereits in einem Chat veröffentlichte Frotcom-Zugangsdaten gelten als kompromittiert und dürfen nicht verwendet werden.
+   Das produktive Passwort muss vom Betreiber geändert werden.
+
+8. Führe nach jedem abgeschlossenen Arbeitspaket aus:
+   - TypeScript-Prüfung,
+   - Lint,
+   - Build,
+   - relevante Unit- und Integrationstests,
+   - git diff --check.
+
+9. Halte das Projekt klein.
+   Keine Funktionen hinzufügen, die nicht direkt den beschriebenen Management- und Reportingzweck unterstützen.
+
+==================================================
+2. PRODUKTZIEL
+==================================================
+
+Das Tool soll einem Manager zeigen:
+
+- welches Fahrzeug eingesetzt wurde,
+- welcher Fahrer dem Fahrzeug zugewiesen war,
+- für welchen Auftraggeber das Fahrzeug eingesetzt wurde,
+- wo das Fahrzeug den Tag begonnen hat,
+- wo das Fahrzeug den Tag beendet hat,
+- wie viele Kilometer es an diesem Tag gefahren ist,
+- wie lange das Fahrzeug tatsächlich gefahren ist,
+- wie lange es während des relevanten Einsatzfensters gestanden hat,
+- wann die erste Bewegung erfolgte,
+- wann die letzte Bewegung erfolgte,
+- ob das Fahrzeug unter einem festgelegten Nutzungsziel lag,
+- wie sich die Nutzung über Tage, Wochen und Monate entwickelt hat.
+
+Das System ist zunächst ein Management- und Fahrzeugauslastungswerkzeug.
+
+Es ist kein vollständiges TMS, kein Auftragsverwaltungssystem und kein Ersatz für Frotcom.
+
+==================================================
+3. TECHNOLOGISCHER RAHMEN
+==================================================
+
+Bevorzugter Stack:
+
+- Next.js mit App Router
+- TypeScript im Strict Mode
+- Supabase / PostgreSQL
+- n8n für geplante tägliche Datenabrufe
+- Frotcom-API als Datenquelle
+- serverseitige Exportgenerierung
+- Excel/XLSX-Export
+- PDF-Export
+- responsive Weboberfläche
+
+Bestehende Projektkonventionen haben Vorrang, sofern bereits ein funktionierender Stack vorhanden ist.
+
+Keine neue Technologie einführen, wenn sie nicht notwendig ist.
+
+==================================================
+4. ARCHITEKTURGRUNDSATZ
+==================================================
+
+Die Verantwortung ist klar zu trennen:
+
+Frotcom API
+→ liefert offizielle oder bereits verarbeitete Fahrzeugdaten
+
+n8n
+→ plant und orchestriert tägliche Abrufe
+→ ruft die Daten des Vortags ab
+→ übergibt oder speichert normalisierte Daten
+→ führt Wiederholungsversuche und Fehlerbenachrichtigungen aus
+
+Supabase
+→ speichert Fahrzeuge, Fahrer, Auftraggeber, Zuordnungen und Tageswerte
+→ stellt historische Abfragen bereit
+→ erzwingt Datenintegrität und Zugriffsrechte
+
+Dashboard
+→ zeigt gespeicherte Daten
+→ filtert Zeiträume
+→ zeigt Einzel- und Gesamtanalysen
+→ erlaubt manuelle Zuordnungen und Excel-Import
+→ erzeugt PDF- und Excel-Exporte
+
+Die Weboberfläche darf nicht bei jedem Seitenaufruf die gesamte Frotcom-Historie neu abrufen.
+
+Historische Berichte werden aus Supabase gelesen.
+
+==================================================
+5. MVP-FUNKTIONSUMFANG
+==================================================
+
+5.1 Tagesübersicht
+
+Für jeden Lkw und Tag anzeigen:
+
+- Datum
+- Fahrzeugname
+- Kennzeichen
+- interne oder externe Frotcom-Fahrzeug-ID
+- Fahrer
+- Auftraggeber
+- erste Bewegung
+- letzte Bewegung
+- Startort
+- Endort
+- Tageskilometer
+- Fahrzeug-Fahrzeit
+- relevante Standzeit
+- Einsatzdauer
+- Status
+- Datenquelle
+- Zeitpunkt der letzten Synchronisierung
+
+5.2 Statuslogik
+
+Konfigurierbare Standardwerte:
+
+- ab 9:00 Stunden Fahrzeit:
+  ausreichend eingesetzt
+
+- 7:00 bis 8:59 Stunden:
+  unter Zielwert / prüfen
+
+- 0:01 bis 6:59 Stunden:
+  stark unter Zielwert
+
+- 0 Kilometer oder keine Bewegung:
+  nicht eingesetzt
+
+Die Grenzwerte dürfen nicht hart im UI-Code verstreut werden.
+Sie müssen zentral konfigurierbar sein.
+
+5.3 Zeitraumfilter
+
+Mindestens:
+
+- Heute
+- Gestern
+- letzte 7 Tage
+- letzte 14 Tage
+- letzte 30 Tage
+- dieser Monat
+- letzter Monat
+- benutzerdefiniert von/bis
+
+5.4 Filter
+
+Mindestens:
+
+- Fahrzeug
+- Fahrer
+- Auftraggeber
+- Zeitraum
+- Status
+- unter 9 Stunden
+- nicht eingesetzt
+
+5.5 Zeitraumsauswertung
+
+Für den gewählten Zeitraum pro Fahrzeug anzeigen:
+
+- Kilometer gesamt
+- Fahrzeit gesamt
+- Standzeit gesamt
+- durchschnittliche Fahrzeit pro Einsatztag
+- Anzahl Kalendertage
+- Anzahl Einsatztage
+- Anzahl Tage unter 9 Stunden
+- Anzahl Tage ohne Einsatz
+- Anzahl verschiedener Fahrer
+- Anzahl verschiedener Auftraggeber
+
+5.6 Detailansicht Fahrzeug
+
+Beim Öffnen eines Fahrzeugs anzeigen:
+
+- tägliche Einträge im gewählten Zeitraum
+- Fahrer pro Tag
+- Auftraggeber pro Tag
+- Start- und Endort
+- Kilometer
+- Fahrzeit
+- Standzeit
+- erste und letzte Bewegung
+- Status
+- Wochen- und Monatszusammenfassung
+
+Eine vollständige Routendarstellung auf der Karte gehört nicht zwingend zum ersten MVP.
+Start- und Endpunkt dürfen zunächst als Ortsangaben dargestellt werden.
+
+==================================================
+6. FACHLICHE DEFINITIONEN
+==================================================
+
+6.1 Tageskilometer
+
+Bevorzugte Reihenfolge der Datenquellen:
+
+1. offizieller Tages-/Tripwert der Frotcom-API,
+2. Kilometerstand Ende minus Kilometerstand Beginn,
+3. Frotcom-Telematikwert,
+4. GPS-Berechnung nur als ausdrücklich gekennzeichneter Fallback.
+
+Keine Luftlinienberechnung als offizieller Tageswert verwenden.
+
+6.2 Fahrzeug-Fahrzeit
+
+Zeit, in der das Fahrzeug laut Frotcom tatsächlich in Bewegung war.
+
+Nicht automatisch mit der gesetzlichen Fahrerlenkzeit gleichsetzen.
+
+6.3 Fahrer-Lenkzeit
+
+Nur anzeigen, wenn die Frotcom-API einen zuverlässigen Wert aus Fahrer-, Tachograph- oder elektronischen Logbuchdaten liefert.
+
+Im Datenmodell Fahrzeug-Fahrzeit und Fahrer-Lenkzeit getrennt halten.
+
+6.4 Standzeit
+
+Für das MVP gilt:
+
+Standzeit während des Einsatzfensters =
+Zeit zwischen erster und letzter relevanter Bewegung
+minus tatsächliche Fahrzeug-Fahrzeit.
+
+Nächtliche Parkzeit außerhalb des Einsatzfensters darf nicht automatisch als betriebliche Standzeit gezählt werden.
+
+Zusätzlich vorbereiten:
+
+- Standzeit mit ausgeschaltetem Motor
+- Leerlaufzeit mit laufendem Motor
+
+Diese Werte nur anzeigen, wenn Frotcom sie zuverlässig bereitstellt.
+
+6.5 Startort
+
+Ort der ersten relevanten Fahrt beziehungsweise Bewegung des Tages.
+
+6.6 Endort
+
+Ort der letzten relevanten Fahrt beziehungsweise Bewegung des Tages.
+
+6.7 Zeitzone
+
+Alle Rohzeitpunkte möglichst in UTC speichern.
+Für Anzeige und Tagesgrenzen muss eine konfigurierbare Betriebszeitzone verwendet werden.
+
+Keine Tagesaggregation allein anhand der Browser-Zeitzone durchführen.
+
+==================================================
+7. FAHRER- UND AUFTRAGGEBERZUWEISUNG
+==================================================
+
+Für jedes Fahrzeug muss ein Fahrer und ein Auftraggeber zugewiesen werden können.
+
+Die Zuordnung muss zeitabhängig sein.
+
+Beispiel:
+
+Fahrzeug A
+01.07.–14.07. → Fahrer 1 / Auftraggeber X
+ab 15.07. → Fahrer 2 / Auftraggeber Y
+
+Ein historischer Bericht muss die am jeweiligen Berichtstag gültige Zuordnung anzeigen und nicht die heute aktuelle Zuordnung.
+
+7.1 Manuelle Verwaltung
+
+Bereich:
+
+Einstellungen
+→ Fahrzeuge
+→ Fahrer
+→ Auftraggeber
+→ Fahrzeugzuweisungen
+
+Mögliche Aktionen:
+
+- Fahrer anlegen und bearbeiten
+- Auftraggeber anlegen und bearbeiten
+- Fahrzeug auswählen
+- Fahrer zuweisen
+- Auftraggeber zuweisen
+- Gültig-ab-Datum setzen
+- optional Gültig-bis-Datum setzen
+- Bemerkung eintragen
+- Zuordnung beenden
+- Zuordnung korrigieren
+
+7.2 Excel-Import
+
+Der Nutzer muss Zuordnungen per Excel importieren können.
+
+Vorgeschlagene Spalten:
+
+- Kennzeichen
+- Fahrer
+- Auftraggeber
+- Gültig ab
+- Gültig bis
+- Bemerkung
+
+Importprozess:
+
+1. Datei auswählen
+2. Datei validieren
+3. Spalten zuordnen, falls nötig
+4. Vorschau anzeigen
+5. Fahrzeuge zuordnen
+6. neue Fahrer/Auftraggeber erkennen
+7. Konflikte anzeigen
+8. keine stillen Überschreibungen
+9. Nutzer bestätigt Import
+10. Importprotokoll speichern
+
+Ungültige Zeilen dürfen nicht zum Abbruch aller gültigen Zeilen führen.
+Der Nutzer muss einen Fehlerbericht herunterladen können.
+
+7.3 Fahrerquelle
+
+Priorität bei der Anzeige:
+
+1. tatsächlicher Fahrer aus Frotcom/Tachograph, sofern verlässlich,
+2. manuelle oder importierte Fahrzeugzuweisung,
+3. „nicht zugewiesen“.
+
+Geplanter und tatsächlich erkannter Fahrer müssen getrennt gespeichert werden, wenn beide vorhanden sind.
+
+==================================================
+8. VORGESCHLAGENES DATENMODELL
+==================================================
+
+Prüfe zunächst das vorhandene Datenmodell.
+Erstelle keine Tabellen doppelt.
+
+Benötigte fachliche Entitäten:
+
+8.1 vehicles
+
+Mögliche Felder:
+
+- id
+- external_frotcom_id
+- registration_number
+- display_name
+- vehicle_type
+- active
+- metadata
+- created_at
+- updated_at
+
+8.2 drivers
+
+- id
+- external_frotcom_id nullable
+- full_name
+- employee_number nullable
+- active
+- created_at
+- updated_at
+
+8.3 customers
+
+- id
+- name
+- external_reference nullable
+- active
+- created_at
+- updated_at
+
+8.4 vehicle_assignments
+
+- id
+- vehicle_id
+- driver_id nullable
+- customer_id nullable
+- valid_from
+- valid_until nullable
+- source: manual | excel_import | system
+- notes nullable
+- created_by
+- created_at
+- updated_at
+
+Erforderliche Regeln:
+
+- keine ungültigen Zeiträume
+- valid_until darf nicht vor valid_from liegen
+- überlappende aktive Zuordnungen für dieselbe Dimension erkennen
+- Änderungen auditierbar halten
+
+8.5 vehicle_daily_reports
+
+- id
+- report_date
+- vehicle_id
+- actual_driver_id nullable
+- assigned_driver_id nullable
+- customer_id nullable
+- start_time nullable
+- end_time nullable
+- start_location_text nullable
+- end_location_text nullable
+- start_latitude nullable
+- start_longitude nullable
+- end_latitude nullable
+- end_longitude nullable
+- distance_km
+- driving_seconds
+- driver_driving_seconds nullable
+- standing_seconds
+- idle_seconds nullable
+- operation_window_seconds
+- utilization_status
+- source_type
+- source_reference nullable
+- data_quality_status
+- sync_status
+- synchronized_at
+- raw_payload_reference nullable
+- created_at
+- updated_at
+
+Eindeutigkeit:
+
+- ein Tagesbericht pro Fahrzeug und Berichtstag
+- Upsert muss idempotent sein
+
+8.6 import_jobs
+
+- id
+- file_name
+- status
+- total_rows
+- valid_rows
+- invalid_rows
+- imported_rows
+- error_report_reference
+- created_by
+- created_at
+- completed_at
+
+8.7 sync_runs
+
+- id
+- source
+- report_date
+- started_at
+- completed_at
+- status
+- records_received
+- records_created
+- records_updated
+- records_failed
+- error_summary
+- retry_count
+
+8.8 utilization_settings
+
+- minimum_target_driving_seconds
+- warning_target_driving_seconds
+- business_timezone
+- report_generation_time
+- updated_by
+- updated_at
+
+Alle Tabellen benötigen geeignete Indizes, Foreign Keys, Constraints und Row Level Security.
+
+==================================================
+9. FROTCOM-INTEGRATION
+==================================================
+
+Vor Implementierung:
+
+1. Frotcom-Dokumentation und tatsächlich freigeschaltete Endpunkte prüfen.
+2. Authentifizierungsverfahren verifizieren.
+3. Provider-/Account-Parameter prüfen.
+4. Token-Lebensdauer prüfen.
+5. Rate Limits prüfen.
+6. Felder für:
+   - Fahrzeuge
+   - Fahrten
+   - Kilometer
+   - Fahrzeit
+   - Fahrer
+   - Start- und Endposition
+   - Leerlauf
+   - Tachograph-/Logbuchdaten
+   identifizieren.
+
+Keine API-Endpunkte oder Response-Strukturen erfinden.
+
+Erstelle eine isolierte Frotcom-Adapter-Schicht.
+
+Beispiel:
+
+src/lib/frotcom/
+- client.ts
+- auth.ts
+- types.ts
+- schemas.ts
+- vehicles.ts
+- daily-activity.ts
+- normalize.ts
+- errors.ts
+
+Anforderungen:
+
+- sichere Authentifizierung
+- Token-Erneuerung
+- Timeouts
+- begrenzte Retries
+- Rate-Limit-Behandlung
+- strukturierte Fehler
+- Runtime-Validierung externer Antworten
+- keine Secrets in Logs
+- keine ungeprüften API-Daten direkt in Datenbank schreiben
+
+Wenn die Endpunkte noch nicht bestätigt sind:
+
+- Adapter-Interfaces implementieren,
+- Mock-Fixtures erstellen,
+- Datenmodell und Dashboard gegen Mock-Daten entwickeln,
+- Integrationsstelle klar markieren,
+- keine fiktive produktive Integration vortäuschen.
+
+==================================================
+10. N8N-WORKFLOW
+==================================================
+
+Vorgeschlagener Workflowname:
+
+Frotcom Daily Utilization Import
+
+Ablauf:
+
+1. Schedule Trigger
+2. Betriebszeitzone berücksichtigen
+3. Berichtstag = vorheriger Kalendertag
+4. Frotcom authentifizieren
+5. aktive Fahrzeuge abrufen
+6. Tagesdaten je Fahrzeug oder als Sammelabruf abrufen
+7. Antworten validieren
+8. normalisieren
+9. Tagesstatus berechnen
+10. in Supabase idempotent upserten
+11. Sync-Run abschließen
+12. Fehler und fehlende Fahrzeuge protokollieren
+13. optional Management-E-Mail erstellen
+14. bei Teilfehlern kontrollierte Wiederholung durchführen
+
+Der Workflow darf nicht bei einem fehlerhaften Fahrzeug den gesamten Import verlieren.
+
+Erforderlich:
+
+- Continue-on-error nicht blind verwenden
+- Fehler explizit sammeln
+- Retry begrenzen
+- Duplikate vermeiden
+- wiederholbares Backfill ermöglichen
+- einen bestimmten Tag erneut importieren können
+- manuellen Testmodus für ein Fahrzeug bieten
+
+Secrets ausschließlich über n8n Credentials beziehungsweise Environment-Variablen.
+
+==================================================
+11. DASHBOARD-SEITEN
+==================================================
+
+11.1 Übersicht
+
+Route beispielhaft:
+
+/reports/utilization
+
+Inhalt:
+
+- Zeitraumfilter
+- Kennzahlenkarten
+- Filter
+- sortierbare Tabelle
+- Statuskennzeichnung
+- PDF-Export
+- Excel-Export
+
+Kennzahlen:
+
+- Fahrzeuge insgesamt
+- Fahrzeuge eingesetzt
+- Fahrzeuge nicht eingesetzt
+- Fahrzeuge unter 9 Stunden
+- Gesamtkilometer
+- gesamte Fahrzeit
+- durchschnittliche Fahrzeit pro Einsatztag
+- gesamte Standzeit
+
+11.2 Fahrzeugdetail
+
+Route beispielhaft:
+
+/reports/utilization/[vehicleId]
+
+Inhalt:
+
+- gewählter Zeitraum
+- Fahrzeugstammdaten
+- aktuelle Zuordnung
+- historische Tageswerte
+- Summen
+- Durchschnittswerte
+- Tage unter Ziel
+- Fahrerhistorie
+- Auftraggeberhistorie
+
+11.3 Einstellungen
+
+Routes beispielhaft:
+
+/settings/vehicles
+/settings/drivers
+/settings/customers
+/settings/assignments
+/settings/imports
+/settings/utilization
+
+11.4 Import
+
+Route beispielhaft:
+
+/settings/imports/assignments
+
+Mit:
+
+- Upload
+- Vorschau
+- Validierung
+- Konfliktanzeige
+- Bestätigung
+- Ergebnisbericht
+
+==================================================
+12. PDF-EXPORT
+==================================================
+
+Der PDF-Export muss den aktuell gewählten Zeitraum und die aktiven Filter berücksichtigen.
+
+PDF-Inhalt:
+
+- Firmenname oder konfigurierbare Organisation
+- Berichtstitel
+- Zeitraum
+- Erstellungsdatum
+- aktive Filter
+- Kennzahlenübersicht
+- Fahrzeugtabelle
+- Liste auffälliger Fahrzeuge
+- Seitenzahlen
+- Hinweis zur Datenquelle
+- Hinweis bei unvollständigen Daten
+
+Für einzelne Fahrzeuge:
+
+- Tageszeilen
+- Fahrer
+- Auftraggeber
+- Start-/Endort
+- Kilometer
+- Fahrzeit
+- Standzeit
+- Status
+
+Der PDF-Export muss serverseitig oder über eine kontrollierte Exportfunktion erzeugt werden.
+Keine unzuverlässige reine Browser-Drucklösung als einzige Exportmöglichkeit.
+
+==================================================
+13. EXCEL-EXPORT
+==================================================
+
+Exportformat .xlsx.
+
+Mindestens zwei Tabellenblätter:
+
+1. Zusammenfassung
+2. Tagesdetails
+
+Optional:
+
+3. Fahrerzuweisungen
+4. Auftraggeberauswertung
+5. Datenqualitätsfehler
+
+Excel muss enthalten:
+
+- Zeitraum
+- Filter
+- Kennzeichen
+- Fahrer
+- Auftraggeber
+- Startort
+- Endort
+- Kilometer
+- Fahrzeit
+- Standzeit
+- Status
+
+Zeitwerte sowohl lesbar als auch für Excel auswertbar speichern.
+Keine Zeitwerte ausschließlich als Text wie „9 Std. 30 Min.“ exportieren.
+
+==================================================
+14. E-MAIL-BERICHT – OPTIONAL NACH MVP
+==================================================
+
+Das Dashboard ist die zentrale historische Ansicht.
+
+Zusätzlich vorbereiten:
+
+- tägliche Management-E-Mail
+- kurze Zusammenfassung
+- Anzahl Fahrzeuge unter Ziel
+- Anzahl Fahrzeuge ohne Einsatz
+- Gesamtkilometer
+- Link zum Dashboard
+- optional PDF-Anhang
+
+E-Mail-Versand gehört nicht vor die korrekte Datenübernahme und Dashboardanzeige.
+
+==================================================
+15. DATENQUALITÄT
+==================================================
+
+Jeder Tagesdatensatz benötigt einen Datenqualitätsstatus:
+
+- complete
+- partial
+- missing
+- suspicious
+- manually_corrected
+
+Beispiele für suspicious:
+
+- negative Kilometer
+- Kilometer unrealistisch hoch
+- Fahrzeit länger als Einsatzfenster
+- Endzeit vor Startzeit
+- Fahrzeug bewegt, aber null Kilometer
+- Kilometer vorhanden, aber keine Fahrzeit
+- keine Fahrerzuweisung
+- widersprüchliche Frotcom-Werte
+
+Fehler nicht still verstecken.
+Im Dashboard sichtbar kennzeichnen.
+
+==================================================
+16. AUTHENTIFIZIERUNG UND ROLLEN
+==================================================
+
+Mindestens folgende Rollen vorbereiten:
+
+- admin
+- manager
+- viewer
+
+Admin:
+
+- Stammdaten
+- Zuweisungen
+- Imports
+- Einstellungen
+- Korrekturen
+
+Manager:
+
+- Berichte
+- Filter
+- Exporte
+- Detailansichten
+
+Viewer:
+
+- nur lesender Zugriff
+
+RLS in Supabase muss der Rolle entsprechen.
+
+Keine Service-Role-Keys im Browser verwenden.
+
+==================================================
+17. NICHT IM ERSTEN MVP
+==================================================
+
+Nicht ohne gesonderte Freigabe implementieren:
+
+- vollständige Live-Karte
+- komplette Tagesroute auf Karte
+- Tourenplanung
+- Auftragsdisposition
+- Rechnungsstellung
+- automatische Lohnabrechnung
+- gesetzliche Tachographenbewertung
+- KI-Analyse
+- Fahrer-App
+- Kundenportal
+- komplexe Mehrmandantenfähigkeit
+- neues vollständiges TMS
+
+==================================================
+18. TESTANFORDERUNGEN
+==================================================
+
+Mindestens testen:
+
+- Tagesaggregation
+- Tagesgrenze und Zeitzone
+- Kilometerwerte
+- Fahrzeitberechnung
+- Standzeitberechnung
+- Status unter 9 Stunden
+- Fahrzeug ohne Bewegung
+- Fahrerwechsel
+- Auftraggeberwechsel
+- historische Zuordnung
+- überlappende Zuordnungen
+- Excel-Import mit gültigen Zeilen
+- Excel-Import mit fehlerhaften Zeilen
+- doppelter Import
+- API-Teilfehler
+- API-Timeout
+- abgelaufener Token
+- erneuter Import desselben Tages
+- PDF mit Filtern
+- Excel mit Filtern
+- RLS und Rollen
+- Export leerer Ergebnismengen
+
+Fixtures für mehrere Fahrzeuge und mehrere Tage anlegen.
+
+Mindestszenarien:
+
+1. Fahrzeug fährt mehr als 9 Stunden.
+2. Fahrzeug fährt zwischen 7 und 9 Stunden.
+3. Fahrzeug fährt weniger als 7 Stunden.
+4. Fahrzeug steht den ganzen Tag.
+5. Zwei Fahrer nutzen dasselbe Fahrzeug.
+6. Fahrerzuweisung ändert sich innerhalb des Monats.
+7. Auftraggeberzuweisung ändert sich.
+8. Daten fehlen teilweise.
+9. Ein Import wird zweimal ausgeführt.
+10. Ein Fahrzeug ist in Frotcom vorhanden, aber lokal noch nicht zugeordnet.
+
+==================================================
+19. UMSETZUNGSPHASEN
+==================================================
+
+PHASE 0 – Discovery und Projektpack
+
+- Repository analysieren
+- Project-Launcher-State aktualisieren
+- Anforderungen dokumentieren
+- Frotcom-Unsicherheiten dokumentieren
+- Architekturdiagramm erstellen
+- Datenmodell entwerfen
+- Risiken erfassen
+- Backlog priorisieren
+- Akzeptanzkriterien formulieren
+
+Noch keine produktive Frotcom-Integration.
+
+PHASE 1 – Projektgrundlage
+
+- Next.js-Grundstruktur
+- Supabase-Anbindung
+- Authentifizierung
+- Rollen
+- Stammdatentabellen
+- Migrationen
+- Testinfrastruktur
+- Mock-Daten
+
+PHASE 2 – Zuordnungen
+
+- Fahrzeuge
+- Fahrer
+- Auftraggeber
+- historische Fahrzeugzuweisungen
+- manuelle Pflege
+- Validierung von Zeiträumen
+
+PHASE 3 – Excel-Import
+
+- Upload
+- Parsing
+- Vorschau
+- Validierung
+- Konflikte
+- Bestätigung
+- Importprotokoll
+- Fehlerdatei
+
+PHASE 4 – Tagesberichte mit Mock-Daten
+
+- Tagesübersicht
+- Zeitraumfilter
+- Statuslogik
+- Fahrzeugdetail
+- Summen
+- Datenqualitätsanzeige
+
+PHASE 5 – Frotcom-Integration
+
+- Authentifizierung
+- Fahrzeugabruf
+- Tagesaktivitäten
+- Normalisierung
+- idempotentes Speichern
+- Backfill
+- n8n-Workflow
+- Fehlerbehandlung
+
+Nur nach bestätigtem API-Vertrag.
+
+PHASE 6 – Exporte
+
+- Excel
+- PDF
+- Filterübernahme
+- Exporttests
+
+PHASE 7 – Management-E-Mail
+
+- Tageszusammenfassung
+- Dashboard-Link
+- optional PDF-Anhang
+- Versandfehlerbehandlung
+
+PHASE 8 – Pilot und Validierung
+
+- ein Fahrzeug
+- ein Tag
+- Vergleich mit Frotcom
+- fünf Fahrzeuge
+- sieben Tage
+- alle Fahrzeuge
+- zwei bis vier Wochen Pilotbetrieb
+
+==================================================
+20. ARBEITSPAKETE UND PING-PONG-REDUKTION
+==================================================
+
+Erstelle Arbeitspakete, die jeweils selbstständig umsetzbar und testbar sind.
+
+Jedes Arbeitspaket benötigt:
+
+- Ziel
+- Umfang
+- Nicht-Umfang
+- betroffene Dateien
+- Datenbankänderungen
+- Akzeptanzkriterien
+- Tests
+- Risiken
+- Rollback
+- Abschlussbericht
+
+Arbeite nicht mit Rückfragen nach jeder Datei.
+
+Bei nicht blockierenden Details:
+
+- konservative Annahme treffen,
+- in ASSUMPTIONS.md dokumentieren,
+- Implementierung fortsetzen.
+
+Bei echten Entscheidungsstopps:
+
+- genaue Frage stellen,
+- maximal drei Optionen anbieten,
+- eine klare Empfehlung geben,
+- Auswirkungen jeder Option beschreiben.
+
+Nach jedem Arbeitspaket aktualisieren:
+
+- STATE.md
+- PACK-REGISTRY.md
+- RISKS.md
+- BACKLOG.md
+- GIT-CHECKPOINT.md
+- Handoff-Datei
+- relevante Sprint-Dateien
+
+==================================================
+21. ERSTER AUFTRAG
+==================================================
+
+Beginne jetzt ausschließlich mit PHASE 0.
+
+Führe folgende Schritte aus:
+
+1. Analysiere den tatsächlichen Projektordner.
+2. Prüfe, welche Project-Launcher-Version vorhanden ist.
+3. Prüfe, ob das Projekt leer, teilweise vorbereitet oder bereits implementiert ist.
+4. Erstelle beziehungsweise aktualisiere das Projektpack für FUR-001.
+5. Dokumentiere die fachlichen Anforderungen aus dieser Anweisung.
+6. Entwirf das Datenmodell.
+7. Entwirf die Systemarchitektur.
+8. Erstelle priorisierte Arbeitspakete.
+9. Definiere Akzeptanzkriterien.
+10. Erstelle eine Testmatrix.
+11. Erstelle eine Liste der Informationen, die für die echte Frotcom-Integration noch verifiziert werden müssen.
+12. Erstelle einen Builder-Handoff für PHASE 1.
+
+Noch keine unbestätigten Frotcom-Endpunkte implementieren.
+Noch keine Secrets verwenden.
+Noch keine großen UI-Designarbeiten beginnen.
+
+Am Ende liefere:
+
+- kurze Ist-Zustandsanalyse,
+- Liste erstellter/geänderter Dateien,
+- wichtigste Architekturentscheidungen,
+- offene echte Entscheidungspunkte,
+- empfohlenes erstes Builder-Arbeitspaket,
+- ausgeführte Prüfungen,
+- Git-Status.
+
+Arbeite alle eindeutig lösbaren Punkte selbstständig ab.

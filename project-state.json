@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "appVersion": "4.4.1",
+    "schemaVersion": "4.4.1",
+    "stateFormat": "4.4.1",
+    "templateVersion": "4.4.1",
+    "createdAt": "2026-07-29T12:00:00.000Z",
+    "updatedAt": "2026-07-29T12:00:00.000Z",
+    "projectId": "PRJ-FUR-001"
+  },
+  "status": "DATA_MODEL_READY",
+  "statusHistory": [
+    { "status": "DRAFT", "at": "2026-07-29T10:00:00.000Z" },
+    { "status": "INTAKE_COMPLETE", "at": "2026-07-29T11:00:00.000Z" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-29T11:30:00.000Z" },
+    { "status": "BUSINESS_VALIDATION", "at": "2026-07-29T11:45:00.000Z" },
+    { "status": "DATA_MODEL_READY", "at": "2026-07-29T12:00:00.000Z" }
+  ],
+  "intake": {
+    "projectName": "Fleet Utilization Reports",
+    "oneLiner": "Internes Fahrzeugauslastungs-Reporting aus Frotcom für Speditions-Manager",
+    "problem": "Fehlendes prüfbares historisches Management-Reporting zu Auslastung, Fahrer, Auftraggeber und Tageskennzahlen",
+    "businessOutcome": "Manager sehen gefilterte historische Auslastung mit Zuordnungen und Exporten; Sync speichert Tageswerte in Supabase",
+    "targetUsers": "internal",
+    "projectType": "dashboard",
+    "workflowMode": "new",
+    "architectMode": "repository",
+    "teamSize": 2,
+    "expectedUsers": "10-100",
+    "businessComplexity": 3,
+    "uiComplexity": 3,
+    "backendComplexity": 3,
+    "integrationCount": 2,
+    "dataSensitivity": "internal",
+    "availability": "standard",
+    "regulated": "no",
+    "selectedProfile": "Professional",
+    "currency": "EUR",
+    "constraints": "Kein TMS; keine erfundenen Frotcom-Endpunkte; keine Secrets im Repo; kleines internes Tool",
+    "successMetrics": "Tägliche/historische Auslastungsberichte mit Status, Zuordnungen und Excel/PDF-Export",
+    "knownRisks": "Unverified Frotcom API; timezone boundaries; assignment overlaps; partial sync failures; secret leakage",
+    "userRoles": "admin, manager, viewer",
+    "currentWorkflow": "Frotcom als Quellsystem; internes Reporting-Tool greenfield",
+    "dataSources": "Frotcom API, Supabase, n8n, Excel assignment import",
+    "businessRules": "Idempotent daily report per vehicle/day; configurable utilization thresholds; UTC storage; business TZ aggregation; historical assignments",
+    "edgeCases": "Partial vehicle sync; double import; overlapping assignments; suspicious telemetry; missing driver",
+    "techPreferences": "Next.js App Router, TypeScript strict, Supabase, n8n, server-side XLSX/PDF",
+    "integrations": "Frotcom, Supabase, n8n",
+    "nonGoals": "Live map routes, TMS, billing, payroll, legal tacho scoring, AI, driver app, customer portal, multi-tenant",
+    "chatHistory": "",
+    "brainstormTranscript": "Anweisungen die Cursor in Project launcher eintragen soll.txt"
+  },
+  "economics": {
+    "buildCost": 0,
+    "monthlyBenefit": 0,
+    "monthlyOps": 0,
+    "implementationMonths": 2,
+    "confidence": 50,
+    "downsideProbability": 30,
+    "downsideCost": 0,
+    "evidence": "Internal tool; ROI not quantified — CONDITIONAL",
+    "customerSegment": "Internal fleet management",
+    "buyer": "Operations / fleet management",
+    "painEvidence": "Manual assembly of utilization facts from Frotcom",
+    "willingnessToPay": "Internal build",
+    "existingAlternatives": "Frotcom UI + spreadsheets",
+    "validationEvidence": "Sponsor Anweisungen",
+    "businessDecision": "CONDITIONAL"
+  },
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "question": "Application stack",
+      "context": "Greenfield preferred stack from Anweisungen",
+      "selectedAlternativeId": "A",
+      "rationale": "Matches Anweisungen; no existing conventions",
+      "alternatives": [
+        { "id": "A", "name": "Next.js+TS+Supabase+n8n", "description": "Preferred stack", "cost": 2, "speed": 4, "maintainability": 4, "scalability": 3, "risk": 2, "lockin": 3 },
+        { "id": "B", "name": "API+SPA+cron", "description": "More moving parts", "cost": 3, "speed": 2, "maintainability": 3, "scalability": 4, "risk": 3, "lockin": 2 },
+        { "id": "C", "name": "Low-code only", "description": "Fails audit/RLS/tests", "cost": 2, "speed": 3, "maintainability": 1, "scalability": 1, "risk": 5, "lockin": 4 }
+      ]
+    },
+    {
+      "id": "ADR-002",
+      "question": "System of record and sync path",
+      "context": "No full Frotcom refetch on page load",
+      "selectedAlternativeId": "A",
+      "rationale": "Anweisungen architecture principle",
+      "alternatives": [
+        { "id": "A", "name": "Supabase SoR + n8n import", "description": "Dashboard reads DB", "cost": 2, "speed": 4, "maintainability": 5, "scalability": 3, "risk": 2, "lockin": 3 },
+        { "id": "B", "name": "Live Frotcom per request", "description": "Violates principle", "cost": 2, "speed": 3, "maintainability": 2, "scalability": 2, "risk": 5, "lockin": 4 },
+        { "id": "C", "name": "File drop ETL", "description": "Weaker automation", "cost": 3, "speed": 2, "maintainability": 3, "scalability": 2, "risk": 3, "lockin": 2 }
+      ]
+    },
+    {
+      "id": "ADR-003",
+      "question": "Auth and authorization",
+      "context": "admin/manager/viewer + RLS",
+      "selectedAlternativeId": "A",
+      "rationale": "Anweisungen §16",
+      "alternatives": [
+        { "id": "A", "name": "Supabase Auth + RLS", "description": "Native roles", "cost": 2, "speed": 4, "maintainability": 4, "scalability": 3, "risk": 2, "lockin": 3 },
+        { "id": "B", "name": "App JWT only", "description": "No DB ACL", "cost": 3, "speed": 3, "maintainability": 2, "scalability": 2, "risk": 5, "lockin": 2 },
+        { "id": "C", "name": "Shared password", "description": "Fails roles", "cost": 1, "speed": 5, "maintainability": 1, "scalability": 1, "risk": 5, "lockin": 1 }
+      ]
+    },
+    {
+      "id": "ADR-004",
+      "question": "Frotcom integration strategy",
+      "context": "API contract unverified",
+      "selectedAlternativeId": "A",
+      "rationale": "Do not invent endpoints",
+      "alternatives": [
+        { "id": "A", "name": "Adapter + mocks", "description": "Gate live on DS-001", "cost": 2, "speed": 4, "maintainability": 5, "scalability": 3, "risk": 1, "lockin": 2 },
+        { "id": "B", "name": "Guessed REST", "description": "False confidence", "cost": 2, "speed": 3, "maintainability": 1, "scalability": 2, "risk": 5, "lockin": 4 },
+        { "id": "C", "name": "Block all work", "description": "Stalls foundation", "cost": 1, "speed": 1, "maintainability": 3, "scalability": 3, "risk": 2, "lockin": 1 }
+      ]
+    }
+  ],
+  "backlog": [
+    { "id": "TASK-001", "requirementId": "REQ-FOUND", "priority": "Must", "title": "Next.js + TS scaffold", "owner": "Builder", "status": "Planned", "dod": "App boots; scripts pass", "evidence": "" },
+    { "id": "TASK-002", "requirementId": "REQ-FOUND", "priority": "Must", "title": "Supabase wiring + env example", "owner": "Builder", "status": "Planned", "dod": "Helpers + .env.example", "evidence": "" },
+    { "id": "TASK-003", "requirementId": "REQ-AUTH", "priority": "Must", "title": "Auth roles + RLS stubs", "owner": "Builder", "status": "Planned", "dod": "Policies for master tables", "evidence": "" },
+    { "id": "TASK-004", "requirementId": "REQ-DATA", "priority": "Must", "title": "SQL migrations for data model", "owner": "Builder", "status": "Planned", "dod": "Unique vehicle/day", "evidence": "" },
+    { "id": "TASK-005", "requirementId": "REQ-TEST", "priority": "Must", "title": "Test infra + fixtures", "owner": "Builder", "status": "Planned", "dod": "Runner + smoke fixture", "evidence": "" },
+    { "id": "TASK-006", "requirementId": "REQ-FROTCOM", "priority": "Must", "title": "Frotcom adapter + mocks", "owner": "Builder", "status": "Planned", "dod": "No live calls", "evidence": "" }
+  ],
+  "quality": {
+    "evidence": {
+      "discovery": "DISCOVERY-REPORT.md Phase 0",
+      "business": "BUSINESS-VALIDATION CONDITIONAL",
+      "dataModel": "data/DATA-MODEL.md",
+      "architecture": "ADR-001..004",
+      "governance": "PROFILE Professional",
+      "build": "",
+      "dryRun": "",
+      "approval": "",
+      "validation": "",
+      "review": "",
+      "accepted": "",
+      "release": "",
+      "production": "",
+      "operations": ""
+    },
+    "checks": {
+      "tests": false,
+      "security": false,
+      "performance": false,
+      "accessibility": false,
+      "backup": false,
+      "rollback": false
+    }
+  },
+  "operations": {
+    "releasePlan": "Private repo; pilot after Phase 8",
+    "rollbackPlan": "Migration down / revert commit; no prod data in Phase 1",
+    "monitoringPlan": "sync_runs status + n8n alerts (Phase 5+)",
+    "supportOwner": "[OFFEN]",
+    "kpis": [],
+    "incidents": [],
+    "techDebt": []
+  },
+  "knowledge": {
+    "records": [],
+    "retrospective": {
+      "worked": "v4.4.1 ZIP-export SoT freigabe avoided dual structures",
+      "failed": "",
+      "unused": "",
+      "prevented": "Creating architect/ or .project-launcher for new project",
+      "changes": ""
+    }
+  },
+  "intelligence": {
+    "sources": ["Anweisungen die Cursor in Project launcher eintragen soll.txt"],
+    "memory": [],
+    "templateId": "08-Report-Generator",
+    "lastAssessmentAt": "2026-07-29T12:00:00.000Z"
+  },
+  "aiRouting": {
+    "qualityPriority": "balanced",
+    "budgetPriority": "balanced",
+    "privacy": "standard"
+  },
+  "workspace": {
+    "projectName": "fleet-utilization-reports",
+    "connected": false,
+    "lastScanAt": "",
+    "methodVersion": "",
+    "methodStatus": "not-connected",
+    "scan": null,
+    "installLog": [],
+    "updatePreview": [],
+    "limits": { "maxFiles": 5000, "maxTextBytes": 1048576 }
+  },
+  "ui": { "lastView": "export" }
+}

@@ -1,0 +1,14 @@
+{
+  "status": "DATA_MODEL_READY",
+  "history": [
+    "DRAFT",
+    "INTAKE_COMPLETE",
+    "ARCHITECT_READY",
+    "BUSINESS_VALIDATION",
+    "DATA_MODEL_READY"
+  ],
+  "activePack": "PACK-001",
+  "packStatus": "PACK_READY",
+  "readiness": 55,
+  "blockers": ["DS-001 Frotcom contract (Phase 5 only)", "PACK-001 human dry-run approval"]
+}

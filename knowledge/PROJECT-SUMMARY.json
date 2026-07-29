@@ -1,0 +1,23 @@
+{
+  "name": "Fleet Utilization Reports",
+  "projectType": "dashboard",
+  "tags": ["fleet", "utilization", "frotcom", "supabase", "internal"],
+  "architecture": [
+    "Next.js+TS+Supabase+n8n",
+    "Supabase SoR + n8n import",
+    "Supabase Auth + RLS",
+    "Adapter + mocks"
+  ],
+  "outcome": {
+    "status": "DATA_MODEL_READY",
+    "readiness": 55,
+    "economics": "CONDITIONAL"
+  },
+  "lessons": {
+    "worked": "v4.4.1 ZIP-export SoT freigabe",
+    "failed": "",
+    "unused": "",
+    "prevented": "architect/ and .project-launcher for new project",
+    "changes": ""
+  }
+}

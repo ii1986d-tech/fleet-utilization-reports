@@ -1,0 +1,289 @@
+{
+  "product": "Project Launcher Professional",
+  "version": "4.4.1",
+  "edition": "Hardened Production Package",
+  "generatedAt": "2026-07-28T20:46:53.557Z",
+  "fileCount": 56,
+  "files": [
+    {
+      "path": "01-Launcher/project-launcher-professional-v4.4.1.html",
+      "bytes": 176028,
+      "sha256": "fb8842b7a0e5a4bbdd955d4dbd9ce155a2d73c49eabcc8f998f9cd78537a96eb"
+    },
+    {
+      "path": "01-Launcher/SHA256.txt",
+      "bytes": 107,
+      "sha256": "cfc321841ab9dcc0b2d3b915d7e8ab51de8d8d507097b0354d8d7f1854821ab0"
+    },
+    {
+      "path": "02-Documentation/BEST-PRACTICES.md",
+      "bytes": 855,
+      "sha256": "5a8a843c41095790ee9e072fa18ab167df28e35a7df079054ea99953ab7345b0"
+    },
+    {
+      "path": "02-Documentation/CHANGELOG.md",
+      "bytes": 959,
+      "sha256": "b1be33b2ed68fd0386bae5510a08cafda6563f2daa6b67abf23c10db682dc72d"
+    },
+    {
+      "path": "02-Documentation/DECISIONS.md",
+      "bytes": 646,
+      "sha256": "b7d9f7a1975cb15cf3519d3b29ff06f56450b37916250cf0a9710072deb45d7d"
+    },
+    {
+      "path": "02-Documentation/INSTALLATION.md",
+      "bytes": 648,
+      "sha256": "50bd3c1a6c7f9b5aafcb1becba3d577762fda6207d72770833ad10e0034fd833"
+    },
+    {
+      "path": "02-Documentation/QUICK-START-5-MINUTES.md",
+      "bytes": 888,
+      "sha256": "f1ec7a7784d0347fb3baac51b43bf972b46025f06c6be60c19f214a387d09a18"
+    },
+    {
+      "path": "02-Documentation/README.md",
+      "bytes": 1532,
+      "sha256": "6d86ebc0ea24049c425ab7a246d3a882d9a76ed50ecf22766af1355a35d5919b"
+    },
+    {
+      "path": "02-Documentation/RELEASE-NOTES.md",
+      "bytes": 851,
+      "sha256": "f6c6618d1c39e539ecaafc6bfbc0fff6ea42e749964e9eb471afae371daae47a"
+    },
+    {
+      "path": "02-Documentation/SOURCE-MATRIX.md",
+      "bytes": 763,
+      "sha256": "b40187c3894c58ba967fb4a9eda5df4a2a35c77eb14d2ae34834286c0543c49e"
+    },
+    {
+      "path": "02-Documentation/VALIDATION.md",
+      "bytes": 801,
+      "sha256": "a71d1674dd0249369618f30f24e16abe64674fbf75b8574e96efc456b94b1f34"
+    },
+    {
+      "path": "03-Blank-Project/architect/ARCHITECT-BRIEFING.md",
+      "bytes": 180,
+      "sha256": "611c6eb60d126ce70d3d9941c8b0a8c096affd6885f393eca5c10c2cb0bd4078"
+    },
+    {
+      "path": "03-Blank-Project/architect/ARCHITECT-MEMORY.md",
+      "bytes": 134,
+      "sha256": "2454c88cc1f8ecdda723680ec499df98f0e5eba8845307aeff290c8836771485"
+    },
+    {
+      "path": "03-Blank-Project/builder/HANDOFF.md",
+      "bytes": 168,
+      "sha256": "af2e8415124c3933228aa34f6803bfb4d4fc4ce3f3e95900be8e61a80da72b86"
+    },
+    {
+      "path": "03-Blank-Project/planning/BACKLOG.md",
+      "bytes": 147,
+      "sha256": "28cfc33bac3da88dc64384f3320c1a27788279732e2763887c451390d3896f6f"
+    },
+    {
+      "path": "03-Blank-Project/planning/DECISIONS.md",
+      "bytes": 114,
+      "sha256": "e188159cb45db9fda5acedf2f772a90cd0e5b89bfd03ba9f25abcd60a430a9fc"
+    },
+    {
+      "path": "03-Blank-Project/planning/REQUIREMENTS.md",
+      "bytes": 104,
+      "sha256": "87a541ac7779f9ca89777058f5f69014c385e69cb5965d7e98f76d98dc730c14"
+    },
+    {
+      "path": "03-Blank-Project/planning/RISKS.md",
+      "bytes": 153,
+      "sha256": "d86fccf46cecf92eb0c5ff174feafec0d5fe20792109c4a524abe5a4e653002a"
+    },
+    {
+      "path": "03-Blank-Project/planning/ROADMAP.md",
+      "bytes": 119,
+      "sha256": "2279669bf23d6a98316e5e5c69dd2efc3b3494b4726d262c01c653ce201e9b5a"
+    },
+    {
+      "path": "03-Blank-Project/planning/STATE.md",
+      "bytes": 118,
+      "sha256": "f0082bd69109dcaca0d58595e5a81fb0037f1356a4d1049f3d5308cdb67c267e"
+    },
+    {
+      "path": "03-Blank-Project/quality/TEST-MATRIX.md",
+      "bytes": 101,
+      "sha256": "d92649ba72abeb009c907262dd0d9e27932b0d4a823b4f6d9fb2d0bef037785a"
+    },
+    {
+      "path": "03-Blank-Project/quality/TRACEABILITY.md",
+      "bytes": 147,
+      "sha256": "bf4cf86349975583ae82c82a28a14eb79f44e97557928c1fe31807a8a7462d7c"
+    },
+    {
+      "path": "03-Blank-Project/README.md",
+      "bytes": 149,
+      "sha256": "42d96567d45a6a383099134c26f69060ffd92ffea6060b56bb66c6792be2e3df"
+    },
+    {
+      "path": "03-Blank-Project/releases/RELEASE-CHECKLIST.md",
+      "bytes": 168,
+      "sha256": "1138723eaf53455e819222f2eaeb2b0ff5e7aae15c796bdf79fa44e68e5d2e2b"
+    },
+    {
+      "path": "03-Blank-Project/sprints/sprint-001/acceptance.md",
+      "bytes": 170,
+      "sha256": "166c7da2ffc8705bad3c97ce9492d822e8a8ce6bd17c02979df64ad5d552ca82"
+    },
+    {
+      "path": "03-Blank-Project/sprints/sprint-001/blueprint.md",
+      "bytes": 88,
+      "sha256": "5819115f6ce739797454b8e46b8d56247ef2cc54b67e9ea78ae0d75742cb94bd"
+    },
+    {
+      "path": "03-Blank-Project/sprints/sprint-001/handoff.md",
+      "bytes": 63,
+      "sha256": "500f17d53f6a0c2d388b4adb80b303f7a5da7a4a5a1dc2a5166e39f450a1a90d"
+    },
+    {
+      "path": "03-Blank-Project/sprints/sprint-001/requirements.md",
+      "bytes": 110,
+      "sha256": "5a5f6fdda0a35f0bb9e585c5e7e64a5b5d2e567436c5350063a3795ce3471803"
+    },
+    {
+      "path": "04-Demo-Project/generated-demo-project-v4.4.zip",
+      "bytes": 43743,
+      "sha256": "8d99c00879e21c6659c11501f88fbd15b7f5b6e6f67d147165902424f78cbe0e"
+    },
+    {
+      "path": "05-Templates/01-Internal-Dashboard.md",
+      "bytes": 1408,
+      "sha256": "8ee6665b070794162657e2a76b8c96dea9c60d873f737498d419b4b9e99918fe"
+    },
+    {
+      "path": "05-Templates/02-Workflow-Tool.md",
+      "bytes": 1206,
+      "sha256": "32d10d6ac5f59ca05448cbe267cb2fb10b12e33e76a549050957bd11a7b4c725"
+    },
+    {
+      "path": "05-Templates/03-Document-Extraction.md",
+      "bytes": 1308,
+      "sha256": "c89d99caf06fae511c257840aa2537e23527d409c5f401285307454aef59b248"
+    },
+    {
+      "path": "05-Templates/04-Simple-CRM.md",
+      "bytes": 1299,
+      "sha256": "e90cff8524c00f30fee12f91999f03cf4a4328df1a69254341de155a485e3c6d"
+    },
+    {
+      "path": "05-Templates/05-Customer-Portal.md",
+      "bytes": 1252,
+      "sha256": "74dff70841ce0f151e1cf641256d65cb380dbc447555df9591e17591dcc2fdbb"
+    },
+    {
+      "path": "05-Templates/06-Operations-Planner.md",
+      "bytes": 1237,
+      "sha256": "8aee3f5fab355e9aa07964f19e6c64d1c0594f505550c3cf089389f3712a9d1c"
+    },
+    {
+      "path": "05-Templates/07-Integration-Automation.md",
+      "bytes": 1294,
+      "sha256": "d5f61ce9ff99af59a6bd5dc7011f06f1dd7674d3d68e785c8cc2e046266983f3"
+    },
+    {
+      "path": "05-Templates/08-Report-Generator.md",
+      "bytes": 1325,
+      "sha256": "df3abc5f51909ba6ecf74ce8f1422eb261ab5385c3b4b76cda1198b4772f66ad"
+    },
+    {
+      "path": "05-Templates/09-Inventory.md",
+      "bytes": 1214,
+      "sha256": "0873752bbdf4e32b3bcec3e187274fba4d00ecf3dc035672c730d879a5f20073"
+    },
+    {
+      "path": "05-Templates/10-Business-Website.md",
+      "bytes": 1242,
+      "sha256": "c7a488e1ec19191d72d683c20da30894bb1eb1e361007b4c1a00d0643093a228"
+    },
+    {
+      "path": "05-Templates/11-Project-Management.md",
+      "bytes": 1252,
+      "sha256": "cbebf6c4cb7038ef49e7df8cdf4df09f5fb7fe9e59c05db6b7ee0d56f954336e"
+    },
+    {
+      "path": "05-Templates/12-Support-Tracker.md",
+      "bytes": 1215,
+      "sha256": "6d4c45533f8810865789c461d398b6c2fc7a1961def240b4695e6656d6d28ff3"
+    },
+    {
+      "path": "06-Architect-Knowledge/ARCHITECT-BUILDER-WORKFLOW.md",
+      "bytes": 474,
+      "sha256": "e14a3260a2f5826b98c33b50c6399179a01c03d758109a49f8e94f30f5b38490"
+    },
+    {
+      "path": "06-Architect-Knowledge/DISCOVERY.md",
+      "bytes": 263,
+      "sha256": "bf085d061f25e21862193276c1fd659e142f287c267c84e05ccc194ba95ee4d5"
+    },
+    {
+      "path": "06-Architect-Knowledge/EVIDENCE-GATES.md",
+      "bytes": 277,
+      "sha256": "16f634056e995be3c9e432157cb17d914cdc783178a5f014adfba267949de7a3"
+    },
+    {
+      "path": "06-Architect-Knowledge/GOVERNANCE.md",
+      "bytes": 218,
+      "sha256": "db5b121440406d55bb3ae577a5645612a22ea8985cac0acb12ad9477cd4a0664"
+    },
+    {
+      "path": "06-Architect-Knowledge/RECOVERY.md",
+      "bytes": 222,
+      "sha256": "cd933c9283f5a7817991f7b5a955dc0c951e5c34311d314ebf57d93d84e5da8b"
+    },
+    {
+      "path": "06-Architect-Knowledge/TRACEABILITY.md",
+      "bytes": 185,
+      "sha256": "90c944d33940f8bc0f672fcda6f3cd6aea6ef5324345107537ad39854b4e6785"
+    },
+    {
+      "path": "06-Architect-Knowledge/VALIDATION.md",
+      "bytes": 269,
+      "sha256": "e30f6f8e1ec1c68c1b1fd7e63676a540d20fe298a6647a5d9a9bb01de724e61f"
+    },
+    {
+      "path": "07-Examples/EXISTING-REPOSITORY-EXAMPLE.md",
+      "bytes": 463,
+      "sha256": "da9aac481149cb824e923616c33fe9b55ff22f945a00b3deacc1ad962ccd4230"
+    },
+    {
+      "path": "07-Examples/NEW-PROJECT-EXAMPLE.md",
+      "bytes": 439,
+      "sha256": "ce8afbbb8b2f5689ec95a3b3f8b86e0654d0c94708736dd0d6301dce1d91f9fa"
+    },
+    {
+      "path": "07-Examples/RESCUE-EXAMPLE.md",
+      "bytes": 403,
+      "sha256": "18311d82c83548aba6e27aae1f7e13be15d1275344a560a69e7ea3fb25412e70"
+    },
+    {
+      "path": "08-Bulgarian-Guide/QUICK-START-BG.md",
+      "bytes": 509,
+      "sha256": "374bd481254fb951e68be962c85245266b1eca0c217126d2f8f375ecf1c6e8ef"
+    },
+    {
+      "path": "08-Bulgarian-Guide/START-TUK.md",
+      "bytes": 711,
+      "sha256": "8f30b12cc124775075c40d75d1b1cb0ca06eec6228c2e1280d5067e577aaa507"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 211,
+      "sha256": "3a7eb2030aa23b520972b4d50754331144e8b32c93c4fdbc9101d87c599a9163"
+    },
+    {
+      "path": "RELEASE-MANIFEST.json",
+      "bytes": 9467,
+      "sha256": "c7a3f3df66a1450d2c65895abc3d6dded056bc1500eddc3b771358f63d0cd730"
+    },
+    {
+      "path": "START HERE.html",
+      "bytes": 3674,
+      "sha256": "c519e4e00327ed166ca132f429cda3112121e096d9af053395a3825b58b075c6"
+    }
+  ]
+}

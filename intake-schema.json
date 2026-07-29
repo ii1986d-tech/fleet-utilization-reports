@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "4.4.1",
+  "fields": [
+    "projectName", "oneLiner", "problem", "businessOutcome", "targetUsers", "projectType",
+    "workflowMode", "architectMode", "teamSize", "expectedUsers", "businessComplexity",
+    "uiComplexity", "backendComplexity", "integrationCount", "dataSensitivity", "availability",
+    "regulated", "selectedProfile", "currency", "constraints", "successMetrics", "knownRisks",
+    "userRoles", "currentWorkflow", "dataSources", "businessRules", "edgeCases",
+    "techPreferences", "integrations", "nonGoals", "chatHistory", "brainstormTranscript"
+  ],
+  "unknownMarker": "[OFFEN]",
+  "conflictMarker": "[KONFLIKT]"
+}
