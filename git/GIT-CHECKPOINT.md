@@ -1,6 +1,6 @@
 # Git Checkpoint
 
-> PACK-001 + DB apply follow-up (blocked environment)
+> PACK-001 + DB apply environment retry (blocked environment)
 
 - Sprint: sprint-001 / PACK-001
 - Phase 0 baseline: `6486fa8630684125366860aee8f102e860c9e02b`
@@ -9,12 +9,13 @@
 - Builder report: sprints/sprint-001/BUILDER-REPORT.md
 - Architect acceptance: **ACCEPTED WITH FOLLOW-UP** (2026-07-29)
 - Pack end status: **PACK_ACCEPTED_WITH_FOLLOW_UP**
-- DB follow-up docs commit: `617214943e583bf980094e527f9fa3206fa6b8a0`
-- DB follow-up: **DATABASE_APPLY_BLOCKED_ENVIRONMENT**
+- Prior DB-blocked docs: `617214943e583bf980094e527f9fa3206fa6b8a0` / `0122960`
+- DB follow-up: **DATABASE_APPLY_BLOCKED_ENVIRONMENT** (environment retry)
 - Gate DATABASE_APPLY_REQUIRED_BEFORE_PACK-002: **OPEN**
 
 ## Notes
 
+- Environment retry confirmed: no Docker/Podman binary, no engine pipes, WSL absent.
 - No production database was contacted.
 - No secrets were used or written.
 - Next checkpoint after successful `supabase db reset` + RLS evidence.

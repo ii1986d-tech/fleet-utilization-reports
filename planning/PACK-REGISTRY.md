@@ -1,6 +1,6 @@
 # Pack Registry
 
-> Updated after DB apply follow-up attempt — 2026-07-29
+> Updated after DB apply environment retry — 2026-07-29
 
 | Pack | Version | Goal | Status | Sprint | Approved by | Evidence |
 |---|---:|---|---|---|---|---|
@@ -8,7 +8,7 @@
 | PACK-001 | 1 | Phase 1 foundation: Next.js + Supabase auth/roles + master tables + migrations + test infra + mocks | **ACCEPTED WITH FOLLOW-UP** | sprint-001 | Architect Review 2026-07-29 | `ARCHITECT-REVIEW.md`; impl `8a922df` |
 
 Follow-up on PACK-001: **DATABASE_APPLY_REQUIRED_BEFORE_PACK-002**  
-Follow-up state: **DATABASE_APPLY_BLOCKED_ENVIRONMENT** (no Docker/Podman/local Postgres)
+Follow-up state: **DATABASE_APPLY_BLOCKED_ENVIRONMENT** (retry: Docker/Podman still not available)
 
 Allowed pack flow: DRAFT → PACK_READY → DRY_RUN → APPROVED → BUILDING → VALIDATING → REVIEW → ACCEPTED / REWORK.
 

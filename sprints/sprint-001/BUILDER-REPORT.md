@@ -1,6 +1,6 @@
 # Builder Report — Sprint 001
 
-> PACK-001 Apply + Database Apply Follow-up attempt 2026-07-29
+> PACK-001 Apply + Database Apply Environment Retry 2026-07-29
 
 - Pack: PACK-001 v1
 - Commit / revision (implementation): `8a922df5e6e7b940e86344364f7d68a6468c5549`
@@ -8,51 +8,61 @@
 - Database follow-up attempt: **DATABASE_APPLY_BLOCKED_ENVIRONMENT**
 - Date: 2026-07-29
 - Phase 0 baseline: `6486fa8630684125366860aee8f102e860c9e02b`
+- Retry: environment probe after claimed container readiness
 
 ## Built (unchanged product scope)
 
-TASK-001…006 as previously accepted. No PACK-002 features added in this follow-up.
+TASK-001…006 as previously accepted. No PACK-002 features added in this follow-up. No second `supabase init` (existing `supabase/config.toml` reused).
 
-## Database apply attempt
+## Database apply — environment retry
 
-### Environment probed
+### 1. Environment probed
 
-| Tool | Result |
+| Tool / check | Result |
 |---|---|
-| `supabase` on PATH | not found |
-| `npx supabase` | **2.110.0** available |
-| Docker / Podman | **not found** |
-| `psql` / local PostgreSQL | **not found** |
-| Production DB / remote secrets | not used |
+| `docker --version` | **FAIL** — `docker` not recognized (cmdlet not found) |
+| `docker info` | **FAIL** — same (command not found) |
+| Machine/User PATH refresh | `PATH_HAS_DOCKER=False` |
+| Standard Docker Desktop paths | not present (`Program Files\Docker\...` missing) |
+| Podman / Rancher Desktop paths | not present |
+| Docker named pipes | `\\.\pipe\docker_engine` / `dockerDesktopLinuxEngine` → False |
+| WSL | **not installed** |
+| `docker.exe` search (PATH + common roots) | not found |
+| Docker/Podman processes | none |
+| `npx supabase --version` | **2.110.0** |
+| `git status` | `## master` (clean before this docs commit) |
+| `supabase/config.toml` | **present** (reused; no re-init) |
 
-### Commands
+### 2–4. Commands
 
 ```text
-npx supabase init     # created supabase/config.toml for future local work
-npx supabase start    # FAILED: docker command not found (podman also not found)
+# reuse existing config — no supabase init
+npx supabase start
+# FAILED immediately:
+# LegacyDockerLifecycleInspectError
+# failed to inspect container health: docker: command not found
+# (podman also not found) — install Docker Desktop or Podman and ensure it is on PATH
+
+npx supabase db reset
+# NOT RUN — blocked by failed start / missing Docker
 ```
 
 ### Migrations result
 
 **NOT APPLIED** — no local Postgres/Supabase runtime available.
 
-### Tables / constraints / seed / RLS
+### Tables / constraints / seed / RLS / role JWT tests
 
 **NOT_EXECUTED** (requires running database).
 
-### SQL changes in this follow-up
+### SQL changes in this retry
 
-None. Migrations left as accepted static SQL.
+None.
 
-## npm gates (re-run after apply attempt)
+## npm gates
 
-```text
-npm run typecheck   # PASS
-npm run lint        # PASS
-npm run test        # PASS — 5/5
-npm run build       # PASS
-```
+Not re-run in this retry (apply blocked before step 8). Prior post-attempt run remained PASS (typecheck / lint / test 5/5 / build).
 
 ## Recommendation
 
-Keep PACK-001 code acceptance. Gate **DATABASE_APPLY_REQUIRED_BEFORE_PACK-002** remains **open** until Docker Desktop (or Podman) + `npx supabase start` + `npx supabase db reset` (or equivalent clean apply) succeeds with evidence.
+Keep PACK-001 code acceptance. Gate **DATABASE_APPLY_REQUIRED_BEFORE_PACK-002** remains **open**. Install Docker Desktop (or Podman), ensure `docker` is on PATH and the engine is running, then re-run `npx supabase start` → `npx supabase db reset` + full validation.

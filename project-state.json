@@ -5,7 +5,7 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-07-29T18:25:00.000Z",
+    "updatedAt": "2026-07-29T18:40:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
   "status": "ACCEPTED",
@@ -20,7 +20,8 @@
     { "status": "BUILDING", "at": "2026-07-29T16:30:00.000Z" },
     { "status": "REVIEW", "at": "2026-07-29T17:00:00.000Z" },
     { "status": "ACCEPTED", "at": "2026-07-29T18:10:00.000Z", "note": "PACK-001 ACCEPTED WITH FOLLOW-UP; DATABASE_APPLY_REQUIRED_BEFORE_PACK-002" },
-    { "status": "ACCEPTED", "at": "2026-07-29T18:25:00.000Z", "note": "DB apply attempt blocked: no Docker/Postgres (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" }
+    { "status": "ACCEPTED", "at": "2026-07-29T18:25:00.000Z", "note": "DB apply attempt blocked: no Docker/Postgres (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" },
+    { "status": "ACCEPTED", "at": "2026-07-29T18:40:00.000Z", "note": "DB apply environment retry blocked: docker/podman still not found (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" }
   ],
   "intake": {
     "projectName": "Fleet Utilization Reports",
@@ -143,7 +144,7 @@
       "approval": "Human approved PACK-001 apply",
       "validation": "typecheck lint test build PASS",
       "review": "PACK-001 Architect ACCEPTED WITH FOLLOW-UP",
-      "accepted": "PACK-001 ACCEPTED WITH FOLLOW-UP; DATABASE_APPLY_BLOCKED_ENVIRONMENT — gate still open",
+      "accepted": "PACK-001 ACCEPTED WITH FOLLOW-UP; DATABASE_APPLY_BLOCKED_ENVIRONMENT after environment retry — gate still open",
       "release": "",
       "production": "",
       "operations": ""
