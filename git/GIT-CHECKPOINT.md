@@ -10,6 +10,7 @@
 - Architect acceptance: **ACCEPTED WITH FOLLOW-UP** (2026-07-29)
 - Pack end status: **PACK_ACCEPTED_WITH_FOLLOW_UP**
 - Prior DB-blocked docs: `617214943e583bf980094e527f9fa3206fa6b8a0` / `0122960`
+- DB environment-retry docs: `4b53b4fb4709490ead29d8eda6fe3aad88aac118`
 - DB follow-up: **DATABASE_APPLY_BLOCKED_ENVIRONMENT** (environment retry)
 - Gate DATABASE_APPLY_REQUIRED_BEFORE_PACK-002: **OPEN**
 
