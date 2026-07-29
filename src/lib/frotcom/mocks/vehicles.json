@@ -1,0 +1,20 @@
+[
+  {
+    "externalId": "MOCK-VEH-001",
+    "registrationNumber": "B-1234-AB",
+    "displayName": "LKW 01",
+    "active": true
+  },
+  {
+    "externalId": "MOCK-VEH-002",
+    "registrationNumber": "B-5678-CD",
+    "displayName": "LKW 02",
+    "active": true
+  },
+  {
+    "externalId": "MOCK-VEH-003",
+    "registrationNumber": "B-9012-EF",
+    "displayName": "LKW 03",
+    "active": false
+  }
+]

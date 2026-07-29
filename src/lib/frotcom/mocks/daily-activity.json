@@ -1,0 +1,35 @@
+[
+  {
+    "externalVehicleId": "MOCK-VEH-001",
+    "reportDate": "2026-07-28",
+    "distanceKm": 412.5,
+    "drivingSeconds": 34200,
+    "startTimeUtc": "2026-07-28T05:12:00.000Z",
+    "endTimeUtc": "2026-07-28T16:48:00.000Z",
+    "startLocationText": "Sofia Depot",
+    "endLocationText": "Plovdiv Hub",
+    "actualDriverExternalId": "MOCK-DRV-01"
+  },
+  {
+    "externalVehicleId": "MOCK-VEH-002",
+    "reportDate": "2026-07-28",
+    "distanceKm": 186.0,
+    "drivingSeconds": 25200,
+    "startTimeUtc": "2026-07-28T06:00:00.000Z",
+    "endTimeUtc": "2026-07-28T14:30:00.000Z",
+    "startLocationText": "Sofia Depot",
+    "endLocationText": "Sofia Depot",
+    "actualDriverExternalId": null
+  },
+  {
+    "externalVehicleId": "MOCK-VEH-001",
+    "reportDate": "2026-07-27",
+    "distanceKm": 0,
+    "drivingSeconds": 0,
+    "startTimeUtc": null,
+    "endTimeUtc": null,
+    "startLocationText": null,
+    "endLocationText": null,
+    "actualDriverExternalId": null
+  }
+]

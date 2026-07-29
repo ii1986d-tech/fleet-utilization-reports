@@ -8,3 +8,7 @@ dist/
 coverage/
 *.log
 .DS_Store
+.turbo/
+supabase/.temp/
+supabase/.branches/
+*.tsbuildinfo

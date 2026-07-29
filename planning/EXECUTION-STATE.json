@@ -1,14 +1,23 @@
 {
-  "status": "DATA_MODEL_READY",
+  "status": "REVIEW",
   "history": [
     "DRAFT",
     "INTAKE_COMPLETE",
     "ARCHITECT_READY",
     "BUSINESS_VALIDATION",
-    "DATA_MODEL_READY"
+    "DATA_MODEL_READY",
+    "PACK_READY",
+    "APPROVED",
+    "BUILDING",
+    "VALIDATING",
+    "REVIEW"
   ],
   "activePack": "PACK-001",
-  "packStatus": "PACK_READY",
-  "readiness": 55,
-  "blockers": ["DS-001 Frotcom contract (Phase 5 only)", "PACK-001 human dry-run approval"]
+  "packStatus": "PACK_IMPLEMENTED_AWAITING_ARCHITECT_REVIEW",
+  "readiness": 70,
+  "blockers": [
+    "Architect review pending",
+    "Supabase migration apply evidence pending operator project",
+    "DS-001 Frotcom contract (Phase 5 only)"
+  ]
 }

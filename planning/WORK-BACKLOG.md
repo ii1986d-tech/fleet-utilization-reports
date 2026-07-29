@@ -4,12 +4,12 @@
 
 | ID | Requirement | Priority | Score | Title | Owner | Status | Definition of Done | Evidence |
 |---|---|---|---:|---|---|---|---|---|
-| TASK-001 | REQ-FOUND | Must | 95 | Next.js App Router + TS strict scaffold | Builder | Planned | App boots; lint/typecheck/build scripts | PACK-001 |
-| TASK-002 | REQ-FOUND | Must | 94 | Supabase project wiring + env example | Builder | Planned | `.env.example`; client/server helpers; no secrets committed | PACK-001 |
-| TASK-003 | REQ-AUTH | Must | 93 | Auth + roles admin/manager/viewer + RLS stubs | Builder | Planned | Role claim mapped; RLS policies for master tables | PACK-001 |
-| TASK-004 | REQ-DATA | Must | 92 | Migrations for vehicles/drivers/customers/assignments/daily_reports/import_jobs/sync_runs/settings | Builder | Planned | Migrations apply; unique (vehicle_id, report_date) | PACK-001 |
-| TASK-005 | REQ-TEST | Must | 90 | Test infrastructure + fixtures skeleton | Builder | Planned | Test runner configured; sample fixture loads | PACK-001 |
-| TASK-006 | REQ-FROTCOM | Must | 88 | Frotcom adapter interfaces + mock fixtures | Builder | Planned | No live calls; types/schemas/normalize stubs | PACK-001 |
+| TASK-001 | REQ-FOUND | Must | 95 | Next.js App Router + TS strict scaffold | Builder | Done | App boots; lint/typecheck/build scripts | PACK-001 Builder Report |
+| TASK-002 | REQ-FOUND | Must | 94 | Supabase project wiring + env example | Builder | Done | `.env.example`; client/server helpers; no secrets committed | PACK-001 Builder Report |
+| TASK-003 | REQ-AUTH | Must | 93 | Auth + roles admin/manager/viewer + RLS stubs | Builder | Done | Role claim mapped; RLS policies for master tables | docs/AUTH-ROLES.md + migrations |
+| TASK-004 | REQ-DATA | Must | 92 | Migrations for vehicles/drivers/customers/assignments/daily_reports/import_jobs/sync_runs/settings | Builder | Done | Migrations SQL ready; unique (vehicle_id, report_date) | supabase/migrations |
+| TASK-005 | REQ-TEST | Must | 90 | Test infrastructure + fixtures skeleton | Builder | Done | Test runner configured; sample fixture loads | Vitest 5/5 |
+| TASK-006 | REQ-FROTCOM | Must | 88 | Frotcom adapter interfaces + mock fixtures | Builder | Done | No live calls; types/schemas/normalize stubs | src/lib/frotcom |
 | TASK-007 | REQ-ASSIGN | Must | 80 | Assignment CRUD + overlap validation | Builder | Planned | Historical assignment query by date | PACK-002 |
 | TASK-008 | REQ-IMPORT | Must | 78 | Excel assignment import pipeline | Builder | Planned | Preview/conflicts/error report | PACK-003 |
 | TASK-009 | REQ-UI | Must | 76 | Utilization overview + vehicle detail on mocks | Builder | Planned | Filters + status engine + quality badges | PACK-004 |

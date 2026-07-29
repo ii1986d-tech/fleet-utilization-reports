@@ -38,3 +38,32 @@ Professional (minimum: Professional) — internal ops data, integrations, auth/R
 - `planning/STATE.md`, `planning/ARCHITECT-BRIEFING.md`
 - `data/DATA-MODEL.md`, `architecture/DECISION-REGISTER.md`
 - `sprints/sprint-001/HANDOFF.md`
+
+## Developer quickstart (PACK-001)
+
+```bash
+npm install
+cp .env.example .env.local   # fill placeholders locally — never commit secrets
+npm run typecheck
+npm run lint
+npm run test
+npm run build
+npm run dev
+```
+
+### Database migrations
+
+SQL lives in `supabase/migrations/`. Apply with Supabase CLI against a linked or local project:
+
+```bash
+supabase db reset   # local
+# or: supabase db push
+```
+
+Role claim documentation: `docs/AUTH-ROLES.md`.
+
+### PACK-001 boundaries
+
+- Frotcom: mocks only (`src/lib/frotcom`)
+- No reporting UI beyond the foundation shell
+- No n8n live workflows in this pack
