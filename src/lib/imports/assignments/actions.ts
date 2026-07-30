@@ -7,12 +7,21 @@ import {
   mapDatabaseError,
   type AppError,
 } from "@/lib/assignments/errors";
-import { findOverlappingAssignments } from "@/lib/assignments/overlap";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { IMPORT_CONFIG_VERSION } from "./constants";
+import { IMPORT_CONFIG_VERSION, toDbValidationStatus } from "./constants";
 import { parseAssignmentXlsx } from "./parse";
 import { validateParsedWorkbook, type ValidatedImportRow } from "./validate";
-import { normalizePersonName, normalizePlate } from "./plates";
+import {
+  buildErrorReportFilename,
+  buildImportErrorReportWorkbook,
+  type ErrorReportRow,
+} from "./report";
+import {
+  countValidPersistenceStatuses,
+  markImportJobFailed,
+  recordTransportPersistenceFailure,
+  resolveConfirmTerminalStatus,
+} from "./confirm-persistence";
 
 export type ActionResult<T> = { ok: true; data: T } | { ok: false; error: AppError };
 
@@ -37,6 +46,7 @@ export type ImportJobRowView = {
   validation_errors: unknown;
   validation_warnings: unknown;
   persistence_status: string;
+  persistence_errors?: unknown;
   normalized_payload: Record<string, unknown>;
   assignment_id: string | null;
 };
@@ -48,7 +58,7 @@ function recount(rows: ValidatedImportRow[]): {
 } {
   const total_rows = rows.length;
   const invalid_rows = rows.filter(
-    (r) => r.validationStatus === "ERROR" || r.validationStatus === "CONFLICT",
+    (r) => toDbValidationStatus(r.validationStatus) === "invalid",
   ).length;
   const valid_rows = total_rows - invalid_rows;
   return { total_rows, valid_rows, invalid_rows };
@@ -118,10 +128,10 @@ export async function uploadAssignmentImport(input: {
   let masters;
   try {
     masters = await loadMasters();
-  } catch (e) {
+  } catch {
     return {
       ok: false,
-      error: appError("INTERNAL_ERROR", e instanceof Error ? e.message : "Load failed"),
+      error: appError("INTERNAL_ERROR", "Failed to load masters for import validation."),
     };
   }
 
@@ -172,11 +182,12 @@ export async function uploadAssignmentImport(input: {
     import_job_id: job.id,
     source_row_number: r.sourceRowNumber,
     normalized_payload: r.normalizedPayload,
-    validation_status: r.validationStatus,
+    validation_status: toDbValidationStatus(r.validationStatus),
     validation_errors: r.validationErrors,
     validation_warnings: r.validationWarnings,
     duplicate_key: r.duplicateKey,
-    persistence_status: r.persistenceStatus,
+    persistence_status: "pending",
+    persistence_errors: [],
     driver_id: r.driverId,
     customer_id: r.customerId,
   }));
@@ -185,7 +196,7 @@ export async function uploadAssignmentImport(input: {
     .from("import_job_rows")
     .insert(rowInserts)
     .select(
-      "id, source_row_number, validation_status, validation_errors, validation_warnings, persistence_status, normalized_payload, assignment_id",
+      "id, source_row_number, validation_status, validation_errors, validation_warnings, persistence_status, persistence_errors, normalized_payload, assignment_id",
     );
 
   if (rowsError || !rows) {
@@ -229,7 +240,7 @@ export async function getImportJob(jobId: string): Promise<
   const supabase = await createSupabaseServerClient();
   const { data: job, error } = await supabase.from("import_jobs").select("*").eq("id", jobId).maybeSingle();
   if (error) {
-    return { ok: false, error: appError("INTERNAL_ERROR", error.message) };
+    return { ok: false, error: appError("INTERNAL_ERROR", "Failed to load import job.") };
   }
   if (!job) {
     return { ok: false, error: appError("NOT_FOUND", "Import job not found.") };
@@ -237,12 +248,12 @@ export async function getImportJob(jobId: string): Promise<
   const { data: rows, error: rowsError } = await supabase
     .from("import_job_rows")
     .select(
-      "id, source_row_number, validation_status, validation_errors, validation_warnings, persistence_status, normalized_payload, assignment_id",
+      "id, source_row_number, validation_status, validation_errors, validation_warnings, persistence_status, persistence_errors, normalized_payload, assignment_id",
     )
     .eq("import_job_id", jobId)
     .order("source_row_number", { ascending: true });
   if (rowsError) {
-    return { ok: false, error: appError("INTERNAL_ERROR", rowsError.message) };
+    return { ok: false, error: appError("INTERNAL_ERROR", "Failed to load import rows.") };
   }
   return { ok: true, data: { job: mapJob(job), rows: (rows ?? []) as ImportJobRowView[] } };
 }
@@ -267,7 +278,6 @@ export async function confirmAssignmentImport(input: unknown): Promise<
     };
   }
 
-  // Ignore any client-supplied rows — only jobId + options
   const supabase = await createSupabaseServerClient();
 
   const { data: casRaw, error: casError } = await supabase.rpc("begin_import_job_confirm", {
@@ -276,6 +286,10 @@ export async function confirmAssignmentImport(input: unknown): Promise<
   });
 
   if (casError) {
+    const msg = (casError.message ?? "").toUpperCase();
+    if (msg.includes("FORBIDDEN") || msg.includes("UNAUTHENTICATED")) {
+      return { ok: false, error: appError("FORBIDDEN", "Admin role required.") };
+    }
     return { ok: false, error: mapDatabaseError(casError) };
   }
   const casJob = Array.isArray(casRaw) ? casRaw[0] : casRaw;
@@ -303,253 +317,87 @@ export async function confirmAssignmentImport(input: unknown): Promise<
 
   const { data: dbRows, error: loadRowsError } = await supabase
     .from("import_job_rows")
-    .select("*")
+    .select("id, validation_status, persistence_status")
     .eq("import_job_id", parsed.data.jobId)
     .order("source_row_number", { ascending: true });
 
   if (loadRowsError || !dbRows) {
-    await supabase
-      .from("import_jobs")
-      .update({ status: "failed", updated_at: new Date().toISOString() })
-      .eq("id", parsed.data.jobId);
-    return { ok: false, error: appError("INTERNAL_ERROR", loadRowsError?.message ?? "rows") };
+    await markImportJobFailed(supabase, parsed.data.jobId);
+    return { ok: false, error: appError("INTERNAL_ERROR", "Failed to load import rows.") };
   }
-
-  let masters;
-  try {
-    masters = await loadMasters();
-  } catch (e) {
-    await supabase
-      .from("import_jobs")
-      .update({ status: "failed", updated_at: new Date().toISOString() })
-      .eq("id", parsed.data.jobId);
-    return {
-      ok: false,
-      error: appError("INTERNAL_ERROR", e instanceof Error ? e.message : "masters"),
-    };
-  }
-
-  let persisted = 0;
-  let skipped = 0;
-  let failed = 0;
 
   for (const row of dbRows) {
-    const status = row.validation_status as string;
-    if (status === "ERROR" || status === "CONFLICT") {
-      await supabase
-        .from("import_job_rows")
-        .update({
-          persistence_status: "not_attempted",
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", row.id);
+    if (row.validation_status !== "valid") {
+      continue;
+    }
+    if (
+      row.persistence_status === "persisted" ||
+      row.persistence_status === "skipped" ||
+      row.persistence_status === "failed"
+    ) {
       continue;
     }
 
-    const payload = row.normalized_payload as Record<string, unknown>;
-    const validFrom = String(payload.validFrom ?? "");
-    const validUntil = (payload.validUntil as string | null) ?? null;
-    let vehicleId = (payload.vehicleId as string | null) ?? null;
-    let driverId = (row.driver_id as string | null) ?? (payload.driverId as string | null);
-    let customerId =
-      (row.customer_id as string | null) ?? (payload.customerId as string | null);
+    const { data: rpcRaw, error: rpcError } = await supabase.rpc(
+      "persist_assignment_import_row",
+      {
+        p_job_id: parsed.data.jobId,
+        p_import_row_id: row.id,
+        p_create_missing_driver: createNewMasters,
+        p_create_missing_customer: createNewMasters,
+      },
+    );
 
-    const plateNorm = String(payload.registrationNormalized ?? "");
-    if (!vehicleId && plateNorm) {
-      const v = masters.vehicles.find(
-        (x) => x.active && normalizePlate(x.registration_number) === plateNorm,
-      );
-      vehicleId = v?.id ?? null;
-    }
-
-    if (!vehicleId || !validFrom) {
-      failed += 1;
-      await markRow(supabase, row.id, "failed", null, driverId, customerId, [
-        { code: "MISSING_VEHICLE", message: "Vehicle unresolved at confirm." },
-      ]);
-      continue;
-    }
-
-    // Create masters if needed
-    if (createNewMasters && payload.needsNewDriver && !driverId) {
-      const display = String(payload.driverDisplay ?? "");
-      const { data: created, error } = await supabase
-        .from("drivers")
-        .insert({ full_name: display, active: true })
-        .select("id")
-        .maybeSingle();
-      if (error || !created) {
-        // maybe race duplicate — try lookup
-        const existing = masters.drivers.find(
-          (d) => d.active && normalizePersonName(d.full_name) === normalizePersonName(display),
-        );
-        if (existing) {
-          driverId = existing.id;
-        } else {
-          failed += 1;
-          await markRow(supabase, row.id, "failed", null, null, customerId, [
-            { code: "DRIVER_CREATE_FAILED", message: error?.message ?? "create failed" },
-          ]);
-          continue;
-        }
-      } else {
-        driverId = created.id;
-        masters.drivers.push({ id: created.id, full_name: display, active: true });
+    const rpcResult = Array.isArray(rpcRaw) ? rpcRaw[0] : rpcRaw;
+    if (rpcError || rpcResult == null) {
+      const recorded = await recordTransportPersistenceFailure(supabase, {
+        jobId: parsed.data.jobId,
+        rowId: row.id,
+      });
+      if (!recorded.ok) {
+        await markImportJobFailed(supabase, parsed.data.jobId);
+        return {
+          ok: false,
+          error: appError(
+            "INTERNAL_ERROR",
+            "Import confirmation could not record a row failure safely.",
+          ),
+        };
       }
     }
-
-    if (createNewMasters && payload.needsNewCustomer && !customerId) {
-      const display = String(payload.customerDisplay ?? "");
-      const { data: created, error } = await supabase
-        .from("customers")
-        .insert({ name: display, active: true })
-        .select("id")
-        .maybeSingle();
-      if (error || !created) {
-        const existing = masters.customers.find(
-          (c) => c.active && normalizePersonName(c.name) === normalizePersonName(display),
-        );
-        if (existing) {
-          customerId = existing.id;
-        } else {
-          failed += 1;
-          await markRow(supabase, row.id, "failed", null, driverId, null, [
-            { code: "CUSTOMER_CREATE_FAILED", message: error?.message ?? "create failed" },
-          ]);
-          continue;
-        }
-      } else {
-        customerId = created.id;
-        masters.customers.push({ id: created.id, name: display, active: true });
-      }
-    }
-
-    if (!createNewMasters && (payload.needsNewDriver || payload.needsNewCustomer)) {
-      failed += 1;
-      await markRow(supabase, row.id, "failed", null, driverId, customerId, [
-        { code: "MASTER_CREATE_DISABLED", message: "Unknown masters and create-masters OFF." },
-      ]);
-      continue;
-    }
-
-    if (!driverId && !customerId) {
-      failed += 1;
-      await markRow(supabase, row.id, "failed", null, null, null, [
-        { code: "MISSING_PARTY", message: "Driver/customer unresolved." },
-      ]);
-      continue;
-    }
-
-    // Exact duplicate skip
-    const exact = masters.assignments.find(
-      (a) =>
-        a.vehicleId === vehicleId &&
-        a.validFrom === validFrom &&
-        (a.validUntil ?? null) === validUntil &&
-        (a.driverId ?? null) === (driverId ?? null) &&
-        (a.customerId ?? null) === (customerId ?? null),
-    );
-    if (exact) {
-      skipped += 1;
-      await supabase
-        .from("import_job_rows")
-        .update({
-          persistence_status: "skipped",
-          assignment_id: exact.id,
-          driver_id: driverId,
-          customer_id: customerId,
-          persisted_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          validation_warnings: [
-            ...((row.validation_warnings as unknown[]) ?? []),
-            { code: "EXACT_DUPLICATE_SKIPPED", message: "Exact assignment already exists." },
-          ],
-        })
-        .eq("id", row.id);
-      continue;
-    }
-
-    const overlaps = findOverlappingAssignments(
-      { vehicleId, validFrom, validUntil },
-      masters.assignments.map((a) => ({
-        id: a.id,
-        vehicleId: a.vehicleId,
-        validFrom: a.validFrom,
-        validUntil: a.validUntil,
-      })),
-    );
-    if (overlaps.length > 0) {
-      failed += 1;
-      await markRow(supabase, row.id, "failed", null, driverId, customerId, [
-        { code: "ASSIGNMENT_OVERLAP", message: "Overlaps existing assignment." },
-      ]);
-      continue;
-    }
-
-    const { data: inserted, error: insertError } = await supabase
-      .from("vehicle_assignments")
-      .insert({
-        vehicle_id: vehicleId,
-        driver_id: driverId,
-        customer_id: customerId,
-        valid_from: validFrom,
-        valid_until: validUntil,
-        source: "excel_import",
-        notes: (payload.notes as string | null) ?? null,
-        created_by: auth.userId,
-      })
-      .select("id")
-      .maybeSingle();
-
-    if (insertError || !inserted) {
-      const mapped = mapDatabaseError(insertError ?? new Error("insert"));
-      failed += 1;
-      await markRow(supabase, row.id, "failed", null, driverId, customerId, [
-        {
-          code: mapped.code,
-          message: mapped.message,
-        },
-      ]);
-      continue;
-    }
-
-    persisted += 1;
-    masters.assignments.push({
-      id: inserted.id,
-      vehicleId,
-      validFrom,
-      validUntil,
-      driverId,
-      customerId,
-      notes: (payload.notes as string | null) ?? null,
-    });
-    await supabase
-      .from("import_job_rows")
-      .update({
-        persistence_status: "imported",
-        assignment_id: inserted.id,
-        driver_id: driverId,
-        customer_id: customerId,
-        persisted_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", row.id);
   }
 
-  const validRows = Number((casJob as { valid_rows?: number }).valid_rows ?? 0);
-  const terminal =
-    failed > 0 || persisted + skipped < validRows
-      ? "completed_with_errors"
-      : "completed";
+  const { data: countedRows, error: countError } = await supabase
+    .from("import_job_rows")
+    .select("validation_status, persistence_status")
+    .eq("import_job_id", parsed.data.jobId);
+
+  if (countError || !countedRows) {
+    await markImportJobFailed(supabase, parsed.data.jobId);
+    return { ok: false, error: appError("INTERNAL_ERROR", "Failed to recount import rows.") };
+  }
+
+  const counts = countValidPersistenceStatuses(countedRows);
+  const terminal = resolveConfirmTerminalStatus(counts);
+  if (!terminal.ok) {
+    await markImportJobFailed(supabase, parsed.data.jobId);
+    return {
+      ok: false,
+      error: appError(
+        "INTERNAL_ERROR",
+        "Import confirmation left unresolved rows and was not finalized.",
+      ),
+    };
+  }
 
   const { data: finalJob, error: finalError } = await supabase
     .from("import_jobs")
     .update({
-      status: terminal,
-      persisted_rows: persisted,
-      skipped_rows: skipped,
-      failed_rows: failed,
-      imported_rows: persisted,
+      status: terminal.status,
+      persisted_rows: counts.persisted,
+      skipped_rows: counts.skipped,
+      failed_rows: counts.failed,
+      imported_rows: counts.persisted,
       confirmed_at: new Date().toISOString(),
       completed_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -562,28 +410,55 @@ export async function confirmAssignmentImport(input: unknown): Promise<
     return { ok: false, error: mapDatabaseError(finalError ?? new Error("finalize")) };
   }
 
-  const refreshed = await getImportJob(parsed.data.jobId);
-  return refreshed;
+  return getImportJob(parsed.data.jobId);
 }
 
-async function markRow(
-  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
-  id: string,
-  persistence_status: string,
-  assignment_id: string | null,
-  driver_id: string | null,
-  customer_id: string | null,
-  extraErrors: Array<{ code: string; message: string }>,
-) {
-  await supabase
+export async function downloadImportErrorReport(input: unknown): Promise<
+  ActionResult<{ filename: string; bytesBase64: string }>
+> {
+  const auth = await requireAdmin();
+  if (isAppError(auth)) {
+    return { ok: false, error: auth };
+  }
+  const parsed = z.object({ jobId: z.string().uuid() }).safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: appError("VALIDATION_ERROR", "Invalid job id.") };
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { data: job, error: jobError } = await supabase
+    .from("import_jobs")
+    .select("id, source_filename")
+    .eq("id", parsed.data.jobId)
+    .maybeSingle();
+  if (jobError) {
+    return { ok: false, error: appError("INTERNAL_ERROR", "Failed to load import job.") };
+  }
+  if (!job) {
+    return { ok: false, error: appError("NOT_FOUND", "Import job not found.") };
+  }
+
+  const { data: rows, error: rowsError } = await supabase
     .from("import_job_rows")
-    .update({
-      persistence_status,
-      assignment_id,
-      driver_id,
-      customer_id,
-      updated_at: new Date().toISOString(),
-      validation_errors: extraErrors,
-    })
-    .eq("id", id);
+    .select(
+      "source_row_number, validation_status, persistence_status, validation_errors, validation_warnings, persistence_errors, normalized_payload, assignment_id, driver_id, customer_id, created_at, persisted_at",
+    )
+    .eq("import_job_id", parsed.data.jobId)
+    .order("source_row_number", { ascending: true });
+  if (rowsError) {
+    return { ok: false, error: appError("INTERNAL_ERROR", "Failed to load import rows.") };
+  }
+
+  const buffer = await buildImportErrorReportWorkbook({
+    job: { id: job.id, source_filename: job.source_filename },
+    rows: (rows ?? []) as ErrorReportRow[],
+  });
+  const filename = buildErrorReportFilename(job.id);
+  return {
+    ok: true,
+    data: {
+      filename,
+      bytesBase64: buffer.toString("base64"),
+    },
+  };
 }

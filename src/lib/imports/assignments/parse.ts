@@ -127,8 +127,10 @@ export async function parseAssignmentXlsx(input: {
   const sha256 = createHash("sha256").update(input.buffer).digest("hex");
   const workbook = new ExcelJS.Workbook();
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await workbook.xlsx.load(input.buffer as any);
+    // ExcelJS load typings conflict with Node Buffer generics; runtime accepts Buffer.
+    await workbook.xlsx.load(
+      input.buffer as unknown as Parameters<ExcelJS.Workbook["xlsx"]["load"]>[0],
+    );
   } catch {
     return {
       ok: false,

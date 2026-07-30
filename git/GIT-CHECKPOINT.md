@@ -1,49 +1,57 @@
 # Git Checkpoint
 
-> PACK-003 formally accepted with follow-ups — checkpoint **ready** (commit pending approval)
+> PACK-004 formally accepted with follow-ups — checkpoint **committed** on master
 
-## PACK-003 (current)
+## PACK-004 (current)
 
-- Sprint: sprint-003 / PACK-003
-- Baseline (PACK-002 checkpoint): `21ab8aa`
-- Pack status: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS**
-- Checkpoint status: **PACK_003_CHECKPOINT_READY**
-- Architect Review: `sprints/sprint-003/ARCHITECT-REVIEW.md` → ACCEPT_WITH_FOLLOW_UPS
-- Acceptance: `sprints/sprint-003/ACCEPTANCE-RECORD.md`
-- Builder report: `sprints/sprint-003/BUILDER-REPORT.md`
-- Dependency: **exceljs 4.4.0** (server-only)
-- Migration: `20260730153000_import_jobs_protocol.sql` (remote applied + verified; Local == Remote; dry-run up to date)
-- Validation environment: remote Supabase project-ref `ootsmrriuyesieblxudc` (approved isolated dev)
+- Sprint: sprint-004 / PACK-004
+- Baseline (PACK-003 checkpoint): `a68d8f9`
+- Pack status: **PACK_004_ACCEPTED_WITH_FOLLOW_UPS**
+- Checkpoint status: **PACK_004_CHECKPOINT_COMMITTED**
+- Architect Review: `sprints/sprint-004/ARCHITECT-REVIEW.md` → ACCEPT_WITH_FOLLOW_UPS (+ focused transport correction)
+- Acceptance: `sprints/sprint-004/ACCEPTANCE-RECORD.md`
+- Builder report: `sprints/sprint-004/BUILDER-REPORT.md`
+- Dependency: **exceljs 4.4.0** (server-only; no second spreadsheet library)
+- Migration: `20260730170000_pack004_import_hardening.sql` (remote applied + verified; Local == Remote)
+- Validation environment: remote Supabase (approved isolated dev)
 - Local Docker/WSL: environment note only (RSK-009 / FU-002-06)
-- PACK-004: **not started**
+- PACK-005 / Frotcom: **not started**
 
 ### Gates
 
 | Gate | Result |
 |---|---|
-| `npm test` | **38/38 PASS** |
+| `npm test` | **63/63 PASS** |
 | `npm run lint` | **PASS** |
 | `npm run build` | **PASS** |
 | `git diff --check` | **PASS** |
 
 ### Integrity highlights
 
-- CAS confirmation (`begin_import_job_confirm`) + 409 `IMPORT_ALREADY_CONFIRMED`
-- Server-stored preview; confirm by job ID + approved options only
-- Per-row partial-success persistence
-- Admin-only authorization + RLS preserved
-- No vehicle auto-create path
+- `persist_assignment_import_row` atomic per-row RPC (SECURITY INVOKER, fixed search_path)
+- `persistence_errors` separated from validation_*
+- CAS `begin_import_job_confirm` hardened + transport-failure finalize correction
+- Formula-safe on-demand import error report
+- Admin-only authorization + RLS not weakened
 
 ### Checkpoint commit
 
-- **Not created** — proposal ready for explicit human approval
-- Recommended message: `feat: complete PACK-003 Excel assignment import`
-- Optional body: Implement controlled XLSX assignment import with server-stored previews, atomic confirmation control, partial per-row persistence, admin-only access, remote migration validation, and documented acceptance follow-ups.
+- Message: `feat: complete PACK-004 import hardening`
+- Hash: see `git log -1 --oneline` on master after acceptance commit
 
 ### Accepted follow-ups (must remain after commit)
 
-- FU-003-01…03 / RSK-016 / TASK-017…019 — see `planning/RISKS.md`
-- FU-002-01…06 / RSK-012 / TASK-012…016 — **remain tracked separately** (not absorbed)
+- FU-003-01 **CLOSED**
+- FU-003-02 / FU-003-03 **OPEN** / RSK-016
+- FU-002-01…06 **OPEN** / RSK-012 (live JWT NOT_EXECUTED; concurrency residual)
+
+---
+
+## PACK-003 (preserved)
+
+- Checkpoint commit: **`a68d8f9`**
+- Pack status: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS**
+- Migration: `20260730153000_import_jobs_protocol.sql`
 
 ---
 

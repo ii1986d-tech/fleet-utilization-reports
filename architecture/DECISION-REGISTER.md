@@ -39,8 +39,14 @@
 
 ## ADR-007 — Excel assignment import policy
 
-- Selected: **Partial success; exceljs server-only; mandatory migration; CAS confirm; per-row TX; create masters default OFF; plate normalize; ASM-011 resolved**
+- Selected: **Partial success; exceljs 4.4.0 server-only; mandatory migration; CAS confirm; per-row persist; create masters default OFF; plate normalize; ASM-011 resolved**
 - Rationale: Anweisungen §7.2; Builder dry-run corrections 2026-07-30
-- Status: **ACCEPTED** (corrections locked) — Apply pending separate approval
+- Status: **ACCEPTED** — checkpoint `a68d8f9`; follow-ups FU-003-01…03 open
 
-Authoritative ADR bodies: `architecture/ADR-001.md` … `architecture/ADR-007.md`.
+## ADR-008 — Atomic import-row persistence and audit-preserving transitions
+
+- Selected: **`persist_assignment_import_row` SECURITY INVOKER RPC; auth.uid(); persistence_errors mandatory; vocab valid|invalid + pending|persisted|skipped|failed; CAS search_path; exceljs error report; no SQL leakage**
+- Rationale: PACK-003 FUs; Builder Dry-Run READY_WITH_REQUIRED_CORRECTIONS; OQ-004-01…04 resolved
+- Status: **ACCEPTED (design + implemented)**; formal pack **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** — migration `20260730170000`; FU-003-01 closed
+
+Authoritative ADR bodies: `architecture/ADR-001.md` … `architecture/ADR-008.md`.

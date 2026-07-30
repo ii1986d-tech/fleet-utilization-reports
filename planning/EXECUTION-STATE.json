@@ -1,25 +1,38 @@
 {
   "status": "ACCEPTED",
-  "completedPack": "PACK-003",
-  "completedPackCheckpoint": null,
-  "baselineCheckpoint": "21ab8aa",
-  "activePack": "PACK-003",
-  "packStatus": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS",
-  "checkpointStatus": "PACK_003_CHECKPOINT_READY",
-  "excelDependency": "exceljs@4.4.0",
-  "migrationApplied": "20260730153000_import_jobs_protocol",
-  "migrationVerified": true,
-  "remoteUpToDate": true,
+  "completedPack": "PACK-004",
+  "completedPackCheckpoint": "pending-git-log",
+  "baselineCheckpoint": "a68d8f9",
+  "activePack": null,
+  "packStatus": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS",
+  "architectRecommendation": "ACCEPT_WITH_FOLLOW_UPS",
+  "architectReview": "sprints/sprint-004/ARCHITECT-REVIEW.md",
+  "acceptanceRecord": "sprints/sprint-004/ACCEPTANCE-RECORD.md",
+  "targetedCorrection": "transport-failure-finalize",
+  "targetedCorrectionVerdict": "ACCEPTED",
+  "pack004Goal": "hardening-and-follow-ups",
+  "adr008": "ACCEPTED_IMPLEMENTED_REVIEWED",
   "applyAuthorized": true,
+  "applyCompleted": true,
+  "transportFailureVerdict": "CORRECTED_AND_ACCEPTED",
+  "migration": "20260730170000_pack004_import_hardening",
+  "migrationLocalRemote": "EQUAL",
   "gates": {
     "test": true,
-    "testCount": "38/38",
+    "testCount": "63/63",
     "lint": true,
     "build": true,
-    "diffCheck": true
+    "diffCheck": true,
+    "liveJwt": false,
+    "concurrentCas": false,
+    "empiricalOrphanRollback": false
   },
-  "readiness": 100,
-  "pack004": "BLOCKED",
+  "readiness": 92,
+  "pack005": "BLOCKED",
+  "frotcom": "BLOCKED",
+  "reportsUiDeferred": true,
+  "closedFollowUpsPack003": ["FU-003-01"],
+  "openFollowUpsPack003": ["FU-003-02", "FU-003-03"],
   "acceptedFollowUpsPack002": [
     "FU-002-01",
     "FU-002-02",
@@ -28,25 +41,11 @@
     "FU-002-05",
     "FU-002-06"
   ],
-  "acceptedFollowUpsPack003": [
-    "FU-003-01",
-    "FU-003-02",
-    "FU-003-03"
-  ],
-  "residualFindings": [
-    "validated-direct-status-skip",
-    "markRow-may-overwrite-preview-errors",
-    "cas-search-path-hardening",
-    "buffer-as-any-typing",
-    "ui-duplicate-submit-lock",
-    "live-jwt-rls-fu-002-01",
-    "multi-client-confirm-race-accepted-residual"
-  ],
   "blockers": [
-    "Checkpoint commit awaits explicit human approval",
-    "DS-001 Frotcom contract (Phase 5 only)",
-    "PACK-002 FU-002-01..06 remain open (RSK-012)",
-    "PACK-003 FU-003-01..03 remain open (RSK-016)",
-    "PACK-004 blocked until separate start approval"
+    "DS-001 Frotcom contract (Phase 5 / PACK-005 only)",
+    "FU-002 live JWT / concurrency residual gaps",
+    "FU-003-02/03 residual automated DB evidence",
+    "TASK-009 reports UI deferred",
+    "PACK-005 blocked until separate explicit start approval"
   ]
 }

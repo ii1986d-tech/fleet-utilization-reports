@@ -40,11 +40,20 @@ Mirror of `architecture/DECISION-REGISTER.md`.
 
 - PACK-001: **PACK_001_ACCEPTED** (`20f2698`)
 - PACK-002: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS** (`21ab8aa`) — follow-ups RSK-012 / FU-002-01…06 remain open and visible
-- PACK-003: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS** (2026-07-30) — FU-003-01…03 / RSK-016 remain open; checkpoint ready (no commit yet)
-- PACK-004+: not started (blocked until separate start approval)
+- PACK-003: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS** (`a68d8f9`) — FU-003-01 closed in PACK-004 review; FU-003-02/03 remain open
+- PACK-004: **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** (2026-07-30); transport §9 accepted; FU-003-01 closed; FU-003-02/03 and FU-002-* open
+- PACK-005+ / Frotcom: not started (blocked)
+- Reports UI (TASK-009): deferred — OQ-004-01 **RESOLVED ACCEPT DEFAULT**
 
 ## ADR-007 — Excel assignment import policy
 
 - Selected: **exceljs 4.4.0 server-only; 5 MiB/2000/one sheet; server preview; CAS; per-row persist; create masters default OFF; import_job_rows migration**
 - Status: **ACCEPTED** (binding for PACK-003+)
-- Follow-ups: FU-003-01…03 (error report download; confirm/partial tests; atomic create+insert)
+- Clarification: direct `validated` allowed (OQ-004-03); FU-003-02/03 remain under ADR-008 evidence
+
+## ADR-008 — Atomic import-row persistence and audit-preserving transitions
+
+- Selected: **`persist_assignment_import_row`; auth.uid(); persistence_errors; vocab valid|invalid + pending|persisted|skipped|failed; CAS search_path; formula-safe exceljs report**
+- Status: **ACCEPTED (design)**; Apply reviewed **ACCEPT_WITH_FOLLOW_UPS** — migration `20260730170000`
+- OQs: 01 ACCEPT DEFAULT · 02 DATABASE RPC · 03 DOCUMENT CURRENT · 04 BEST-EFFORT
+- Mandatory correction: confirm transport-failure pending/finalize inconsistency

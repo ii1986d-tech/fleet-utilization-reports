@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import {
   confirmAssignmentImport,
+  downloadImportErrorReport,
   getImportJob,
   uploadAssignmentImport,
   type ImportJobRowView,
@@ -32,7 +33,9 @@ export default function AssignmentImportPage() {
   const [phase, setPhase] = useState<
     "empty" | "selected" | "uploading" | "preview" | "confirming" | "done" | "failed"
   >("empty");
+  const [downloading, setDownloading] = useState(false);
   const [pending, startTransition] = useTransition();
+  const busy = pending || downloading;
 
   return (
     <section>
@@ -79,7 +82,7 @@ export default function AssignmentImportPage() {
           </label>
           <button
             type="button"
-            disabled={!file || pending}
+            disabled={!file || busy}
             onClick={() => {
               if (!file) return;
               startTransition(async () => {
@@ -116,7 +119,7 @@ export default function AssignmentImportPage() {
         </div>
       ) : null}
 
-      {phase === "uploading" || pending ? <p>Uploading / parsing…</p> : null}
+      {phase === "uploading" || busy ? <p>Uploading / parsing…</p> : null}
 
       {job ? (
         <div style={{ marginTop: "1rem" }}>
@@ -132,8 +135,10 @@ export default function AssignmentImportPage() {
           {job.status === "validated" ? (
             <button
               type="button"
-              disabled={pending}
+              disabled={busy}
+              aria-busy={busy}
               onClick={() => {
+                if (busy) return;
                 startTransition(async () => {
                   setPhase("confirming");
                   setError(null);
@@ -167,6 +172,50 @@ export default function AssignmentImportPage() {
             </button>
           ) : null}
 
+          {rows.some(
+            (r) => r.validation_status === "invalid" || r.persistence_status === "failed",
+          ) ? (
+            <button
+              type="button"
+              style={{ marginLeft: "0.75rem" }}
+              disabled={busy}
+              aria-label="Download import error report"
+              aria-busy={downloading}
+              onClick={() => {
+                if (busy) return;
+                setDownloading(true);
+                setError(null);
+                void (async () => {
+                  try {
+                    const result = await downloadImportErrorReport({ jobId: job.id });
+                    if (!result.ok) {
+                      setError(result.error);
+                      return;
+                    }
+                    const binary = atob(result.data.bytesBase64);
+                    const bytes = new Uint8Array(binary.length);
+                    for (let i = 0; i < binary.length; i++) {
+                      bytes[i] = binary.charCodeAt(i);
+                    }
+                    const blob = new Blob([bytes], {
+                      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    });
+                    const url = URL.createObjectURL(blob);
+                    const anchor = document.createElement("a");
+                    anchor.href = url;
+                    anchor.download = result.data.filename;
+                    anchor.click();
+                    URL.revokeObjectURL(url);
+                  } finally {
+                    setDownloading(false);
+                  }
+                })();
+              }}
+            >
+              {downloading ? "Downloading…" : "Download error report"}
+            </button>
+          ) : null}
+
           {phase === "confirming" ? <p>Confirming (CAS + per-row persist)…</p> : null}
 
           {phase === "done" ? (
@@ -196,7 +245,8 @@ export default function AssignmentImportPage() {
                   <td>{r.persistence_status}</td>
                   <td>
                     {JSON.stringify(r.validation_errors)}{" "}
-                    {JSON.stringify(r.validation_warnings)}
+                    {JSON.stringify(r.validation_warnings)}{" "}
+                    {JSON.stringify(r.persistence_errors ?? [])}
                   </td>
                 </tr>
               ))}

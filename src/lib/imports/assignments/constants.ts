@@ -13,12 +13,19 @@ export type ImportJobStatus =
 
 export type ValidationStatus = "OK" | "WARNING" | "ERROR" | "CONFLICT" | "NEW_MASTER";
 
+/** Canonical DB validation_status after PACK-004. */
+export function toDbValidationStatus(status: ValidationStatus): "valid" | "invalid" {
+  if (status === "ERROR" || status === "CONFLICT") {
+    return "invalid";
+  }
+  return "valid";
+}
+
 export type PersistenceStatus =
   | "pending"
-  | "imported"
+  | "persisted"
   | "skipped"
-  | "failed"
-  | "not_attempted";
+  | "failed";
 
 export type CanonicalField =
   | "registration"

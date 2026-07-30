@@ -27,7 +27,7 @@ export type ValidatedImportRow = {
   customerId: string | null;
   needsNewDriver: boolean;
   needsNewCustomer: boolean;
-  persistenceStatus: "pending" | "not_attempted";
+  persistenceStatus: "pending";
 };
 
 function cellText(row: ParsedWorkbookRow, field: keyof ParsedWorkbookRow["cells"]): string {
@@ -318,7 +318,7 @@ export function validateParsedWorkbook(
       customerId,
       needsNewDriver,
       needsNewCustomer,
-      persistenceStatus: errors.length > 0 ? "not_attempted" : "pending",
+      persistenceStatus: "pending",
       normalizedPayload: {
         registrationDisplay: plateDisplay,
         registrationNormalized: plateNorm,
@@ -369,8 +369,8 @@ export function validateParsedWorkbook(
         });
         a.validationStatus = "CONFLICT";
         b.validationStatus = "CONFLICT";
-        a.persistenceStatus = "not_attempted";
-        b.persistenceStatus = "not_attempted";
+        a.persistenceStatus = "pending";
+        b.persistenceStatus = "pending";
       }
     }
   }
@@ -408,7 +408,7 @@ export function validateParsedWorkbook(
       message: "Overlaps an existing assignment for this vehicle.",
     });
     row.validationStatus = "CONFLICT";
-    row.persistenceStatus = "not_attempted";
+    row.persistenceStatus = "pending";
   }
 
   return draft;

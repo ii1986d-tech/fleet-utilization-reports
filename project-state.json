@@ -5,7 +5,7 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-07-30T15:45:00.000Z",
+    "updatedAt": "2026-07-30T17:30:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
   "status": "ACCEPTED",
@@ -38,7 +38,17 @@
     { "status": "BUILDING", "at": "2026-07-30T15:15:00.000Z", "note": "PACK-003 Apply: exceljs + migration + import pipeline" },
     { "status": "REVIEW", "at": "2026-07-30T15:20:00.000Z", "note": "PACK_003_IMPLEMENTATION_READY_FOR_REVIEW; 38/38 tests; migration 20260730153000" },
     { "status": "REVIEW", "at": "2026-07-30T15:35:00.000Z", "note": "PACK_003_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS; FU-003-01..03; FU-002 open; no commit" },
-    { "status": "ACCEPTED", "at": "2026-07-30T15:45:00.000Z", "note": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS; PACK_003_CHECKPOINT_READY; FU-003-01..03; FU-002 open; PACK-004 blocked; no commit" }
+    { "status": "ACCEPTED", "at": "2026-07-30T15:45:00.000Z", "note": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS; PACK_003_CHECKPOINT_READY; FU-003-01..03; FU-002 open; PACK-004 blocked; no commit" },
+    { "status": "ACCEPTED", "at": "2026-07-30T15:50:00.000Z", "note": "PACK_003_CHECKPOINT_COMMITTED a68d8f9" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-30T16:20:00.000Z", "note": "PACK_004_ARCHITECT_READY; hardening/follow-ups; ADR-008 PROPOSED; no Apply; Frotcom blocked" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-30T16:30:00.000Z", "note": "PACK_004_DRY_RUN_READY_FOR_APPROVAL; READY_WITH_REQUIRED_CORRECTIONS" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-30T16:45:00.000Z", "note": "PACK_004_CORRECTIONS_READY_FOR_APPROVAL; ADR-008 ACCEPTED design; OQs resolved; Apply blocked" },
+    { "status": "BUILDING", "at": "2026-07-30T16:50:00.000Z", "note": "PACK-004 Apply authorized; migration 20260730170000; RPC + error report" },
+    { "status": "REVIEW", "at": "2026-07-30T17:00:00.000Z", "note": "PACK_004_IMPLEMENTATION_READY_FOR_REVIEW; READY_WITH_RESIDUAL_EVIDENCE_GAPS; 52/52 tests; no commit" },
+    { "status": "REVIEW", "at": "2026-07-30T17:15:00.000Z", "note": "PACK_004_ARCHITECT_REVIEW_COMPLETE; ACCEPT_WITH_FOLLOW_UPS; FU-003-01 closed; transport correction tracked; no commit" },
+    { "status": "REVIEW", "at": "2026-07-30T17:20:00.000Z", "note": "PACK_004_TARGETED_CORRECTION_READY_FOR_REVIEW; transport finalize fixed; 63/63 tests; no migration; no commit" },
+    { "status": "REVIEW", "at": "2026-07-30T17:25:00.000Z", "note": "PACK_004_FOCUSED_REVIEW_COMPLETE; ACCEPT_WITH_FOLLOW_UPS; transport correction accepted; FU-003-02/03 open; no commit" },
+    { "status": "ACCEPTED", "at": "2026-07-30T17:30:00.000Z", "note": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS; checkpoint feat: complete PACK-004 import hardening; FU-003-01 closed; FU-003-02/03 and FU-002 open; PACK-005 blocked" }
   ],
   "intake": {
     "projectName": "Fleet Utilization Reports",
@@ -154,14 +164,14 @@
       "discovery": "DISCOVERY-REPORT.md Phase 0",
       "business": "BUSINESS-VALIDATION CONDITIONAL",
       "dataModel": "data/DATA-MODEL.md",
-      "architecture": "ADR-001..007",
+      "architecture": "ADR-001..008 (ADR-008 implemented; PACK-004 accepted with follow-ups)",
       "governance": "PROFILE Professional",
-      "build": "PACK-003 Apply: exceljs 4.4.0; migration 20260730153000; import pipeline; baseline 21ab8aa",
-      "dryRun": "PACK-003 READY_WITH_REQUIRED_CORRECTIONS then corrections approved",
-      "approval": "PACK-003 formally accepted with FU-003-01..03; checkpoint ready",
-      "validation": "Architect gates 38/38; lint; build; git diff --check PASS; migration 20260730153000 verified",
-      "review": "PACK_003_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS; see sprints/sprint-003/ARCHITECT-REVIEW.md",
-      "accepted": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS; PACK_003_CHECKPOINT_READY; FU-003 open RSK-016; FU-002 open RSK-012; PACK-004 blocked; no commit",
+      "build": "PACK-004 checkpoint on master; migration 20260730170000 Local==Remote",
+      "dryRun": "PACK-004 READY_WITH_REQUIRED_CORRECTIONS (complete)",
+      "approval": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS",
+      "validation": "63/63 unit; lint/build PASS; live JWT NOT_EXECUTED; empirical orphan OPEN",
+      "review": "ACCEPT_WITH_FOLLOW_UPS; focused transport §9 accepted; FU-003-01 closed",
+      "accepted": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS; FU-002 open; FU-003-02/03 open; PACK-005 blocked",
       "release": "",
       "production": "",
       "operations": ""
@@ -189,9 +199,8 @@
       "FU-002-04 end/deactivate preserve asserts",
       "FU-002-05 FOR UPDATE hardening review",
       "FU-002-06 local Docker env note",
-      "FU-003-01 import error report xlsx",
-      "FU-003-02 confirm/partial/create-on tests",
-      "FU-003-03 atomic master create + assignment insert"
+      "FU-003-02 confirm/partial/create-on tests (transport unit covered; DB suite open)",
+      "FU-003-03 atomic master create + assignment insert empirical proof"
     ]
   },
   "knowledge": {

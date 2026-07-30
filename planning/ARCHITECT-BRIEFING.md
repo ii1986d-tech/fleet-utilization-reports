@@ -1,29 +1,28 @@
 # Architect Briefing
 
-> Updated 2026-07-30 — PACK-003 formally accepted with follow-ups
+> Updated 2026-07-30 — PACK-004 formally accepted with follow-ups
 
 ## Where things stand
 
-PACK-003: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS** · checkpoint **PACK_003_CHECKPOINT_READY** (no commit yet).
-
-- Acceptance: `sprints/sprint-003/ACCEPTANCE-RECORD.md`
-- Review: `sprints/sprint-003/ARCHITECT-REVIEW.md` → ACCEPT_WITH_FOLLOW_UPS
-- Builder: `sprints/sprint-003/BUILDER-REPORT.md`
-- Baseline: `21ab8aa`
-- exceljs **4.4.0** server-only; migration `20260730153000` applied and verified
-- Gates: 38/38 · lint · build · `git diff --check` PASS
-- PACK-004: **not started**
-
-## Mandatory follow-ups (non-blocking)
-
-| ID | Item | Tracker |
+| Pack | Status | Checkpoint |
 |---|---|---|
-| FU-003-01 | Downloadable error-report `.xlsx` | TASK-017 / RSK-016 |
-| FU-003-02 | Confirm/partial/create-on automated tests | TASK-018 / RSK-016 |
-| FU-003-03 | Atomic per-row master create + assignment insert | TASK-019 / RSK-016 |
+| PACK-001 | ACCEPTED | `20f2698` |
+| PACK-002 | ACCEPTED_WITH_FOLLOW_UPS | `21ab8aa` |
+| PACK-003 | ACCEPTED_WITH_FOLLOW_UPS | `a68d8f9` |
+| PACK-004 | **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** | see `git log -1` / `ACCEPTANCE-RECORD.md` |
 
-Keep FU-002-01…06 on RSK-012 — **not absorbed**.
+Architect recommendation honored: **ACCEPT_WITH_FOLLOW_UPS**
+Transport-failure correction: accepted
+Evidence: `sprints/sprint-004/ARCHITECT-REVIEW.md`, `ACCEPTANCE-RECORD.md`
+
+FU-003-01 **CLOSED**. FU-003-02/03 and FU-002-01…06 **OPEN**.
+
+## Do not
+
+- Start PACK-005 / Frotcom without separate explicit approval
+- Close remaining FUs without evidence
+- Claim live JWT / empirical orphan / concurrency evidence was executed
 
 ## Next
 
-Explicit human approval to create checkpoint commit. Do not start PACK-004 until separate start approval.
+Optional push (if authorized). PACK-005 remains blocked on DS-001 + explicit start.
