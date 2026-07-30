@@ -1,16 +1,19 @@
 import { APP_ROLES } from "@/lib/auth/roles";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
     <main>
       <h1>FUR-001 — Fleet Utilization Reports</h1>
       <p>
-        PACK-001 foundation is online. This shell is intentionally minimal —
-        reporting UI belongs to later packs.
+        PACK-001 foundation + PACK-002 settings (masters &amp; assignments). Reporting UI belongs
+        to later packs.
       </p>
       <p>
-        System of record: <strong>Supabase</strong>. Frotcom access in this pack
-        is <strong>mock-only</strong>.
+        <Link href="/settings/vehicles">Open Settings</Link> · <Link href="/login">Login</Link>
+      </p>
+      <p>
+        System of record: <strong>Supabase</strong>. Frotcom access remains <strong>mock-only</strong>.
       </p>
       <p>Configured roles:</p>
       <ul>

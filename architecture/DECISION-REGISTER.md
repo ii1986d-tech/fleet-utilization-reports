@@ -26,4 +26,15 @@
 - Best calculated: Isolated adapter + mocks until API contract verified
 - Rationale: Anweisungen forbid inventing endpoints; Phase 1–4 can proceed on mocks; Phase 5 blocked on Decision Stop DS-001.
 
-Authoritative ADR bodies: `architecture/ADR-001.md` … `architecture/ADR-004.md`.
+## ADR-005 — Vehicle assignment overlap policy
+
+- Selected: **Hard block per vehicle + mandatory GiST exclusion (`daterange` inclusive `'[]'`, open-ended → infinity)**
+- API: HTTP **409** / `ASSIGNMENT_OVERLAP`
+- Rationale: Anweisungen §8.4; TM-10; concurrency safety after dry-run
+
+## ADR-006 — Assignment lifecycle & correction
+
+- Selected: **No hard DELETE (end/deactivate; FK RESTRICT on vehicle_id); correction = in-place transactional UPDATE**
+- Rationale: Preserve history; single Builder path; dry-run corrections
+
+Authoritative ADR bodies: `architecture/ADR-001.md` … `architecture/ADR-006.md`.

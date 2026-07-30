@@ -23,3 +23,21 @@ Mirror of `architecture/DECISION-REGISTER.md`.
 
 - Selected: **Adapter + mocks until contract verified**
 - Rationale: Anweisungen §9; Decision Stop DS-001 gates live integration.
+
+## ADR-005 — Vehicle assignment overlap policy
+
+- Selected: **Hard block + mandatory GiST exclusion; 409 `ASSIGNMENT_OVERLAP`**
+- Rationale: §8.4; concurrency; dry-run correction
+
+## ADR-006 — Assignment lifecycle & correction
+
+- Selected: **No hard DELETE; in-place transactional correction (Option A)**
+- Rationale: Historical integrity; single correction path
+- Status: **ACCEPTED** (binding for PACK-002+)
+- Follow-up: FU-002-05 — review `SELECT FOR UPDATE` / equivalent locking (does not reopen Option B)
+
+## Formal pack acceptance
+
+- PACK-001: **PACK_001_ACCEPTED** (`20f2698`)
+- PACK-002: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS** (2026-07-30) — follow-ups RSK-012 / FU-002-01…06 remain open and visible
+- PACK-003: **not started** (blocked pending explicit approval)

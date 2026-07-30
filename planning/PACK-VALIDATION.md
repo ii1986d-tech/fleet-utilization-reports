@@ -1,14 +1,59 @@
-# Pack Validation — PACK-001
+# Pack Validation
 
-> Updated 2026-07-30 — formal acceptance
+> Updated 2026-07-30 — PACK-002 formal acceptance
+
+---
+
+## PACK-002
+
+- Formal status: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS**
+- Architect Review: **ACCEPT_WITH_FOLLOW_UPS** (`sprints/sprint-002/ARCHITECT-REVIEW.md`)
+- Checkpoint: **PACK_002_CHECKPOINT_READY** (commit not created)
+- Validation environment: approved isolated Supabase remote (project-ref `ootsmrriuyesieblxudc`)
+- Local Docker/WSL: environment note only (RSK-009) — not an acceptance blocker
+
+### Gates (Architect-independent + Builder)
+
+| Gate | Result |
+|---|---|
+| `npm test` | **20/20 PASS** |
+| `npm run lint` | **PASS** |
+| `npm run build` | **PASS** |
+| `git diff --check` | **PASS** |
+
+### Database / integrity evidence
+
+| Check | Result |
+|---|---|
+| Migration `20260730140000` Local == Remote | PASS |
+| `db push --include-all --dry-run` up to date | PASS |
+| Exclusion `vehicle_assignments_vehicle_period_excl` | PASS (GiST inclusive + infinity) |
+| FK `vehicle_assignments_vehicle_id_fkey` ON DELETE RESTRICT | PASS |
+| Admin-only write RLS (`*_write` / `assignments_write` → `is_admin()`) | PASS (unchanged from PACK-001) |
+| No product hard-DELETE path | PASS |
+| ADR-005 / ADR-006 intact | PASS |
+
+### Accepted follow-ups (visible; non-blocking)
+
+1. Automated RLS with real Auth/JWT users
+2. Parallel-client race harness
+3. Live DB-bypass → 409 `ASSIGNMENT_OVERLAP` integration test
+4. End/deactivate row-preservation assertions
+5. ADR-006 correction `SELECT FOR UPDATE` (or equivalent) hardening review
+6. Local Docker unavailability — environment note only
+
+**Do not start PACK-003** until separate explicit start approval.
+
+---
+
+## PACK-001 (preserved)
 
 - Overall readiness: **100%** (PACK-001 formally accepted)
-- Validator: **PACK_001_VALIDATION_PASS**
 - Formal status: **PACK_001_ACCEPTED**
-- Validation environment: approved isolated Supabase remote (project-ref `ootsmrriuyesieblxudc`)
-- Local Docker/WSL: environment note only (not an active PACK-001 blocker)
+- Checkpoint: `20f2698`
+- Former gate **DATABASE_APPLY_REQUIRED_BEFORE_PACK-002**: **CLOSED**
 
-## Final validation statuses (preserved)
+### Final validation statuses (preserved)
 
 | Status | Result |
 |---|---|
@@ -20,42 +65,3 @@
 | PACK_001_VALIDATION_PASS | PASS |
 | PACK_001_ACCEPTED | **ACCEPTED** |
 | PACK_001_POST_ACCEPTANCE_CHECK_PASS | **PASS** |
-
-## Evidence (no secrets)
-
-- `supabase link` completed for approved remote dev project
-- Migrations `20260729120000` + `20260729120100` applied via `db push --include-seed`
-- `migration list`: local == remote
-- `db push --dry-run`: remote up to date
-- Schema: 8 tables, PKs/FKs, UNIQUE(vehicle_id, report_date), valid_range check, seed (Europe/Berlin, 9h/7h), RLS enabled, policies + `app_metadata.role`
-- RLS role matrix: unauthenticated / invalid / viewer / manager / admin — SELECT/INSERT/UPDATE allow+deny
-- Tests ran in `BEGIN … ROLLBACK`; zero `FUR001_RLS_TEST_%` rows remaining
-
-## Gate
-
-Former follow-up **DATABASE_APPLY_REQUIRED_BEFORE_PACK-002** is **closed** for PACK-001 via remote validation.
-
-**Do not start PACK-002** until separate explicit start approval.
-
-## Post-acceptance check (2026-07-30)
-
-Status: **PACK_001_POST_ACCEPTANCE_CHECK_PASS**
-
-### Initial failure
-
-- First post-acceptance run failed only on `npm run lint` (`eslint .` scanned generated `.next/**` build artifacts).
-- `npm test` and `npm run build` already PASS; source-only ESLint for `app/` / `src/` / `tests/` was PASS.
-- No product-code defect identified.
-
-### Fix (authorized)
-
-- Updated `eslint.config.mjs` ignores for generated/dependency artifacts: `.next/**`, `node_modules/**`, `coverage/**`, `dist/**`, `build/**`, `out/**`, and Next-generated `next-env.d.ts`.
-- Source lint rules were **not** weakened or disabled.
-- No product code changed to make lint pass.
-
-### Re-run evidence
-
-- `npm test` PASS (5/5)
-- `npm run lint` PASS
-- `npm run build` PASS (compile, type validation, static pages)
-- Checkpoint commit: pending explicit approval (`PACK_001_CHECKPOINT_READY`)

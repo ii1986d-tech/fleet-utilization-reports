@@ -1,46 +1,36 @@
 # Architect Briefing
 
-> Updated 2026-07-30 — PACK-001 accepted; post-acceptance check PASS; checkpoint ready
+> Updated 2026-07-30 — PACK-002 formally accepted with follow-ups
 
 ## Where things stand
 
-PACK-001 is **PACK_001_ACCEPTED** with **PACK_001_POST_ACCEPTANCE_CHECK_PASS**.
+**PACK_002_ACCEPTED_WITH_FOLLOW_UPS** · checkpoint proposal ready (**PACK_002_CHECKPOINT_READY**).
 
-Validation evidence is preserved: remote migrations, schema, and RLS (27/27) against the approved isolated Supabase development project (project-ref `ootsmrriuyesieblxudc`).
+- Baseline: PACK-001 `20f2698`
+- Review: `sprints/sprint-002/ARCHITECT-REVIEW.md`
+- Acceptance: `sprints/sprint-002/ACCEPTANCE-RECORD.md`
+- Builder: `sprints/sprint-002/BUILDER-REPORT.md`
+- No commit created yet; PACK-003 **not** started
 
-Local Docker/WSL remains an **environment note** only — not an active PACK-001 blocker.
+## Gates
 
-## Final statuses
+`npm test` 20/20 · lint · build · `git diff --check` — all PASS
 
-- REMOTE_DATABASE_MIGRATIONS_APPLIED
-- MIGRATION_HISTORY_VERIFIED
-- REMOTE_DATABASE_UP_TO_DATE
-- REMOTE_SCHEMA_VALIDATION_PASS
-- REMOTE_RLS_VALIDATION_PASS (27/27)
-- PACK_001_VALIDATION_PASS
-- PACK_001_ACCEPTED
-- **PACK_001_POST_ACCEPTANCE_CHECK_PASS**
+## Binding rules (unchanged)
 
-## Delta since formal acceptance
+ADR-005 mandatory GiST exclusion · ADR-006 no hard delete + in-place correction · admin-only writes · historical integrity
 
-- Post-acceptance: initial `npm run lint` failed only because `eslint .` scanned `.next/**`
-- `eslint.config.mjs` ignores corrected for generated artifacts; source rules not weakened
-- Re-run: test / lint / build all PASS
-- Git checkpoint proposal prepared; commit awaits explicit approval
-- No PACK-002 preparation or implementation
+## Accepted follow-ups (must stay visible)
 
-## Builder evidence
+Tracked as RSK-012 and TASK-012…016 — not silently deferred into PACK-003:
 
-- Impl: `8a922df5e6e7b940e86344364f7d68a6468c5549`
-- Validation + acceptance: `planning/PACK-VALIDATION.md`, `sprints/sprint-001/*`
+1. Real Auth/JWT RLS automation
+2. Parallel-client race harness
+3. Live DB-bypass → 409 integration
+4. End/deactivate preserve-row asserts
+5. Correction `FOR UPDATE` hardening review
+6. Local Docker — environment note only
 
-## Decisions / risks requiring Architect action
+## Next
 
-- Explicit separate approval required before PACK-002
-- DS-001 remains open (Phase 5 only)
-
-## Recommended next action
-
-1. Approve and create the PACK-001 checkpoint commit (when ready)
-2. Hold until separate explicit PACK-002 start approval
-3. Optionally improve local Docker/WSL later for developer ergonomics (non-blocking)
+Explicit human approval for checkpoint commit. Separate approval to start PACK-003.

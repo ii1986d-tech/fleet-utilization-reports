@@ -1,50 +1,34 @@
 {
   "status": "ACCEPTED",
-  "history": [
-    "DRAFT",
-    "INTAKE_COMPLETE",
-    "ARCHITECT_READY",
-    "BUSINESS_VALIDATION",
-    "DATA_MODEL_READY",
-    "PACK_READY",
-    "APPROVED",
-    "BUILDING",
-    "VALIDATING",
-    "REVIEW",
-    "ACCEPTED",
-    "VALIDATED",
-    "ACCEPTED"
-  ],
-  "activePack": "PACK-001",
-  "packStatus": "PACK_001_ACCEPTED",
-  "packAcceptance": "PACK_001_ACCEPTED",
-  "dbFollowUpStatus": "CLOSED_VIA_REMOTE_VALIDATION",
-  "validationStatuses": [
-    "REMOTE_DATABASE_MIGRATIONS_APPLIED",
-    "MIGRATION_HISTORY_VERIFIED",
-    "REMOTE_DATABASE_UP_TO_DATE",
-    "REMOTE_SCHEMA_VALIDATION_PASS",
-    "REMOTE_RLS_VALIDATION_PASS",
-    "PACK_001_VALIDATION_PASS",
-    "PACK_001_ACCEPTED",
-    "PACK_001_POST_ACCEPTANCE_CHECK_PASS"
-  ],
-  "postAcceptance": {
-    "status": "PACK_001_POST_ACCEPTANCE_CHECK_PASS",
-    "initialLintFailure": "eslint scanned generated .next/** artifacts",
-    "fix": "eslint.config.mjs ignores for generated/dependency artifacts only; rules not weakened",
-    "gates": { "test": true, "lint": true, "build": true },
-    "checkpoint": "PACK_001_CHECKPOINT_READY"
-  },
-  "validationEnvironment": {
-    "type": "supabase_remote_dev",
-    "projectRef": "ootsmrriuyesieblxudc",
-    "approved": true,
-    "localDockerNote": "DATABASE_APPLY_BLOCKED_ENVIRONMENT retained as environment note only"
+  "completedPack": "PACK-002",
+  "completedPackCheckpoint": null,
+  "priorCheckpoint": "20f2698",
+  "activePack": null,
+  "packStatus": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS",
+  "checkpointStatus": "PACK_002_CHECKPOINT_READY",
+  "correctionWorkflow": "ADR-006_OPTION_A_IN_PLACE_UPDATE",
+  "overlapGuard": "MANDATORY_GIST_EXCLUSION_APPLIED",
+  "migrationApplied": "20260730140000_assignment_overlap_guard",
+  "gates": {
+    "test": true,
+    "testCount": "20/20",
+    "lint": true,
+    "build": true,
+    "diffCheck": true
   },
   "readiness": 100,
+  "pack003": "BLOCKED_PENDING_EXPLICIT_APPROVAL",
+  "acceptedFollowUps": [
+    "FU-002-01 automated RLS with real Auth/JWT users",
+    "FU-002-02 parallel-client race harness",
+    "FU-002-03 live DB-bypass to 409 ASSIGNMENT_OVERLAP",
+    "FU-002-04 end/deactivate row-preservation asserts",
+    "FU-002-05 ADR-006 SELECT FOR UPDATE hardening review",
+    "FU-002-06 local Docker unavailability environment note only"
+  ],
   "blockers": [
-    "PACK-002 blocked until separate explicit start approval",
-    "DS-001 Frotcom contract (Phase 5 only)"
+    "DS-001 Frotcom contract (Phase 5 only)",
+    "PACK-003 blocked until separate explicit start approval",
+    "PACK-002 checkpoint commit pending human approval"
   ]
 }

@@ -17,6 +17,16 @@ In Supabase Auth user metadata (service role / dashboard):
 
 under **App Metadata** (not user_metadata).
 
+## PACK-002 write matrix
+
+| Role | Masters / assignments |
+|---|---|
+| admin | create, update, deactivate, end, in-place correct |
+| manager | read only |
+| viewer | read only |
+
+Hard DELETE is not a product path (ADR-006).
+
 ## Client rules
 
 - Browser uses anon key only (`NEXT_PUBLIC_SUPABASE_ANON_KEY`).

@@ -5,7 +5,7 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-07-30T12:40:00.000Z",
+    "updatedAt": "2026-07-30T14:45:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
   "status": "ACCEPTED",
@@ -24,7 +24,13 @@
     { "status": "ACCEPTED", "at": "2026-07-29T18:40:00.000Z", "note": "DB apply environment retry blocked: docker/podman still not found (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" },
     { "status": "VALIDATED", "at": "2026-07-30T12:15:00.000Z", "note": "PACK_001_VALIDATION_PASS via approved remote Supabase; PACK_001_READY_FOR_ACCEPTANCE; local Docker note only" },
     { "status": "ACCEPTED", "at": "2026-07-30T12:20:00.000Z", "note": "PACK_001_ACCEPTED; PACK-002 blocked until separate explicit start approval" },
-    { "status": "ACCEPTED", "at": "2026-07-30T12:40:00.000Z", "note": "PACK_001_POST_ACCEPTANCE_CHECK_PASS; eslint ignores for .next only; checkpoint ready" }
+    { "status": "ACCEPTED", "at": "2026-07-30T12:40:00.000Z", "note": "PACK_001_POST_ACCEPTANCE_CHECK_PASS; eslint ignores for .next only; checkpoint ready" },
+    { "status": "ACCEPTED", "at": "2026-07-30T12:50:00.000Z", "note": "PACK_001_CHECKPOINT_COMMITTED 20f2698" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-30T13:00:00.000Z", "note": "PACK_002_ARCHITECT_READY; no implementation; ADR-005 overlap policy" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-30T14:10:00.000Z", "note": "PACK_002_CORRECTIONS_READY_FOR_APPROVAL; ADR-005/006; in-place correction; mandatory exclusion" },
+    { "status": "BUILDING", "at": "2026-07-30T14:30:00.000Z", "note": "PACK_002_IMPLEMENTATION_READY_FOR_REVIEW; migration applied; gates PASS" },
+    { "status": "REVIEW", "at": "2026-07-30T14:40:00.000Z", "note": "PACK_002_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS" },
+    { "status": "ACCEPTED", "at": "2026-07-30T14:45:00.000Z", "note": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS; PACK_002_CHECKPOINT_READY; PACK-003 blocked; FU-002-01..06 tracked" }
   ],
   "intake": {
     "projectName": "Fleet Utilization Reports",
@@ -142,12 +148,12 @@
       "dataModel": "data/DATA-MODEL.md",
       "architecture": "ADR-001..004",
       "governance": "PROFILE Professional",
-      "build": "PACK-001 Next.js foundation implemented",
-      "dryRun": "PACK-001 dry run approved",
-      "approval": "Human approved PACK-001 apply",
-      "validation": "REMOTE migrate+schema+RLS PASS; PACK_001_VALIDATION_PASS",
-      "review": "PACK-001 formally accepted 2026-07-30",
-      "accepted": "PACK_001_ACCEPTED; PACK_001_POST_ACCEPTANCE_CHECK_PASS; eslint .next ignore fix; checkpoint ready; PACK-002 blocked until separate explicit start approval",
+      "build": "PACK-002 masters + assignments CRUD implemented; migration 20260730140000",
+      "dryRun": "PACK-002 dry run READY_WITH_REQUIRED_CORRECTIONS then corrections approved",
+      "approval": "Human approved PACK-002 Apply; formal acceptance PACK_002_ACCEPTED_WITH_FOLLOW_UPS",
+      "validation": "Gates 20/20 test+lint+build+diff-check PASS; remote exclusion+RESTRICT+admin RLS verified",
+      "review": "PACK-002 Architect Review ACCEPT_WITH_FOLLOW_UPS",
+      "accepted": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS; PACK_002_CHECKPOINT_READY; FU-002-01..06 tracked; PACK-003 blocked",
       "release": "",
       "production": "",
       "operations": ""
@@ -168,7 +174,14 @@
     "supportOwner": "[OFFEN]",
     "kpis": [],
     "incidents": [],
-    "techDebt": []
+    "techDebt": [
+      "FU-002-01 automated RLS JWT",
+      "FU-002-02 race harness",
+      "FU-002-03 DB-bypass 409 integration",
+      "FU-002-04 end/deactivate preserve asserts",
+      "FU-002-05 FOR UPDATE hardening review",
+      "FU-002-06 local Docker env note"
+    ]
   },
   "knowledge": {
     "records": [],
