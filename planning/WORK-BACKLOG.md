@@ -1,6 +1,6 @@
 # Work Backlog
 
-> Updated 2026-07-30 — PACK-002 accepted with follow-ups
+> Updated 2026-07-30 — PACK-003 accepted with follow-ups
 
 | ID | Requirement | Priority | Score | Title | Owner | Status | Definition of Done | Evidence |
 |---|---|---|---:|---|---|---|---|---|
@@ -16,13 +16,18 @@
 | TASK-014 | REQ-ASSIGN / FU-002-03 | Should | 74 | Live DB-bypass → 409 `ASSIGNMENT_OVERLAP` integration test | Builder | Open (accepted FU) | Bypass app check; constraint + mapper evidence | RSK-012 |
 | TASK-015 | REQ-ASSIGN / FU-002-04 | Should | 71 | End/deactivate row-preservation assertions | Builder | Open (accepted FU) | Row remains queryable after end/deactivate | RSK-012 |
 | TASK-016 | REQ-ASSIGN / FU-002-05 | Should | 69 | ADR-006 correction hardening (`SELECT FOR UPDATE` or equivalent) | Architect/Builder | Open (accepted FU) | Review + optional hardening; ADR-006 intact | RSK-012 |
-| TASK-008 | REQ-IMPORT | Must | 78 | Excel assignment import pipeline | Builder | Planned | Preview/conflicts/error report | **PACK-003 (blocked)** |
+| TASK-008 | REQ-IMPORT | Must | 78 | Excel assignment import pipeline | Builder | **Done (accepted w/ FU)** | ADR-007; migration 20260730153000; 38/38 gates | PACK-003 ACCEPTANCE-RECORD |
+| TASK-017 | REQ-IMPORT / FU-003-01 | Should | 73 | Downloadable Excel error report for import jobs | Builder | Open (accepted FU) | `.xlsx` from import_job_rows | RSK-016 |
+| TASK-018 | REQ-IMPORT / FU-003-02 | Should | 72 | Automated confirm/partial/create-on import tests | Builder | Open (accepted FU) | Cover PACK-003 §12 confirm paths | RSK-016 |
+| TASK-019 | REQ-IMPORT / FU-003-03 | Should | 71 | Atomic per-row master create + assignment insert | Builder | Open (accepted FU) | One TX/RPC per row | RSK-016 |
 | TASK-009 | REQ-UI | Must | 76 | Utilization overview + vehicle detail on mocks | Builder | Planned | Filters + status engine + quality badges | PACK-004 |
 | TASK-010 | REQ-SYNC | Must | 70 | Live Frotcom + n8n daily workflow | Builder | Blocked | DS-001 cleared; sync_runs evidence | PACK-005 |
 | TASK-011 | REQ-EXPORT | Must | 68 | Server-side Excel + PDF exports | Builder | Planned | Filter-respecting exports | PACK-006 |
 
 Notes:
 
-- TASK-012…016 are **PACK-002 accepted follow-ups**. Do not silently remove or reassign to PACK-003 unless explicitly approved.
+- TASK-012…016 are **PACK-002 accepted follow-ups** (RSK-012). Do not silently remove or absorb into PACK-003.
+- TASK-017…019 are **PACK-003 accepted follow-ups** (RSK-016 / FU-003-01…03). Do not silently remove, merge, or renumber.
 - Local Docker unavailability (FU-002-06 / RSK-009) is an environment note only — no separate build task.
-- PACK-003 remains blocked pending separate explicit start approval.
+- PACK-003: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS** · checkpoint **PACK_003_CHECKPOINT_READY** (commit pending approval).
+- PACK-004+ blocked until separate explicit start approval.

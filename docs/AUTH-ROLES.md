@@ -25,7 +25,17 @@ under **App Metadata** (not user_metadata).
 | manager | read only |
 | viewer | read only |
 
-Hard DELETE is not a product path (ADR-006).
+## PACK-003 write matrix (Architect — Apply pending)
+
+| Role | Assignment Excel import |
+|---|---|
+| admin | upload, preview, confirm (create-masters **default OFF**), download error report |
+| manager | no |
+| viewer | no |
+
+Existing `import_jobs_admin` RLS remains admin-only; do not widen.
+
+Hard DELETE is not a product path (ADR-006). Import never auto-creates vehicles (ADR-007).
 
 ## Client rules
 

@@ -5,7 +5,7 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-07-30T14:45:00.000Z",
+    "updatedAt": "2026-07-30T15:45:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
   "status": "ACCEPTED",
@@ -30,7 +30,15 @@
     { "status": "ARCHITECT_READY", "at": "2026-07-30T14:10:00.000Z", "note": "PACK_002_CORRECTIONS_READY_FOR_APPROVAL; ADR-005/006; in-place correction; mandatory exclusion" },
     { "status": "BUILDING", "at": "2026-07-30T14:30:00.000Z", "note": "PACK_002_IMPLEMENTATION_READY_FOR_REVIEW; migration applied; gates PASS" },
     { "status": "REVIEW", "at": "2026-07-30T14:40:00.000Z", "note": "PACK_002_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS" },
-    { "status": "ACCEPTED", "at": "2026-07-30T14:45:00.000Z", "note": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS; PACK_002_CHECKPOINT_READY; PACK-003 blocked; FU-002-01..06 tracked" }
+    { "status": "ACCEPTED", "at": "2026-07-30T14:45:00.000Z", "note": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS; PACK_002_CHECKPOINT_READY; PACK-003 blocked; FU-002-01..06 tracked" },
+    { "status": "ACCEPTED", "at": "2026-07-30T14:50:00.000Z", "note": "PACK_002_CHECKPOINT_COMMITTED 21ab8aa" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-30T15:00:00.000Z", "note": "PACK_003_ARCHITECT_READY; ADR-007; no Apply; FU-002 not absorbed" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-30T15:05:00.000Z", "note": "PACK_003 dry-run READY_WITH_REQUIRED_CORRECTIONS" },
+    { "status": "ARCHITECT_READY", "at": "2026-07-30T15:10:00.000Z", "note": "PACK_003_CORRECTIONS_READY_FOR_APPROVAL; Apply blocked" },
+    { "status": "BUILDING", "at": "2026-07-30T15:15:00.000Z", "note": "PACK-003 Apply: exceljs + migration + import pipeline" },
+    { "status": "REVIEW", "at": "2026-07-30T15:20:00.000Z", "note": "PACK_003_IMPLEMENTATION_READY_FOR_REVIEW; 38/38 tests; migration 20260730153000" },
+    { "status": "REVIEW", "at": "2026-07-30T15:35:00.000Z", "note": "PACK_003_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS; FU-003-01..03; FU-002 open; no commit" },
+    { "status": "ACCEPTED", "at": "2026-07-30T15:45:00.000Z", "note": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS; PACK_003_CHECKPOINT_READY; FU-003-01..03; FU-002 open; PACK-004 blocked; no commit" }
   ],
   "intake": {
     "projectName": "Fleet Utilization Reports",
@@ -146,14 +154,14 @@
       "discovery": "DISCOVERY-REPORT.md Phase 0",
       "business": "BUSINESS-VALIDATION CONDITIONAL",
       "dataModel": "data/DATA-MODEL.md",
-      "architecture": "ADR-001..004",
+      "architecture": "ADR-001..007",
       "governance": "PROFILE Professional",
-      "build": "PACK-002 masters + assignments CRUD implemented; migration 20260730140000",
-      "dryRun": "PACK-002 dry run READY_WITH_REQUIRED_CORRECTIONS then corrections approved",
-      "approval": "Human approved PACK-002 Apply; formal acceptance PACK_002_ACCEPTED_WITH_FOLLOW_UPS",
-      "validation": "Gates 20/20 test+lint+build+diff-check PASS; remote exclusion+RESTRICT+admin RLS verified",
-      "review": "PACK-002 Architect Review ACCEPT_WITH_FOLLOW_UPS",
-      "accepted": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS; PACK_002_CHECKPOINT_READY; FU-002-01..06 tracked; PACK-003 blocked",
+      "build": "PACK-003 Apply: exceljs 4.4.0; migration 20260730153000; import pipeline; baseline 21ab8aa",
+      "dryRun": "PACK-003 READY_WITH_REQUIRED_CORRECTIONS then corrections approved",
+      "approval": "PACK-003 formally accepted with FU-003-01..03; checkpoint ready",
+      "validation": "Architect gates 38/38; lint; build; git diff --check PASS; migration 20260730153000 verified",
+      "review": "PACK_003_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS; see sprints/sprint-003/ARCHITECT-REVIEW.md",
+      "accepted": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS; PACK_003_CHECKPOINT_READY; FU-003 open RSK-016; FU-002 open RSK-012; PACK-004 blocked; no commit",
       "release": "",
       "production": "",
       "operations": ""
@@ -180,7 +188,10 @@
       "FU-002-03 DB-bypass 409 integration",
       "FU-002-04 end/deactivate preserve asserts",
       "FU-002-05 FOR UPDATE hardening review",
-      "FU-002-06 local Docker env note"
+      "FU-002-06 local Docker env note",
+      "FU-003-01 import error report xlsx",
+      "FU-003-02 confirm/partial/create-on tests",
+      "FU-003-03 atomic master create + assignment insert"
     ]
   },
   "knowledge": {

@@ -52,6 +52,8 @@ Uniqueness: `(vehicle_id, report_date)` — idempotent upsert.
 
 `id`, `file_name`, `status`, row counters, `error_report_reference`, `created_by`, `created_at`, `completed_at`
 
+PACK-003 (ADR-007 corrected): mandatory protocol columns + `import_job_rows` at Apply; admin-only RLS; CAS confirm; counters from row states; regenerable error report. ASM-011 resolved (5 MiB / 2000 rows / one non-empty sheet).
+
 ### sync_runs
 
 `id`, `source`, `report_date`, timing, `status`, record counters, `error_summary`, `retry_count`

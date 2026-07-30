@@ -37,4 +37,10 @@
 - Selected: **No hard DELETE (end/deactivate; FK RESTRICT on vehicle_id); correction = in-place transactional UPDATE**
 - Rationale: Preserve history; single Builder path; dry-run corrections
 
-Authoritative ADR bodies: `architecture/ADR-001.md` … `architecture/ADR-006.md`.
+## ADR-007 — Excel assignment import policy
+
+- Selected: **Partial success; exceljs server-only; mandatory migration; CAS confirm; per-row TX; create masters default OFF; plate normalize; ASM-011 resolved**
+- Rationale: Anweisungen §7.2; Builder dry-run corrections 2026-07-30
+- Status: **ACCEPTED** (corrections locked) — Apply pending separate approval
+
+Authoritative ADR bodies: `architecture/ADR-001.md` … `architecture/ADR-007.md`.

@@ -1,6 +1,6 @@
 # Risk Register
 
-> Updated 2026-07-30 — PACK-002 accepted with follow-ups
+> Updated 2026-07-30 — PACK-003 accepted with follow-ups
 
 | ID | Risk | Probability | Impact | Mitigation | Owner | Status |
 |---|---|---|---|---|---|---|
@@ -9,7 +9,10 @@
 | RSK-003 | Wrong timezone day boundaries skew reports | Medium | High | UTC storage + configurable TZ (ASM-004) | Architect | OPEN |
 | RSK-004 | Overlapping assignments corrupt historical attribution | Medium | High | ADR-005 mandatory GiST exclusion + app validation + 409; remote constraint verified | Architect | MITIGATING |
 | RSK-011 | Hard DELETE / CASCADE wipes assignment history | Medium | High | ADR-006: no product DELETE; end/deactivate; FK RESTRICT applied | Architect | MITIGATING |
-| RSK-012 | PACK-002 accepted follow-ups (test/hardening gaps) | Medium | Medium | Tracked FU-002-01…06; do not silently drop or move to PACK-003 | Architect | **ACCEPTED** |
+| RSK-012 | PACK-002 accepted follow-ups (test/hardening gaps) | Medium | Medium | Tracked FU-002-01…06; **not absorbed into PACK-003** | Architect | **ACCEPTED** |
+| RSK-013 | Malicious or corrupt Excel upload | Medium | High | `.xlsx` allowlist; size/row caps; values-only parse; admin-only | Architect | OPEN |
+| RSK-015 | Double-confirm / concurrent confirm of same import job | Medium | High | Status CAS to `confirming`; 409 IMPORT_ALREADY_CONFIRMED; server-side preview rows only | Architect | MITIGATING |
+| RSK-016 | PACK-003 accepted follow-ups (error report XLSX; confirm tests; create+insert TX) | Medium | Medium | FU-003-01…03; do not silently drop | Architect | **ACCEPTED** |
 | RSK-005 | Partial vehicle sync failure loses whole day | Medium | High | Per-vehicle error collection; bounded retry (n8n) | Architect | OPEN |
 | RSK-006 | Silent bad data (suspicious km/times) misleads managers | Medium | High | data_quality_status visible in UI | Architect | OPEN |
 | RSK-007 | Scope creep into TMS/map/payroll | Medium | Medium | Explicit non-goals; pack scope guards | Architect | OPEN |
@@ -29,3 +32,25 @@
 | FU-002-06 | Local Docker unavailability | Environment note only |
 
 These do **not** block `PACK_002_ACCEPTED_WITH_FOLLOW_UPS`. They must remain visible until closed with evidence.
+
+## RSK-016 detail (PACK-003 accepted follow-ups)
+
+| ID | Follow-up | Class |
+|---|---|---|
+| FU-003-01 | Downloadable error-report `.xlsx` from `import_job_rows` | Required follow-up |
+| FU-003-02 | Automated confirm / partial-success / create-on-confirm tests | Required follow-up |
+| FU-003-03 | Atomic per-row master create + assignment insert | Required follow-up |
+
+These do **not** block `PACK_003_ACCEPTED_WITH_FOLLOW_UPS`. They must remain visible until closed with evidence.
+
+### Documented residual findings (PACK-003; not renumbered FUs)
+
+| Finding | Class |
+|---|---|
+| Jobs skip durable `uploaded`/`parsed` → direct `validated` | Accepted residual / doc drift |
+| Persist `markRow` may overwrite preview errors/warnings | Documented polish |
+| CAS RPC `search_path` hardening | Hardening recommendation |
+| `buffer as any` typing cleanup | Polish |
+| UI duplicate-submit lock beyond pending | Optional UX |
+| Multi-client confirm race harness | Accepted residual (CAS; RSK-015) |
+| Live JWT RLS smoke | Remains FU-002-01 / RSK-012 |

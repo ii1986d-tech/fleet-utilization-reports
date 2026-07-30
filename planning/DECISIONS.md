@@ -39,5 +39,12 @@ Mirror of `architecture/DECISION-REGISTER.md`.
 ## Formal pack acceptance
 
 - PACK-001: **PACK_001_ACCEPTED** (`20f2698`)
-- PACK-002: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS** (2026-07-30) — follow-ups RSK-012 / FU-002-01…06 remain open and visible
-- PACK-003: **not started** (blocked pending explicit approval)
+- PACK-002: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS** (`21ab8aa`) — follow-ups RSK-012 / FU-002-01…06 remain open and visible
+- PACK-003: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS** (2026-07-30) — FU-003-01…03 / RSK-016 remain open; checkpoint ready (no commit yet)
+- PACK-004+: not started (blocked until separate start approval)
+
+## ADR-007 — Excel assignment import policy
+
+- Selected: **exceljs 4.4.0 server-only; 5 MiB/2000/one sheet; server preview; CAS; per-row persist; create masters default OFF; import_job_rows migration**
+- Status: **ACCEPTED** (binding for PACK-003+)
+- Follow-ups: FU-003-01…03 (error report download; confirm/partial tests; atomic create+insert)

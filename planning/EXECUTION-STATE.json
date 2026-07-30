@@ -1,34 +1,52 @@
 {
   "status": "ACCEPTED",
-  "completedPack": "PACK-002",
+  "completedPack": "PACK-003",
   "completedPackCheckpoint": null,
-  "priorCheckpoint": "20f2698",
-  "activePack": null,
-  "packStatus": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS",
-  "checkpointStatus": "PACK_002_CHECKPOINT_READY",
-  "correctionWorkflow": "ADR-006_OPTION_A_IN_PLACE_UPDATE",
-  "overlapGuard": "MANDATORY_GIST_EXCLUSION_APPLIED",
-  "migrationApplied": "20260730140000_assignment_overlap_guard",
+  "baselineCheckpoint": "21ab8aa",
+  "activePack": "PACK-003",
+  "packStatus": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS",
+  "checkpointStatus": "PACK_003_CHECKPOINT_READY",
+  "excelDependency": "exceljs@4.4.0",
+  "migrationApplied": "20260730153000_import_jobs_protocol",
+  "migrationVerified": true,
+  "remoteUpToDate": true,
+  "applyAuthorized": true,
   "gates": {
     "test": true,
-    "testCount": "20/20",
+    "testCount": "38/38",
     "lint": true,
     "build": true,
     "diffCheck": true
   },
   "readiness": 100,
-  "pack003": "BLOCKED_PENDING_EXPLICIT_APPROVAL",
-  "acceptedFollowUps": [
-    "FU-002-01 automated RLS with real Auth/JWT users",
-    "FU-002-02 parallel-client race harness",
-    "FU-002-03 live DB-bypass to 409 ASSIGNMENT_OVERLAP",
-    "FU-002-04 end/deactivate row-preservation asserts",
-    "FU-002-05 ADR-006 SELECT FOR UPDATE hardening review",
-    "FU-002-06 local Docker unavailability environment note only"
+  "pack004": "BLOCKED",
+  "acceptedFollowUpsPack002": [
+    "FU-002-01",
+    "FU-002-02",
+    "FU-002-03",
+    "FU-002-04",
+    "FU-002-05",
+    "FU-002-06"
+  ],
+  "acceptedFollowUpsPack003": [
+    "FU-003-01",
+    "FU-003-02",
+    "FU-003-03"
+  ],
+  "residualFindings": [
+    "validated-direct-status-skip",
+    "markRow-may-overwrite-preview-errors",
+    "cas-search-path-hardening",
+    "buffer-as-any-typing",
+    "ui-duplicate-submit-lock",
+    "live-jwt-rls-fu-002-01",
+    "multi-client-confirm-race-accepted-residual"
   ],
   "blockers": [
+    "Checkpoint commit awaits explicit human approval",
     "DS-001 Frotcom contract (Phase 5 only)",
-    "PACK-003 blocked until separate explicit start approval",
-    "PACK-002 checkpoint commit pending human approval"
+    "PACK-002 FU-002-01..06 remain open (RSK-012)",
+    "PACK-003 FU-003-01..03 remain open (RSK-016)",
+    "PACK-004 blocked until separate start approval"
   ]
 }

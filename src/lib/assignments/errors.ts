@@ -4,6 +4,10 @@ export type AppErrorCode =
   | "FORBIDDEN"
   | "NOT_FOUND"
   | "ASSIGNMENT_OVERLAP"
+  | "IMPORT_ALREADY_CONFIRMED"
+  | "IMPORT_FILE_INVALID"
+  | "IMPORT_FILE_TOO_LARGE"
+  | "IMPORT_VALIDATION_FAILED"
   | "INTERNAL_ERROR";
 
 export type AppError = {
@@ -25,6 +29,7 @@ export function appError(
 function statusForCode(code: AppErrorCode): number {
   switch (code) {
     case "VALIDATION_ERROR":
+    case "IMPORT_FILE_INVALID":
       return 400;
     case "UNAUTHENTICATED":
       return 401;
@@ -33,7 +38,12 @@ function statusForCode(code: AppErrorCode): number {
     case "NOT_FOUND":
       return 404;
     case "ASSIGNMENT_OVERLAP":
+    case "IMPORT_ALREADY_CONFIRMED":
       return 409;
+    case "IMPORT_FILE_TOO_LARGE":
+      return 413;
+    case "IMPORT_VALIDATION_FAILED":
+      return 422;
     case "INTERNAL_ERROR":
       return 500;
     default: {
@@ -45,7 +55,7 @@ function statusForCode(code: AppErrorCode): number {
 
 /** Map Postgres exclusion / unique violations to ASSIGNMENT_OVERLAP when applicable. */
 export function mapDatabaseError(err: unknown): AppError {
-  const message = err instanceof Error ? err.message : String(err);
+  const message = extractErrorMessage(err);
   const lower = message.toLowerCase();
   if (
     lower.includes("vehicle_assignments_vehicle_period_excl") ||
@@ -59,4 +69,14 @@ export function mapDatabaseError(err: unknown): AppError {
     );
   }
   return appError("INTERNAL_ERROR", "Database operation failed.");
+}
+
+export function extractErrorMessage(err: unknown): string {
+  if (err instanceof Error) {
+    return err.message;
+  }
+  if (typeof err === "object" && err !== null && "message" in err) {
+    return String((err as { message: unknown }).message);
+  }
+  return String(err);
 }

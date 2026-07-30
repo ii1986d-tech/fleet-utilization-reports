@@ -14,3 +14,5 @@
 | ASM-008 | n8n runs outside the Next.js process (separate ops) | Anweisungen §10 | Hosting topology change | Architect | ACCEPTED |
 | ASM-009 | Chat-published Frotcom credentials are compromised and unused | Anweisungen §1.7 | Security incident if reused | Architect | ACCEPTED |
 | ASM-010 | Canonical SoT = v4.4.1 ZIP-export paths only | User freigabe | Dual-structure drift | Architect | ACCEPTED |
+| ASM-011 | PACK-003 limits: 5 MiB / 2000 rows / exactly one non-empty worksheet | ADR-007 D3/D4 dry-run correction | N/A — locked | Architect | **RESOLVED** (PACK-003) |
+| ASM-012 | Driver/customer import match = trimmed case-insensitive `full_name` / `name` | ADR-007 | Remap UX or employee_number later | Architect | ACCEPTED |

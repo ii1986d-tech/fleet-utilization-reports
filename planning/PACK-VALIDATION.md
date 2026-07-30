@@ -1,6 +1,64 @@
 # Pack Validation
 
-> Updated 2026-07-30 — PACK-002 formal acceptance
+> Updated 2026-07-30 — PACK-003 formally accepted with follow-ups
+
+---
+
+## PACK-003
+
+- Formal status: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS**
+- Checkpoint status: **PACK_003_CHECKPOINT_READY** (commit not created)
+- Architect Review: **ACCEPT_WITH_FOLLOW_UPS** (`sprints/sprint-003/ARCHITECT-REVIEW.md`)
+- Acceptance: `sprints/sprint-003/ACCEPTANCE-RECORD.md`
+- Builder report: `sprints/sprint-003/BUILDER-REPORT.md`
+- Package / ADR: `PACK-003.md` + **ADR-007**
+- Baseline checkpoint: **`21ab8aa`**
+- Dependency: **exceljs 4.4.0** (server-only)
+- Migration: `20260730153000_import_jobs_protocol.sql`
+- Validation environment: approved isolated Supabase remote (project-ref `ootsmrriuyesieblxudc`)
+- Local Docker/WSL: environment note only (RSK-009) — not an acceptance blocker
+- FU-002-01…06: remain open on RSK-012 — **not absorbed**
+- PACK-004: **not started**
+
+### Gates (Architect-independent + Builder)
+
+| Gate | Result |
+|---|---|
+| `npm test` | **38/38 PASS** |
+| `npm run lint` | **PASS** |
+| `npm run build` | **PASS** |
+| `git diff --check` | **PASS** |
+
+### Database / integrity evidence
+
+| Check | Result |
+|---|---|
+| Migration `20260730153000` Local == Remote | PASS |
+| `db push --dry-run` remote up to date | PASS |
+| Import protocol columns + counters + confirm fields | PASS |
+| `import_job_rows` + admin RLS | PASS |
+| CAS RPC `begin_import_job_confirm` | PASS |
+| Server-stored preview; confirm by job ID + options only | PASS |
+| Per-row partial-success persistence | PASS |
+| Admin-only authorization + RLS preserved | PASS |
+| No vehicle auto-create path | PASS |
+| ADR-005 / ADR-006 intact | PASS |
+
+### Accepted follow-ups (visible; non-blocking; mandatory)
+
+1. FU-003-01 — Downloadable Excel error report (TASK-017 / RSK-016)
+2. FU-003-02 — Stronger confirm/partial/create-on automated tests (TASK-018 / RSK-016)
+3. FU-003-03 — Atomic per-row master create + assignment insert (TASK-019 / RSK-016)
+
+### Documented residual findings (remain visible)
+
+- Jobs transition directly to `validated` (uploaded/parsed not recorded at runtime)
+- Row persistence may overwrite stored preview errors/warnings
+- `begin_import_job_confirm` search_path hardening recommended
+- `buffer as any` typing cleanup
+- UI duplicate-submit lock can be strengthened beyond pending
+- Live JWT RLS smoke remains under FU-002-01 / RSK-012
+- Multi-client confirmation race harness = accepted residual risk (CAS present; RSK-015)
 
 ---
 
@@ -8,7 +66,7 @@
 
 - Formal status: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS**
 - Architect Review: **ACCEPT_WITH_FOLLOW_UPS** (`sprints/sprint-002/ARCHITECT-REVIEW.md`)
-- Checkpoint: **PACK_002_CHECKPOINT_READY** (commit not created)
+- Checkpoint commit: **`21ab8aa`**
 - Validation environment: approved isolated Supabase remote (project-ref `ootsmrriuyesieblxudc`)
 - Local Docker/WSL: environment note only (RSK-009) — not an acceptance blocker
 
@@ -41,8 +99,6 @@
 4. End/deactivate row-preservation assertions
 5. ADR-006 correction `SELECT FOR UPDATE` (or equivalent) hardening review
 6. Local Docker unavailability — environment note only
-
-**Do not start PACK-003** until separate explicit start approval.
 
 ---
 
