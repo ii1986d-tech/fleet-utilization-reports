@@ -1,33 +1,46 @@
 # Architect Briefing
 
-> Updated after DB apply environment retry 2026-07-29
+> Updated 2026-07-30 — PACK-001 accepted; post-acceptance check PASS; checkpoint ready
 
 ## Where things stand
 
-PACK-001 remains **ACCEPTED WITH FOLLOW-UP**. Environment retry still cannot start local Supabase: `docker` and `podman` are not on PATH; Docker Desktop / WSL not detected. Status: **DATABASE_APPLY_BLOCKED_ENVIRONMENT**. Gate not closed.
+PACK-001 is **PACK_001_ACCEPTED** with **PACK_001_POST_ACCEPTANCE_CHECK_PASS**.
 
-## Delta since last sprint
+Validation evidence is preserved: remote migrations, schema, and RLS (27/27) against the approved isolated Supabase development project (project-ref `ootsmrriuyesieblxudc`).
 
-- Reused existing `supabase/config.toml` (no second `supabase init`)
-- `docker --version` / `docker info` failed (command not found)
-- `npx supabase start` failed: `docker: command not found (podman also not found)`
-- `npx supabase db reset` not executed
-- No SQL fixes; no PACK-002 work
+Local Docker/WSL remains an **environment note** only — not an active PACK-001 blocker.
+
+## Final statuses
+
+- REMOTE_DATABASE_MIGRATIONS_APPLIED
+- MIGRATION_HISTORY_VERIFIED
+- REMOTE_DATABASE_UP_TO_DATE
+- REMOTE_SCHEMA_VALIDATION_PASS
+- REMOTE_RLS_VALIDATION_PASS (27/27)
+- PACK_001_VALIDATION_PASS
+- PACK_001_ACCEPTED
+- **PACK_001_POST_ACCEPTANCE_CHECK_PASS**
+
+## Delta since formal acceptance
+
+- Post-acceptance: initial `npm run lint` failed only because `eslint .` scanned `.next/**`
+- `eslint.config.mjs` ignores corrected for generated artifacts; source rules not weakened
+- Re-run: test / lint / build all PASS
+- Git checkpoint proposal prepared; commit awaits explicit approval
+- No PACK-002 preparation or implementation
 
 ## Builder evidence
 
 - Impl: `8a922df5e6e7b940e86344364f7d68a6468c5549`
-- Retry logged in `sprints/sprint-001/BUILDER-REPORT.md`
+- Validation + acceptance: `planning/PACK-VALIDATION.md`, `sprints/sprint-001/*`
 
 ## Decisions / risks requiring Architect action
 
-- Environment unblock is an ops prerequisite, not a product Decision Stop
-- Do not start PACK-002 until DATABASE_APPLY_VALIDATED
+- Explicit separate approval required before PACK-002
+- DS-001 remains open (Phase 5 only)
 
 ## Recommended next action
 
-1. Install/start Docker Desktop (or Podman); confirm `docker --version` and `docker info` in a new shell
-2. `npx supabase start` → `npx supabase db reset`
-3. Run table/constraint/seed/RLS role tests; record evidence
-4. Re-issue validation follow-up to close the gate
-5. Then PACK-002 dry run
+1. Approve and create the PACK-001 checkpoint commit (when ready)
+2. Hold until separate explicit PACK-002 start approval
+3. Optionally improve local Docker/WSL later for developer ergonomics (non-blocking)

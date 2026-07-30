@@ -1,22 +1,34 @@
 # Git Checkpoint
 
-> PACK-001 + DB apply environment retry (blocked environment)
+> PACK-001 accepted + post-acceptance check PASS — checkpoint ready (commit pending approval)
 
 - Sprint: sprint-001 / PACK-001
 - Phase 0 baseline: `6486fa8630684125366860aee8f102e860c9e02b`
 - PACK-001 implementation: `8a922df5e6e7b940e86344364f7d68a6468c5549`
-- Checkpoint docs commit: `d622c630d6bbd9a27df0f21f7c7360ad159a68e5`
 - Builder report: sprints/sprint-001/BUILDER-REPORT.md
-- Architect acceptance: **ACCEPTED WITH FOLLOW-UP** (2026-07-29)
-- Pack end status: **PACK_ACCEPTED_WITH_FOLLOW_UP**
-- Prior DB-blocked docs: `617214943e583bf980094e527f9fa3206fa6b8a0` / `0122960`
-- DB environment-retry docs: `4b53b4fb4709490ead29d8eda6fe3aad88aac118`
-- DB follow-up: **DATABASE_APPLY_BLOCKED_ENVIRONMENT** (environment retry)
-- Gate DATABASE_APPLY_REQUIRED_BEFORE_PACK-002: **OPEN**
+- Architect review: sprints/sprint-001/ARCHITECT-REVIEW.md
+- Pack status: **PACK_001_ACCEPTED**
+- Post-acceptance: **PACK_001_POST_ACCEPTANCE_CHECK_PASS**
+- Validation environment: remote Supabase project-ref `ootsmrriuyesieblxudc` (approved isolated dev)
+- Gate DATABASE_APPLY_REQUIRED_BEFORE_PACK-002: **CLOSED** (via remote validation)
+- Local Docker/WSL: environment note only (historical DATABASE_APPLY_BLOCKED_ENVIRONMENT)
+
+## Final statuses
+
+- REMOTE_DATABASE_MIGRATIONS_APPLIED
+- MIGRATION_HISTORY_VERIFIED
+- REMOTE_DATABASE_UP_TO_DATE
+- REMOTE_SCHEMA_VALIDATION_PASS
+- REMOTE_RLS_VALIDATION_PASS
+- PACK_001_VALIDATION_PASS
+- PACK_001_ACCEPTED
+- **PACK_001_POST_ACCEPTANCE_CHECK_PASS**
 
 ## Notes
 
-- Environment retry confirmed: no Docker/Podman binary, no engine pipes, WSL absent.
-- No production database was contacted.
-- No secrets were used or written.
-- Next checkpoint after successful `supabase db reset` + RLS evidence.
+- Initial post-acceptance lint failure caused by scanning generated `.next/**`; fixed via ESLint ignores only (rules not weakened).
+- After fix: `npm test` / `npm run lint` / `npm run build` all PASS.
+- No production database was used for validation.
+- No secrets were documented.
+- PACK-002 must not start without separate explicit approval.
+- Checkpoint commit: **not created** — proposal ready for approval.

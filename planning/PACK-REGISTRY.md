@@ -1,14 +1,17 @@
 # Pack Registry
 
-> Updated after DB apply environment retry — 2026-07-29
+> Updated 2026-07-30 — PACK-001 formal acceptance
 
 | Pack | Version | Goal | Status | Sprint | Approved by | Evidence |
 |---|---:|---|---|---|---|---|
 | PACK-000 | 1 | Phase 0 discovery & project pack documentation | ACCEPTED | — | Architect (Phase 0) | Phase-0 tree / baseline `6486fa8` |
-| PACK-001 | 1 | Phase 1 foundation: Next.js + Supabase auth/roles + master tables + migrations + test infra + mocks | **ACCEPTED WITH FOLLOW-UP** | sprint-001 | Architect Review 2026-07-29 | `ARCHITECT-REVIEW.md`; impl `8a922df` |
+| PACK-001 | 1 | Phase 1 foundation: Next.js + Supabase auth/roles + master tables + migrations + test infra + mocks | **PACK_001_ACCEPTED** (+ **POST_ACCEPTANCE_CHECK_PASS**) | sprint-001 | Formal acceptance 2026-07-30 | Remote migrate+schema+RLS; post-acceptance test/lint/build; `PACK-VALIDATION.md`; impl `8a922df` |
 
-Follow-up on PACK-001: **DATABASE_APPLY_REQUIRED_BEFORE_PACK-002**  
-Follow-up state: **DATABASE_APPLY_BLOCKED_ENVIRONMENT** (retry: Docker/Podman still not available)
+Former follow-up **DATABASE_APPLY_REQUIRED_BEFORE_PACK-002**: **CLOSED** via approved remote Supabase validation (project-ref `ootsmrriuyesieblxudc`).
+
+Local Docker/WSL limitation: environment note only — not an active PACK-001 blocker.
+
+**PACK-002:** blocked until separate explicit start approval. Not prepared or implemented.
 
 Allowed pack flow: DRAFT → PACK_READY → DRY_RUN → APPROVED → BUILDING → VALIDATING → REVIEW → ACCEPTED / REWORK.
 

@@ -1,68 +1,62 @@
 # Builder Report — Sprint 001
 
-> PACK-001 Apply + Database Apply Environment Retry 2026-07-29
+> PACK-001 formal acceptance 2026-07-30
 
 - Pack: PACK-001 v1
 - Commit / revision (implementation): `8a922df5e6e7b940e86344364f7d68a6468c5549`
-- Architect decision: **ACCEPTED WITH FOLLOW-UP**
-- Database follow-up attempt: **DATABASE_APPLY_BLOCKED_ENVIRONMENT**
-- Date: 2026-07-29
+- Formal status: **PACK_001_ACCEPTED**
+- Prior validation: **PACK_001_VALIDATION_PASS**
 - Phase 0 baseline: `6486fa8630684125366860aee8f102e860c9e02b`
-- Retry: environment probe after claimed container readiness
 
 ## Built (unchanged product scope)
 
-TASK-001…006 as previously accepted. No PACK-002 features added in this follow-up. No second `supabase init` (existing `supabase/config.toml` reused).
+TASK-001…006 as previously delivered. No PACK-002 features. No second `supabase init`.
 
-## Database apply — environment retry
+## Validation environment (preserved)
 
-### 1. Environment probed
+- **Approved:** isolated remote Supabase development project (project-ref `ootsmrriuyesieblxudc`)
+- **Local Docker/WSL:** still unavailable — environment note only (not an active PACK-001 blocker)
 
-| Tool / check | Result |
+## Remote migration evidence (preserved)
+
+| Step | Result |
 |---|---|
-| `docker --version` | **FAIL** — `docker` not recognized (cmdlet not found) |
-| `docker info` | **FAIL** — same (command not found) |
-| Machine/User PATH refresh | `PATH_HAS_DOCKER=False` |
-| Standard Docker Desktop paths | not present (`Program Files\Docker\...` missing) |
-| Podman / Rancher Desktop paths | not present |
-| Docker named pipes | `\\.\pipe\docker_engine` / `dockerDesktopLinuxEngine` → False |
-| WSL | **not installed** |
-| `docker.exe` search (PATH + common roots) | not found |
-| Docker/Podman processes | none |
-| `npx supabase --version` | **2.110.0** |
-| `git status` | `## master` (clean before this docs commit) |
-| `supabase/config.toml` | **present** (reused; no re-init) |
+| `supabase link` | Finished |
+| `supabase db push --include-seed` | Applied `20260729120000_init_schema.sql`, `20260729120100_rls_policies.sql` |
+| `supabase migration list` | Local == Remote for both revisions |
+| `supabase db push --dry-run` | Remote database is up to date |
 
-### 2–4. Commands
+Statuses: **REMOTE_DATABASE_MIGRATIONS_APPLIED**, **MIGRATION_HISTORY_VERIFIED**, **REMOTE_DATABASE_UP_TO_DATE**
 
-```text
-# reuse existing config — no supabase init
-npx supabase start
-# FAILED immediately:
-# LegacyDockerLifecycleInspectError
-# failed to inspect container health: docker: command not found
-# (podman also not found) — install Docker Desktop or Podman and ensure it is on PATH
+## Remote schema validation (preserved)
 
-npx supabase db reset
-# NOT RUN — blocked by failed start / missing Docker
-```
+PASS — 8 tables; PKs; FKs; UNIQUE(vehicle_id, report_date); `valid_until IS NULL OR valid_until >= valid_from`; seed `utilization_settings` (Europe/Berlin, 32400/25200); RLS enabled on all 8; policies present; claim path `app_metadata.role`.
 
-### Migrations result
+Status: **REMOTE_SCHEMA_VALIDATION_PASS**
 
-**NOT APPLIED** — no local Postgres/Supabase runtime available.
+## Remote RLS validation (preserved)
 
-### Tables / constraints / seed / RLS / role JWT tests
+PASS — 27/27 cases (unauthenticated, invalid, viewer, manager, admin × SELECT/INSERT/UPDATE allow+deny).
 
-**NOT_EXECUTED** (requires running database).
+- Simulated JWT claims only; no production users/credentials
+- Prefix `FUR001_RLS_TEST_` only
+- Single transaction **BEGIN … ROLLBACK**
+- Post-check: 0 leftover `FUR001_RLS_TEST_%` rows
+- No secrets exposed or stored
 
-### SQL changes in this retry
+Status: **REMOTE_RLS_VALIDATION_PASS**
 
-None.
+## Formal acceptance
 
-## npm gates
+**PACK_001_ACCEPTED** — 2026-07-30. PACK-002 remains blocked until separate explicit start approval.
 
-Not re-run in this retry (apply blocked before step 8). Prior post-attempt run remained PASS (typecheck / lint / test 5/5 / build).
+## Post-acceptance check
 
-## Recommendation
+- Initial failure: `npm run lint` scanned generated `.next/**` (not a product defect)
+- Fix: `eslint.config.mjs` ignores generated dirs/files only; source rules not weakened; no product-code edits
+- Re-run: `npm test` / `npm run lint` / `npm run build` — **PASS**
+- Result: **PACK_001_POST_ACCEPTANCE_CHECK_PASS**
 
-Keep PACK-001 code acceptance. Gate **DATABASE_APPLY_REQUIRED_BEFORE_PACK-002** remains **open**. Install Docker Desktop (or Podman), ensure `docker` is on PATH and the engine is running, then re-run `npx supabase start` → `npx supabase db reset` + full validation.
+## Local environment note (historical)
+
+Earlier probes (2026-07-29): Docker/Podman/WSL missing → **DATABASE_APPLY_BLOCKED_ENVIRONMENT** for local runtime. Retained as note; superseded for PACK-001 closure by approved remote validation.

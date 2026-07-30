@@ -11,14 +11,40 @@
     "BUILDING",
     "VALIDATING",
     "REVIEW",
+    "ACCEPTED",
+    "VALIDATED",
     "ACCEPTED"
   ],
   "activePack": "PACK-001",
-  "packStatus": "PACK_ACCEPTED_WITH_FOLLOW_UP",
-  "dbFollowUpStatus": "DATABASE_APPLY_BLOCKED_ENVIRONMENT",
-  "readiness": 75,
+  "packStatus": "PACK_001_ACCEPTED",
+  "packAcceptance": "PACK_001_ACCEPTED",
+  "dbFollowUpStatus": "CLOSED_VIA_REMOTE_VALIDATION",
+  "validationStatuses": [
+    "REMOTE_DATABASE_MIGRATIONS_APPLIED",
+    "MIGRATION_HISTORY_VERIFIED",
+    "REMOTE_DATABASE_UP_TO_DATE",
+    "REMOTE_SCHEMA_VALIDATION_PASS",
+    "REMOTE_RLS_VALIDATION_PASS",
+    "PACK_001_VALIDATION_PASS",
+    "PACK_001_ACCEPTED",
+    "PACK_001_POST_ACCEPTANCE_CHECK_PASS"
+  ],
+  "postAcceptance": {
+    "status": "PACK_001_POST_ACCEPTANCE_CHECK_PASS",
+    "initialLintFailure": "eslint scanned generated .next/** artifacts",
+    "fix": "eslint.config.mjs ignores for generated/dependency artifacts only; rules not weakened",
+    "gates": { "test": true, "lint": true, "build": true },
+    "checkpoint": "PACK_001_CHECKPOINT_READY"
+  },
+  "validationEnvironment": {
+    "type": "supabase_remote_dev",
+    "projectRef": "ootsmrriuyesieblxudc",
+    "approved": true,
+    "localDockerNote": "DATABASE_APPLY_BLOCKED_ENVIRONMENT retained as environment note only"
+  },
+  "readiness": 100,
   "blockers": [
-    "DATABASE_APPLY_REQUIRED_BEFORE_PACK-002 (blocked: Docker/Podman still missing after environment retry)",
+    "PACK-002 blocked until separate explicit start approval",
     "DS-001 Frotcom contract (Phase 5 only)"
   ]
 }

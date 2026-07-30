@@ -12,3 +12,5 @@
 | RSK-006 | Silent bad data (suspicious km/times) misleads managers | Medium | High | data_quality_status visible in UI | Architect | OPEN |
 | RSK-007 | Scope creep into TMS/map/payroll | Medium | Medium | Explicit non-goals; pack scope guards | Architect | OPEN |
 | RSK-008 | Dual documentation structures fork truth | Low | High | Ban architect/builder/.project-launcher for new project | Architect | MITIGATED |
+| RSK-009 | Local Docker/WSL unavailable on builder workstation | High | Low | PACK-001 validated on approved remote Supabase dev (`ootsmrriuyesieblxudc`); local runtime remains ergonomics note only | Architect | ACCEPTED |
+| RSK-010 | Remote-only validation diverges from future local stacks | Medium | Medium | Keep migrations forward-only; re-run local `supabase start`/`db reset` when Docker/WSL available; migration list already verified remote | Architect | OPEN |

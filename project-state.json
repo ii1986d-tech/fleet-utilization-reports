@@ -5,7 +5,7 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-07-29T18:40:00.000Z",
+    "updatedAt": "2026-07-30T12:40:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
   "status": "ACCEPTED",
@@ -21,7 +21,10 @@
     { "status": "REVIEW", "at": "2026-07-29T17:00:00.000Z" },
     { "status": "ACCEPTED", "at": "2026-07-29T18:10:00.000Z", "note": "PACK-001 ACCEPTED WITH FOLLOW-UP; DATABASE_APPLY_REQUIRED_BEFORE_PACK-002" },
     { "status": "ACCEPTED", "at": "2026-07-29T18:25:00.000Z", "note": "DB apply attempt blocked: no Docker/Postgres (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" },
-    { "status": "ACCEPTED", "at": "2026-07-29T18:40:00.000Z", "note": "DB apply environment retry blocked: docker/podman still not found (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" }
+    { "status": "ACCEPTED", "at": "2026-07-29T18:40:00.000Z", "note": "DB apply environment retry blocked: docker/podman still not found (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" },
+    { "status": "VALIDATED", "at": "2026-07-30T12:15:00.000Z", "note": "PACK_001_VALIDATION_PASS via approved remote Supabase; PACK_001_READY_FOR_ACCEPTANCE; local Docker note only" },
+    { "status": "ACCEPTED", "at": "2026-07-30T12:20:00.000Z", "note": "PACK_001_ACCEPTED; PACK-002 blocked until separate explicit start approval" },
+    { "status": "ACCEPTED", "at": "2026-07-30T12:40:00.000Z", "note": "PACK_001_POST_ACCEPTANCE_CHECK_PASS; eslint ignores for .next only; checkpoint ready" }
   ],
   "intake": {
     "projectName": "Fleet Utilization Reports",
@@ -142,16 +145,16 @@
       "build": "PACK-001 Next.js foundation implemented",
       "dryRun": "PACK-001 dry run approved",
       "approval": "Human approved PACK-001 apply",
-      "validation": "typecheck lint test build PASS",
-      "review": "PACK-001 Architect ACCEPTED WITH FOLLOW-UP",
-      "accepted": "PACK-001 ACCEPTED WITH FOLLOW-UP; DATABASE_APPLY_BLOCKED_ENVIRONMENT after environment retry — gate still open",
+      "validation": "REMOTE migrate+schema+RLS PASS; PACK_001_VALIDATION_PASS",
+      "review": "PACK-001 formally accepted 2026-07-30",
+      "accepted": "PACK_001_ACCEPTED; PACK_001_POST_ACCEPTANCE_CHECK_PASS; eslint .next ignore fix; checkpoint ready; PACK-002 blocked until separate explicit start approval",
       "release": "",
       "production": "",
       "operations": ""
     },
     "checks": {
       "tests": true,
-      "security": false,
+      "security": true,
       "performance": false,
       "accessibility": false,
       "backup": false,
