@@ -1,6 +1,6 @@
 # Architect Briefing
 
-> Updated 2026-07-30 — PACK-004 formally accepted with follow-ups
+> Updated 2026-08-03 — PACK-005 formally accepted with follow-ups
 
 ## Where things stand
 
@@ -9,20 +9,31 @@
 | PACK-001 | ACCEPTED | `20f2698` |
 | PACK-002 | ACCEPTED_WITH_FOLLOW_UPS | `21ab8aa` |
 | PACK-003 | ACCEPTED_WITH_FOLLOW_UPS | `a68d8f9` |
-| PACK-004 | **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** | see `git log -1` / `ACCEPTANCE-RECORD.md` |
+| PACK-004 | **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** | `dbe59da` |
+| PACK-005 | **PACK_005_ACCEPTED_WITH_FOLLOW_UPS** | see `git log -1` after checkpoint |
 
-Architect recommendation honored: **ACCEPT_WITH_FOLLOW_UPS**
-Transport-failure correction: accepted
-Evidence: `sprints/sprint-004/ARCHITECT-REVIEW.md`, `ACCEPTANCE-RECORD.md`
+- Pack type: **evidence-closure** (not product features)
+- Evidence: `EVIDENCE-RUN-RESULTS.json` — 36 PASS / 1 PARTIAL (C14) / 0 FAIL
+- Review: `ARCHITECT-REVIEW.md` → **ACCEPT_WITH_FOLLOW_UPS**
+- Acceptance: `ACCEPTANCE-RECORD.md`
+- Production-readiness: **locked MVP is production-ready with documented residuals**
 
-FU-003-01 **CLOSED**. FU-003-02/03 and FU-002-01…06 **OPEN**.
+### Closed follow-ups
+
+FU-002-01…04, FU-002-06, FU-003-03, OQ-004-04 **CLOSED** / satisfied.
+FU-002-05 **CLOSED_WITH_RESIDUAL**. FU-003-02 **CLOSED_WITH_RESIDUAL**. FU-003-01 remains **CLOSED**.
+
+### Documented residuals
+
+A. `correctAssignment` `FOR UPDATE` gap · B. C14 unit-only transport evidence · C. local Docker/Supabase unavailable · D. retained non-prod Auth test identities
 
 ## Do not
 
-- Start PACK-005 / Frotcom without separate explicit approval
-- Close remaining FUs without evidence
-- Claim live JWT / empirical orphan / concurrency evidence was executed
+- Auto-start Frotcom, reports dashboard, or exports
+- Invent PACK-006 without separate authorization
+- Paste secrets into chat or tracked files
+- Claim local database evidence
 
 ## Next
 
-Optional push (if authorized). PACK-005 remains blocked on DS-001 + explicit start.
+No automatic next pack. Frotcom remains **blocked by DS-001** until a separately authorized future pack.

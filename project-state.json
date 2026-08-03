@@ -5,50 +5,222 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-07-30T17:30:00.000Z",
+    "updatedAt": "2026-08-03T11:00:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
   "status": "ACCEPTED",
   "statusHistory": [
-    { "status": "DRAFT", "at": "2026-07-29T10:00:00.000Z" },
-    { "status": "INTAKE_COMPLETE", "at": "2026-07-29T11:00:00.000Z" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-29T11:30:00.000Z" },
-    { "status": "BUSINESS_VALIDATION", "at": "2026-07-29T11:45:00.000Z" },
-    { "status": "DATA_MODEL_READY", "at": "2026-07-29T12:00:00.000Z" },
-    { "status": "PACK_READY", "at": "2026-07-29T13:00:00.000Z" },
-    { "status": "APPROVED", "at": "2026-07-29T16:00:00.000Z" },
-    { "status": "BUILDING", "at": "2026-07-29T16:30:00.000Z" },
-    { "status": "REVIEW", "at": "2026-07-29T17:00:00.000Z" },
-    { "status": "ACCEPTED", "at": "2026-07-29T18:10:00.000Z", "note": "PACK-001 ACCEPTED WITH FOLLOW-UP; DATABASE_APPLY_REQUIRED_BEFORE_PACK-002" },
-    { "status": "ACCEPTED", "at": "2026-07-29T18:25:00.000Z", "note": "DB apply attempt blocked: no Docker/Postgres (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" },
-    { "status": "ACCEPTED", "at": "2026-07-29T18:40:00.000Z", "note": "DB apply environment retry blocked: docker/podman still not found (DATABASE_APPLY_BLOCKED_ENVIRONMENT)" },
-    { "status": "VALIDATED", "at": "2026-07-30T12:15:00.000Z", "note": "PACK_001_VALIDATION_PASS via approved remote Supabase; PACK_001_READY_FOR_ACCEPTANCE; local Docker note only" },
-    { "status": "ACCEPTED", "at": "2026-07-30T12:20:00.000Z", "note": "PACK_001_ACCEPTED; PACK-002 blocked until separate explicit start approval" },
-    { "status": "ACCEPTED", "at": "2026-07-30T12:40:00.000Z", "note": "PACK_001_POST_ACCEPTANCE_CHECK_PASS; eslint ignores for .next only; checkpoint ready" },
-    { "status": "ACCEPTED", "at": "2026-07-30T12:50:00.000Z", "note": "PACK_001_CHECKPOINT_COMMITTED 20f2698" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-30T13:00:00.000Z", "note": "PACK_002_ARCHITECT_READY; no implementation; ADR-005 overlap policy" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-30T14:10:00.000Z", "note": "PACK_002_CORRECTIONS_READY_FOR_APPROVAL; ADR-005/006; in-place correction; mandatory exclusion" },
-    { "status": "BUILDING", "at": "2026-07-30T14:30:00.000Z", "note": "PACK_002_IMPLEMENTATION_READY_FOR_REVIEW; migration applied; gates PASS" },
-    { "status": "REVIEW", "at": "2026-07-30T14:40:00.000Z", "note": "PACK_002_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS" },
-    { "status": "ACCEPTED", "at": "2026-07-30T14:45:00.000Z", "note": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS; PACK_002_CHECKPOINT_READY; PACK-003 blocked; FU-002-01..06 tracked" },
-    { "status": "ACCEPTED", "at": "2026-07-30T14:50:00.000Z", "note": "PACK_002_CHECKPOINT_COMMITTED 21ab8aa" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-30T15:00:00.000Z", "note": "PACK_003_ARCHITECT_READY; ADR-007; no Apply; FU-002 not absorbed" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-30T15:05:00.000Z", "note": "PACK_003 dry-run READY_WITH_REQUIRED_CORRECTIONS" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-30T15:10:00.000Z", "note": "PACK_003_CORRECTIONS_READY_FOR_APPROVAL; Apply blocked" },
-    { "status": "BUILDING", "at": "2026-07-30T15:15:00.000Z", "note": "PACK-003 Apply: exceljs + migration + import pipeline" },
-    { "status": "REVIEW", "at": "2026-07-30T15:20:00.000Z", "note": "PACK_003_IMPLEMENTATION_READY_FOR_REVIEW; 38/38 tests; migration 20260730153000" },
-    { "status": "REVIEW", "at": "2026-07-30T15:35:00.000Z", "note": "PACK_003_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS; FU-003-01..03; FU-002 open; no commit" },
-    { "status": "ACCEPTED", "at": "2026-07-30T15:45:00.000Z", "note": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS; PACK_003_CHECKPOINT_READY; FU-003-01..03; FU-002 open; PACK-004 blocked; no commit" },
-    { "status": "ACCEPTED", "at": "2026-07-30T15:50:00.000Z", "note": "PACK_003_CHECKPOINT_COMMITTED a68d8f9" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-30T16:20:00.000Z", "note": "PACK_004_ARCHITECT_READY; hardening/follow-ups; ADR-008 PROPOSED; no Apply; Frotcom blocked" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-30T16:30:00.000Z", "note": "PACK_004_DRY_RUN_READY_FOR_APPROVAL; READY_WITH_REQUIRED_CORRECTIONS" },
-    { "status": "ARCHITECT_READY", "at": "2026-07-30T16:45:00.000Z", "note": "PACK_004_CORRECTIONS_READY_FOR_APPROVAL; ADR-008 ACCEPTED design; OQs resolved; Apply blocked" },
-    { "status": "BUILDING", "at": "2026-07-30T16:50:00.000Z", "note": "PACK-004 Apply authorized; migration 20260730170000; RPC + error report" },
-    { "status": "REVIEW", "at": "2026-07-30T17:00:00.000Z", "note": "PACK_004_IMPLEMENTATION_READY_FOR_REVIEW; READY_WITH_RESIDUAL_EVIDENCE_GAPS; 52/52 tests; no commit" },
-    { "status": "REVIEW", "at": "2026-07-30T17:15:00.000Z", "note": "PACK_004_ARCHITECT_REVIEW_COMPLETE; ACCEPT_WITH_FOLLOW_UPS; FU-003-01 closed; transport correction tracked; no commit" },
-    { "status": "REVIEW", "at": "2026-07-30T17:20:00.000Z", "note": "PACK_004_TARGETED_CORRECTION_READY_FOR_REVIEW; transport finalize fixed; 63/63 tests; no migration; no commit" },
-    { "status": "REVIEW", "at": "2026-07-30T17:25:00.000Z", "note": "PACK_004_FOCUSED_REVIEW_COMPLETE; ACCEPT_WITH_FOLLOW_UPS; transport correction accepted; FU-003-02/03 open; no commit" },
-    { "status": "ACCEPTED", "at": "2026-07-30T17:30:00.000Z", "note": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS; checkpoint feat: complete PACK-004 import hardening; FU-003-01 closed; FU-003-02/03 and FU-002 open; PACK-005 blocked" }
+    {
+      "status": "DRAFT",
+      "at": "2026-07-29T10:00:00.000Z"
+    },
+    {
+      "status": "INTAKE_COMPLETE",
+      "at": "2026-07-29T11:00:00.000Z"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-29T11:30:00.000Z"
+    },
+    {
+      "status": "BUSINESS_VALIDATION",
+      "at": "2026-07-29T11:45:00.000Z"
+    },
+    {
+      "status": "DATA_MODEL_READY",
+      "at": "2026-07-29T12:00:00.000Z"
+    },
+    {
+      "status": "PACK_READY",
+      "at": "2026-07-29T13:00:00.000Z"
+    },
+    {
+      "status": "APPROVED",
+      "at": "2026-07-29T16:00:00.000Z"
+    },
+    {
+      "status": "BUILDING",
+      "at": "2026-07-29T16:30:00.000Z"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-07-29T17:00:00.000Z"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-29T18:10:00.000Z",
+      "note": "PACK-001 ACCEPTED WITH FOLLOW-UP; DATABASE_APPLY_REQUIRED_BEFORE_PACK-002"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-29T18:25:00.000Z",
+      "note": "DB apply attempt blocked: no Docker/Postgres (DATABASE_APPLY_BLOCKED_ENVIRONMENT)"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-29T18:40:00.000Z",
+      "note": "DB apply environment retry blocked: docker/podman still not found (DATABASE_APPLY_BLOCKED_ENVIRONMENT)"
+    },
+    {
+      "status": "VALIDATED",
+      "at": "2026-07-30T12:15:00.000Z",
+      "note": "PACK_001_VALIDATION_PASS via approved remote Supabase; PACK_001_READY_FOR_ACCEPTANCE; local Docker note only"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-30T12:20:00.000Z",
+      "note": "PACK_001_ACCEPTED; PACK-002 blocked until separate explicit start approval"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-30T12:40:00.000Z",
+      "note": "PACK_001_POST_ACCEPTANCE_CHECK_PASS; eslint ignores for .next only; checkpoint ready"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-30T12:50:00.000Z",
+      "note": "PACK_001_CHECKPOINT_COMMITTED 20f2698"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T13:00:00.000Z",
+      "note": "PACK_002_ARCHITECT_READY; no implementation; ADR-005 overlap policy"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T14:10:00.000Z",
+      "note": "PACK_002_CORRECTIONS_READY_FOR_APPROVAL; ADR-005/006; in-place correction; mandatory exclusion"
+    },
+    {
+      "status": "BUILDING",
+      "at": "2026-07-30T14:30:00.000Z",
+      "note": "PACK_002_IMPLEMENTATION_READY_FOR_REVIEW; migration applied; gates PASS"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-07-30T14:40:00.000Z",
+      "note": "PACK_002_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-30T14:45:00.000Z",
+      "note": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS; PACK_002_CHECKPOINT_READY; PACK-003 blocked; FU-002-01..06 tracked"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-30T14:50:00.000Z",
+      "note": "PACK_002_CHECKPOINT_COMMITTED 21ab8aa"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T15:00:00.000Z",
+      "note": "PACK_003_ARCHITECT_READY; ADR-007; no Apply; FU-002 not absorbed"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T15:05:00.000Z",
+      "note": "PACK_003 dry-run READY_WITH_REQUIRED_CORRECTIONS"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T15:10:00.000Z",
+      "note": "PACK_003_CORRECTIONS_READY_FOR_APPROVAL; Apply blocked"
+    },
+    {
+      "status": "BUILDING",
+      "at": "2026-07-30T15:15:00.000Z",
+      "note": "PACK-003 Apply: exceljs + migration + import pipeline"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-07-30T15:20:00.000Z",
+      "note": "PACK_003_IMPLEMENTATION_READY_FOR_REVIEW; 38/38 tests; migration 20260730153000"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-07-30T15:35:00.000Z",
+      "note": "PACK_003_ARCHITECT_REVIEW_ACCEPTED_WITH_FOLLOW_UPS; FU-003-01..03; FU-002 open; no commit"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-30T15:45:00.000Z",
+      "note": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS; PACK_003_CHECKPOINT_READY; FU-003-01..03; FU-002 open; PACK-004 blocked; no commit"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-30T15:50:00.000Z",
+      "note": "PACK_003_CHECKPOINT_COMMITTED a68d8f9"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T16:20:00.000Z",
+      "note": "PACK_004_ARCHITECT_READY; hardening/follow-ups; ADR-008 PROPOSED; no Apply; Frotcom blocked"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T16:30:00.000Z",
+      "note": "PACK_004_DRY_RUN_READY_FOR_APPROVAL; READY_WITH_REQUIRED_CORRECTIONS"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T16:45:00.000Z",
+      "note": "PACK_004_CORRECTIONS_READY_FOR_APPROVAL; ADR-008 ACCEPTED design; OQs resolved; Apply blocked"
+    },
+    {
+      "status": "BUILDING",
+      "at": "2026-07-30T16:50:00.000Z",
+      "note": "PACK-004 Apply authorized; migration 20260730170000; RPC + error report"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-07-30T17:00:00.000Z",
+      "note": "PACK_004_IMPLEMENTATION_READY_FOR_REVIEW; READY_WITH_RESIDUAL_EVIDENCE_GAPS; 52/52 tests; no commit"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-07-30T17:15:00.000Z",
+      "note": "PACK_004_ARCHITECT_REVIEW_COMPLETE; ACCEPT_WITH_FOLLOW_UPS; FU-003-01 closed; transport correction tracked; no commit"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-07-30T17:20:00.000Z",
+      "note": "PACK_004_TARGETED_CORRECTION_READY_FOR_REVIEW; transport finalize fixed; 63/63 tests; no migration; no commit"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-07-30T17:25:00.000Z",
+      "note": "PACK_004_FOCUSED_REVIEW_COMPLETE; ACCEPT_WITH_FOLLOW_UPS; transport correction accepted; FU-003-02/03 open; no commit"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-07-30T17:30:00.000Z",
+      "note": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS; checkpoint dbe59da feat: complete PACK-004 import hardening; FU-003-01 closed; FU-003-02/03 and FU-002 open; PACK-005 blocked"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T18:05:00.000Z",
+      "note": "PACK_005_ARCHITECT_READY; Evidence Closure (JWT RLS + Import Persistence Proof); no Apply; no Frotcom; SoT reconciled; evidence not executed"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-07-30T21:00:00.000Z",
+      "note": "PACK_005_EVIDENCE_DRY_RUN_COMPLETE; READY_WITH_MISSING_ACCESS; Docker daemon down; no workspace env; Auth test users unverified; evidence not executed"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-08-03T12:10:00.000Z",
+      "note": "PACK_005_ACCESS_READY; PACK_005_TEST_IDENTITIES_READY; READY_FOR_EVIDENCE_EXECUTION; first service-key failure preserved as history; live evidence not executed; FUs not closed"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-08-03T13:25:00.000Z",
+      "note": "PACK_005_ARCHITECT_REVIEW_COMPLETE; ACCEPT_WITH_FOLLOW_UPS; 36 PASS / 1 PARTIAL C14; formal acceptance pending; no commit"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-08-03T11:00:00.000Z",
+      "note": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; evidence closure; checkpoint test: complete PACK-005 evidence closure; FU-002/FU-003 closed with residuals on FU-002-05 and FU-003-02; locked MVP production-ready with documented residuals; no Frotcom"
+    }
   ],
   "intake": {
     "projectName": "Fleet Utilization Reports",
@@ -109,9 +281,39 @@
       "selectedAlternativeId": "A",
       "rationale": "Matches Anweisungen; no existing conventions",
       "alternatives": [
-        { "id": "A", "name": "Next.js+TS+Supabase+n8n", "description": "Preferred stack", "cost": 2, "speed": 4, "maintainability": 4, "scalability": 3, "risk": 2, "lockin": 3 },
-        { "id": "B", "name": "API+SPA+cron", "description": "More moving parts", "cost": 3, "speed": 2, "maintainability": 3, "scalability": 4, "risk": 3, "lockin": 2 },
-        { "id": "C", "name": "Low-code only", "description": "Fails audit/RLS/tests", "cost": 2, "speed": 3, "maintainability": 1, "scalability": 1, "risk": 5, "lockin": 4 }
+        {
+          "id": "A",
+          "name": "Next.js+TS+Supabase+n8n",
+          "description": "Preferred stack",
+          "cost": 2,
+          "speed": 4,
+          "maintainability": 4,
+          "scalability": 3,
+          "risk": 2,
+          "lockin": 3
+        },
+        {
+          "id": "B",
+          "name": "API+SPA+cron",
+          "description": "More moving parts",
+          "cost": 3,
+          "speed": 2,
+          "maintainability": 3,
+          "scalability": 4,
+          "risk": 3,
+          "lockin": 2
+        },
+        {
+          "id": "C",
+          "name": "Low-code only",
+          "description": "Fails audit/RLS/tests",
+          "cost": 2,
+          "speed": 3,
+          "maintainability": 1,
+          "scalability": 1,
+          "risk": 5,
+          "lockin": 4
+        }
       ]
     },
     {
@@ -121,9 +323,39 @@
       "selectedAlternativeId": "A",
       "rationale": "Anweisungen architecture principle",
       "alternatives": [
-        { "id": "A", "name": "Supabase SoR + n8n import", "description": "Dashboard reads DB", "cost": 2, "speed": 4, "maintainability": 5, "scalability": 3, "risk": 2, "lockin": 3 },
-        { "id": "B", "name": "Live Frotcom per request", "description": "Violates principle", "cost": 2, "speed": 3, "maintainability": 2, "scalability": 2, "risk": 5, "lockin": 4 },
-        { "id": "C", "name": "File drop ETL", "description": "Weaker automation", "cost": 3, "speed": 2, "maintainability": 3, "scalability": 2, "risk": 3, "lockin": 2 }
+        {
+          "id": "A",
+          "name": "Supabase SoR + n8n import",
+          "description": "Dashboard reads DB",
+          "cost": 2,
+          "speed": 4,
+          "maintainability": 5,
+          "scalability": 3,
+          "risk": 2,
+          "lockin": 3
+        },
+        {
+          "id": "B",
+          "name": "Live Frotcom per request",
+          "description": "Violates principle",
+          "cost": 2,
+          "speed": 3,
+          "maintainability": 2,
+          "scalability": 2,
+          "risk": 5,
+          "lockin": 4
+        },
+        {
+          "id": "C",
+          "name": "File drop ETL",
+          "description": "Weaker automation",
+          "cost": 3,
+          "speed": 2,
+          "maintainability": 3,
+          "scalability": 2,
+          "risk": 3,
+          "lockin": 2
+        }
       ]
     },
     {
@@ -133,9 +365,39 @@
       "selectedAlternativeId": "A",
       "rationale": "Anweisungen §16",
       "alternatives": [
-        { "id": "A", "name": "Supabase Auth + RLS", "description": "Native roles", "cost": 2, "speed": 4, "maintainability": 4, "scalability": 3, "risk": 2, "lockin": 3 },
-        { "id": "B", "name": "App JWT only", "description": "No DB ACL", "cost": 3, "speed": 3, "maintainability": 2, "scalability": 2, "risk": 5, "lockin": 2 },
-        { "id": "C", "name": "Shared password", "description": "Fails roles", "cost": 1, "speed": 5, "maintainability": 1, "scalability": 1, "risk": 5, "lockin": 1 }
+        {
+          "id": "A",
+          "name": "Supabase Auth + RLS",
+          "description": "Native roles",
+          "cost": 2,
+          "speed": 4,
+          "maintainability": 4,
+          "scalability": 3,
+          "risk": 2,
+          "lockin": 3
+        },
+        {
+          "id": "B",
+          "name": "App JWT only",
+          "description": "No DB ACL",
+          "cost": 3,
+          "speed": 3,
+          "maintainability": 2,
+          "scalability": 2,
+          "risk": 5,
+          "lockin": 2
+        },
+        {
+          "id": "C",
+          "name": "Shared password",
+          "description": "Fails roles",
+          "cost": 1,
+          "speed": 5,
+          "maintainability": 1,
+          "scalability": 1,
+          "risk": 5,
+          "lockin": 1
+        }
       ]
     },
     {
@@ -145,19 +407,103 @@
       "selectedAlternativeId": "A",
       "rationale": "Do not invent endpoints",
       "alternatives": [
-        { "id": "A", "name": "Adapter + mocks", "description": "Gate live on DS-001", "cost": 2, "speed": 4, "maintainability": 5, "scalability": 3, "risk": 1, "lockin": 2 },
-        { "id": "B", "name": "Guessed REST", "description": "False confidence", "cost": 2, "speed": 3, "maintainability": 1, "scalability": 2, "risk": 5, "lockin": 4 },
-        { "id": "C", "name": "Block all work", "description": "Stalls foundation", "cost": 1, "speed": 1, "maintainability": 3, "scalability": 3, "risk": 2, "lockin": 1 }
+        {
+          "id": "A",
+          "name": "Adapter + mocks",
+          "description": "Gate live on DS-001",
+          "cost": 2,
+          "speed": 4,
+          "maintainability": 5,
+          "scalability": 3,
+          "risk": 1,
+          "lockin": 2
+        },
+        {
+          "id": "B",
+          "name": "Guessed REST",
+          "description": "False confidence",
+          "cost": 2,
+          "speed": 3,
+          "maintainability": 1,
+          "scalability": 2,
+          "risk": 5,
+          "lockin": 4
+        },
+        {
+          "id": "C",
+          "name": "Block all work",
+          "description": "Stalls foundation",
+          "cost": 1,
+          "speed": 1,
+          "maintainability": 3,
+          "scalability": 3,
+          "risk": 2,
+          "lockin": 1
+        }
       ]
     }
   ],
   "backlog": [
-    { "id": "TASK-001", "requirementId": "REQ-FOUND", "priority": "Must", "title": "Next.js + TS scaffold", "owner": "Builder", "status": "Planned", "dod": "App boots; scripts pass", "evidence": "" },
-    { "id": "TASK-002", "requirementId": "REQ-FOUND", "priority": "Must", "title": "Supabase wiring + env example", "owner": "Builder", "status": "Planned", "dod": "Helpers + .env.example", "evidence": "" },
-    { "id": "TASK-003", "requirementId": "REQ-AUTH", "priority": "Must", "title": "Auth roles + RLS stubs", "owner": "Builder", "status": "Planned", "dod": "Policies for master tables", "evidence": "" },
-    { "id": "TASK-004", "requirementId": "REQ-DATA", "priority": "Must", "title": "SQL migrations for data model", "owner": "Builder", "status": "Planned", "dod": "Unique vehicle/day", "evidence": "" },
-    { "id": "TASK-005", "requirementId": "REQ-TEST", "priority": "Must", "title": "Test infra + fixtures", "owner": "Builder", "status": "Planned", "dod": "Runner + smoke fixture", "evidence": "" },
-    { "id": "TASK-006", "requirementId": "REQ-FROTCOM", "priority": "Must", "title": "Frotcom adapter + mocks", "owner": "Builder", "status": "Planned", "dod": "No live calls", "evidence": "" }
+    {
+      "id": "TASK-001",
+      "requirementId": "REQ-FOUND",
+      "priority": "Must",
+      "title": "Next.js + TS scaffold",
+      "owner": "Builder",
+      "status": "Planned",
+      "dod": "App boots; scripts pass",
+      "evidence": ""
+    },
+    {
+      "id": "TASK-002",
+      "requirementId": "REQ-FOUND",
+      "priority": "Must",
+      "title": "Supabase wiring + env example",
+      "owner": "Builder",
+      "status": "Planned",
+      "dod": "Helpers + .env.example",
+      "evidence": ""
+    },
+    {
+      "id": "TASK-003",
+      "requirementId": "REQ-AUTH",
+      "priority": "Must",
+      "title": "Auth roles + RLS stubs",
+      "owner": "Builder",
+      "status": "Planned",
+      "dod": "Policies for master tables",
+      "evidence": ""
+    },
+    {
+      "id": "TASK-004",
+      "requirementId": "REQ-DATA",
+      "priority": "Must",
+      "title": "SQL migrations for data model",
+      "owner": "Builder",
+      "status": "Planned",
+      "dod": "Unique vehicle/day",
+      "evidence": ""
+    },
+    {
+      "id": "TASK-005",
+      "requirementId": "REQ-TEST",
+      "priority": "Must",
+      "title": "Test infra + fixtures",
+      "owner": "Builder",
+      "status": "Planned",
+      "dod": "Runner + smoke fixture",
+      "evidence": ""
+    },
+    {
+      "id": "TASK-006",
+      "requirementId": "REQ-FROTCOM",
+      "priority": "Must",
+      "title": "Frotcom adapter + mocks",
+      "owner": "Builder",
+      "status": "Planned",
+      "dod": "No live calls",
+      "evidence": ""
+    }
   ],
   "quality": {
     "evidence": {
@@ -166,12 +512,12 @@
       "dataModel": "data/DATA-MODEL.md",
       "architecture": "ADR-001..008 (ADR-008 implemented; PACK-004 accepted with follow-ups)",
       "governance": "PROFILE Professional",
-      "build": "PACK-004 checkpoint on master; migration 20260730170000 Local==Remote",
+      "build": "PACK-005 evidence tooling + docs; product checkpoint baseline dbe59da unchanged for app/migrations",
       "dryRun": "PACK-004 READY_WITH_REQUIRED_CORRECTIONS (complete)",
-      "approval": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS",
-      "validation": "63/63 unit; lint/build PASS; live JWT NOT_EXECUTED; empirical orphan OPEN",
-      "review": "ACCEPT_WITH_FOLLOW_UPS; focused transport §9 accepted; FU-003-01 closed",
-      "accepted": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS; FU-002 open; FU-003-02/03 open; PACK-005 blocked",
+      "approval": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS",
+      "validation": "63/63 unit; lint/build PASS; live JWT PASS; confirm DB PASS (C14 unit residual); orphan PASS; CAS BEST-EFFORT PASS",
+      "review": "ACCEPT_WITH_FOLLOW_UPS; ARCHITECT-REVIEW COMPLETE",
+      "accepted": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; ACCEPTANCE-RECORD.md; locked MVP production-ready with documented residuals",
       "release": "",
       "production": "",
       "operations": ""
@@ -193,14 +539,12 @@
     "kpis": [],
     "incidents": [],
     "techDebt": [
-      "FU-002-01 automated RLS JWT",
-      "FU-002-02 race harness",
-      "FU-002-03 DB-bypass 409 integration",
-      "FU-002-04 end/deactivate preserve asserts",
-      "FU-002-05 FOR UPDATE hardening review",
-      "FU-002-06 local Docker env note",
-      "FU-003-02 confirm/partial/create-on tests (transport unit covered; DB suite open)",
-      "FU-003-03 atomic master create + assignment insert empirical proof"
+      "FU-002-05 residual: correctAssignment missing FOR UPDATE (GiST exclusion authoritative)",
+      "FU-003-02 residual: C14 transport-failure remote inject not performed (unit coverage retained)",
+      "Local Docker daemon / local Supabase unavailable (RSK-009 accepted env note)",
+      "PACK-005 Auth test identities retained in non-prod (credentials untracked)",
+      "DS-001 Frotcom contract unverified (future pack; not PACK-005)",
+      "TASK-009 reports UI deferred; TASK-011 exports deferred"
     ]
   },
   "knowledge": {
@@ -214,7 +558,9 @@
     }
   },
   "intelligence": {
-    "sources": ["Anweisungen die Cursor in Project launcher eintragen soll.txt"],
+    "sources": [
+      "Anweisungen die Cursor in Project launcher eintragen soll.txt"
+    ],
     "memory": [],
     "templateId": "08-Report-Generator",
     "lastAssessmentAt": "2026-07-29T12:00:00.000Z"
@@ -233,7 +579,12 @@
     "scan": null,
     "installLog": [],
     "updatePreview": [],
-    "limits": { "maxFiles": 5000, "maxTextBytes": 1048576 }
+    "limits": {
+      "maxFiles": 5000,
+      "maxTextBytes": 1048576
+    }
   },
-  "ui": { "lastView": "export" }
+  "ui": {
+    "lastView": "export"
+  }
 }

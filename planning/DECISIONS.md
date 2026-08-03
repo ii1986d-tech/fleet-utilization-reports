@@ -35,25 +35,27 @@ Mirror of `architecture/DECISION-REGISTER.md`.
 - Rationale: Historical integrity; single correction path
 - Status: **ACCEPTED** (binding for PACK-002+)
 - Follow-up: FU-002-05 — review `SELECT FOR UPDATE` / equivalent locking (does not reopen Option B)
+- PACK-005 disposition: FU-002-05 **CLOSED_WITH_RESIDUAL** — gap documented; GiST exclusion remains authoritative; no immediate correction
 
 ## Formal pack acceptance
 
 - PACK-001: **PACK_001_ACCEPTED** (`20f2698`)
-- PACK-002: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS** (`21ab8aa`) — follow-ups RSK-012 / FU-002-01…06 remain open and visible
-- PACK-003: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS** (`a68d8f9`) — FU-003-01 closed in PACK-004 review; FU-003-02/03 remain open
-- PACK-004: **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** (2026-07-30); transport §9 accepted; FU-003-01 closed; FU-003-02/03 and FU-002-* open
-- PACK-005+ / Frotcom: not started (blocked)
+- PACK-002: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS** (`21ab8aa`) — FU-002-01…06 closed at PACK-005 (05 with residual); historical OPEN origin preserved in RSK-012
+- PACK-003: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS** (`a68d8f9`) — FU-003-01 closed in PACK-004; FU-003-02/03 closed at PACK-005 (02 with C14 residual)
+- PACK-004: **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** (`dbe59da`); transport §9 accepted; FU-003-01 closed
+- PACK-005: **PACK_005_ACCEPTED_WITH_FOLLOW_UPS** — Evidence Closure only (JWT RLS + Import Persistence Proof); **not** Frotcom; locked MVP production-ready with documented residuals
+- Frotcom + n8n (TASK-010): blocked by DS-001 — future pack after DS-001 (**not PACK-005**; not auto-assigned)
 - Reports UI (TASK-009): deferred — OQ-004-01 **RESOLVED ACCEPT DEFAULT**
 
 ## ADR-007 — Excel assignment import policy
 
 - Selected: **exceljs 4.4.0 server-only; 5 MiB/2000/one sheet; server preview; CAS; per-row persist; create masters default OFF; import_job_rows migration**
 - Status: **ACCEPTED** (binding for PACK-003+)
-- Clarification: direct `validated` allowed (OQ-004-03); FU-003-02/03 remain under ADR-008 evidence
+- Clarification: direct `validated` allowed (OQ-004-03); FU-003-02/03 evidence closed at PACK-005 (02 with residual)
 
 ## ADR-008 — Atomic import-row persistence and audit-preserving transitions
 
 - Selected: **`persist_assignment_import_row`; auth.uid(); persistence_errors; vocab valid|invalid + pending|persisted|skipped|failed; CAS search_path; formula-safe exceljs report**
 - Status: **ACCEPTED (design)**; Apply reviewed **ACCEPT_WITH_FOLLOW_UPS** — migration `20260730170000`
-- OQs: 01 ACCEPT DEFAULT · 02 DATABASE RPC · 03 DOCUMENT CURRENT · 04 BEST-EFFORT
-- Mandatory correction: confirm transport-failure pending/finalize inconsistency
+- OQs: 01 ACCEPT DEFAULT · 02 DATABASE RPC · 03 DOCUMENT CURRENT · 04 **CLOSED / SATISFIED** (PACK-005 BEST-EFFORT evidence)
+- Mandatory correction (PACK-004): confirm transport-failure pending/finalize inconsistency — **accepted**; C14 remote inject residual accepted at PACK-005

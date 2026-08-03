@@ -1,0 +1,22 @@
+{
+  "pack": "PACK-005",
+  "script": "check-access.mjs",
+  "generatedAt": "ISO-8601-UTC",
+  "nonProductionConfirmed": false,
+  "overall": "MISSING",
+  "prerequisites": {
+    "PACK005_NON_PRODUCTION_CONFIRMED": "MISSING",
+    "PACK005_SUPABASE_PROJECT_REF": "MISSING",
+    "PACK005_SUPABASE_URL": "MISSING",
+    "PACK005_SUPABASE_ANON_KEY": "MISSING",
+    "PACK005_SUPABASE_SERVICE_ROLE_KEY": "OPTIONAL_MISSING",
+    "PACK005_ADMIN_CREDENTIALS": "MISSING",
+    "PACK005_MANAGER_CREDENTIALS": "MISSING",
+    "PACK005_VIEWER_CREDENTIALS": "MISSING",
+    "PACK005_RUN_ID": "OPTIONAL_MISSING"
+  },
+  "notes": [
+    "Example only — never write real secrets into this file.",
+    "Copy structure to ACCESS-STATUS.json locally if desired; keep untracked."
+  ]
+}

@@ -1,26 +1,49 @@
 # Pack Validation
 
-> Updated 2026-07-30 — PACK-004 Apply ready for Architect Review
+> Updated 2026-08-03 — PACK-005 formally accepted with follow-ups
+
+---
+
+## PACK-005
+
+- Formal status: **PACK_005_ACCEPTED_WITH_FOLLOW_UPS**
+- Goal: Evidence Closure (JWT RLS + Import Persistence Proof) — **no product features**
+- Package: `sprints/sprint-005/*` + `scripts/pack005-evidence/`
+- Baseline: **`dbe59da`**
+- Architect recommendation: **ACCEPT_WITH_FOLLOW_UPS** (honored)
+- Acceptance: `ACCEPTANCE-RECORD.md`
+- Evidence: `EVIDENCE-RUN-RESULTS.json` — 37 total · 36 PASS · 1 PARTIAL (C14) · 0 FAIL
+- Migrations: **none**; Local == Remote unchanged
+- Product code: **unchanged**
+- Production-readiness: **locked MVP production-ready with documented residuals**
+- Out of scope held: Frotcom, reports UI, exports
+
+### Gates
+
+| Gate | Result |
+|---|---|
+| `npm test` | **63/63 PASS** |
+| `npm run lint` | **PASS** |
+| `npm run build` | **PASS** |
+| `git diff --check` | **PASS** |
+| Migration Local == Remote | **PASS** |
+| Secret scan | **PASS** |
+| Fixture cleanup | **PASS** (Auth identities retained) |
+
+### Follow-ups
+
+CLOSED: FU-002-01…04, FU-002-06, FU-003-03, OQ-004-04
+CLOSED_WITH_RESIDUAL: FU-002-05, FU-003-02
+CLOSED (prior): FU-003-01
 
 ---
 
 ## PACK-004
 
 - Formal status: **PACK_004_ACCEPTED_WITH_FOLLOW_UPS**
-- Goal: Hardening + FU-002/FU-003 evidence (not reports UI)
-- Package: `sprints/sprint-004/*` + **ADR-008**
-- Architect recommendation: **ACCEPT_WITH_FOLLOW_UPS** (honored)
-- Targeted transport-failure correction: **ACCEPTED**
-- Baseline: **`a68d8f9`** → checkpoint on master (see `git log -1`)
+- Checkpoint: **`dbe59da`**
 - Evidence: `ACCEPTANCE-RECORD.md`, `ARCHITECT-REVIEW.md`
-- FU-003-01 closed; FU-003-02/03 open; FU-002 open; live JWT NOT_EXECUTED; PACK-005 / Frotcom not started
-
-### Locked for Apply
-
-- RPC `persist_assignment_import_row` · `persistence_errors` · vocab valid|invalid / pending|persisted|skipped|failed
-- exceljs 4.4.0 error report + formula escape · CAS search_path · no SQL leakage
-
-Next: human approve corrections → explicit Apply authorization.
+- FU-003-01 closed at PACK-004; remaining FU evidence closed at PACK-005
 
 ---
 
@@ -28,23 +51,7 @@ Next: human approve corrections → explicit Apply authorization.
 
 - Formal status: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS**
 - Checkpoint commit: **`a68d8f9`**
-- Architect Review: **ACCEPT_WITH_FOLLOW_UPS**
-- Acceptance: `sprints/sprint-003/ACCEPTANCE-RECORD.md`
-- Dependency: **exceljs 4.4.0** (server-only)
-- Migration: `20260730153000_import_jobs_protocol.sql` (verified)
-
-### Gates
-
-| Gate | Result |
-|---|---|
-| `npm test` | **38/38 PASS** |
-| `npm run lint` | **PASS** |
-| `npm run build` | **PASS** |
-| `git diff --check` | **PASS** |
-
-### Accepted follow-ups (open; planned PACK-004)
-
-FU-003-01…03 / RSK-016 · residual findings documented in RISKS.md
+- FU-003-02/03 closed (with C14 residual on 02) at PACK-005
 
 ---
 
@@ -52,11 +59,10 @@ FU-003-01…03 / RSK-016 · residual findings documented in RISKS.md
 
 - Formal status: **PACK_002_ACCEPTED_WITH_FOLLOW_UPS**
 - Checkpoint commit: **`21ab8aa`**
-- Follow-ups FU-002-01…06 / RSK-012 remain open (planned PACK-004 evidence)
+- FU-002-01…06 closed (05 with residual) at PACK-005
 
 ---
 
 ## PACK-001 (preserved)
 
-- Formal status: **PACK_001_ACCEPTED**
-- Checkpoint: `20f2698`
+See sprint-001 acceptance records; checkpoint `20f2698`.

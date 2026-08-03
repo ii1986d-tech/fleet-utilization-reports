@@ -1,0 +1,543 @@
+{
+  "started": "2026-08-03T10:15:22.619Z",
+  "finished": "2026-08-03T10:15:34.939Z",
+  "projectRef": "ootsmrriuyesieblxudc",
+  "runId": "p5ev_20260803",
+  "nonProduction": true,
+  "defects": [],
+  "counts": {
+    "total": 37,
+    "pass": 36,
+    "fail": 0,
+    "partial": 1,
+    "blocked": 0
+  },
+  "cases": [
+    {
+      "timestamp": "2026-08-03T10:15:22.944Z",
+      "id": "FU-002-06",
+      "classification": "manual",
+      "result": "PASS",
+      "summary": "dockerCli=AVAILABLE; daemon=UNAVAILABLE; localSupabase=UNAVAILABLE; remote=AVAILABLE",
+      "expected": "document env residual",
+      "actual": {
+        "dockerCli": "AVAILABLE",
+        "dockerDaemon": "UNAVAILABLE",
+        "localSupabase": "UNAVAILABLE",
+        "remote": "AVAILABLE"
+      },
+      "cleanup": "n/a"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:24.368Z",
+      "id": "FIXTURE-SETUP",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "namespace p5ev_p5ev_20260803_*",
+      "expected": "isolated fixtures",
+      "actual": {
+        "vehicleA": "6179…2be8",
+        "vehicleB": "aa5d…9da6",
+        "driver": "6024…000b",
+        "customer": "fd13…2621"
+      },
+      "cleanup": "pending"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:24.475Z",
+      "id": "FU-002-05/OVERLAP",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "overlap rejected; maps to ASSIGNMENT_OVERLAP; FOR UPDATE gap on correctAssignment remains GAP_DOCUMENTED",
+      "expected": "exclusion + ASSIGNMENT_OVERLAP mapping",
+      "actual": {
+        "overlapHit": true,
+        "mappedCode": "ASSIGNMENT_OVERLAP",
+        "locking": "GAP_DOCUMENTED_no_FOR_UPDATE_on_correctAssignment"
+      },
+      "cleanup": "none persisted on pass"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:25.300Z",
+      "id": "FU-003-03/O01",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "orphan rollback via overlap exclusion; validation evidence preserved",
+      "expected": "ASSIGNMENT_OVERLAP; no orphans; validation_* unchanged",
+      "actual": {
+        "error_code": "ASSIGNMENT_OVERLAP",
+        "persistence_status": "failed",
+        "orphanDrivers": 0,
+        "orphanCustomers": 0,
+        "assignments": 0,
+        "statusOk": true,
+        "payloadOk": true,
+        "warningKept": true
+      },
+      "cleanup": "namespace cleanup later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:26.167Z",
+      "id": "FU-003-03/O02",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "orphan rollback via overlap exclusion; validation evidence preserved",
+      "expected": "ASSIGNMENT_OVERLAP; no orphans; validation_* unchanged",
+      "actual": {
+        "error_code": "ASSIGNMENT_OVERLAP",
+        "persistence_status": "failed",
+        "orphanDrivers": 0,
+        "orphanCustomers": 0,
+        "assignments": 0,
+        "statusOk": true,
+        "payloadOk": true,
+        "warningKept": true
+      },
+      "cleanup": "namespace cleanup later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:26.984Z",
+      "id": "FU-003-03/O03",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "orphan rollback via overlap exclusion; validation evidence preserved",
+      "expected": "ASSIGNMENT_OVERLAP; no orphans; validation_* unchanged",
+      "actual": {
+        "error_code": "ASSIGNMENT_OVERLAP",
+        "persistence_status": "failed",
+        "orphanDrivers": 0,
+        "orphanCustomers": 0,
+        "assignments": 0,
+        "statusOk": true,
+        "payloadOk": true,
+        "warningKept": true
+      },
+      "cleanup": "namespace cleanup later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:27.330Z",
+      "id": "FU-003-02/C01",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "result_status=persisted",
+      "expected": "persisted",
+      "actual": {
+        "result_status": "persisted",
+        "assignment": "1dfb…fea8"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:27.646Z",
+      "id": "FU-003-02/C03",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "error_code=DRIVER_NOT_FOUND",
+      "expected": "DRIVER_NOT_FOUND",
+      "actual": {
+        "error_code": "DRIVER_NOT_FOUND",
+        "status": "failed"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:28.039Z",
+      "id": "FU-003-02/C04",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "status=persisted; createdDrivers=1",
+      "expected": "persisted + master created",
+      "actual": {
+        "status": "persisted",
+        "createdDrivers": 1
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:28.484Z",
+      "id": "FU-003-02/C05",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "reuse drivers count=1",
+      "expected": "persisted; no duplicate master",
+      "actual": {
+        "status": "persisted",
+        "driversWithName": 1
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:28.763Z",
+      "id": "FU-003-02/C06",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "status=skipped; code=EXACT_DUPLICATE",
+      "expected": "skipped + EXACT_DUPLICATE",
+      "actual": {
+        "status": "skipped",
+        "code": "EXACT_DUPLICATE"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:29.023Z",
+      "id": "FU-003-02/C07",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "status=failed; code=ASSIGNMENT_OVERLAP",
+      "expected": "failed + ASSIGNMENT_OVERLAP",
+      "actual": {
+        "status": "failed",
+        "code": "ASSIGNMENT_OVERLAP"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:29.297Z",
+      "id": "FU-003-02/C08",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "invalid persist blocked status=failed",
+      "expected": "failed (invalid cannot persist)",
+      "actual": {
+        "status": "failed",
+        "code": "PERSISTENCE_FAILED"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:29.379Z",
+      "id": "FU-003-02/C09",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "reprocess code=IMPORT_ROW_ALREADY_PROCESSED; status=persisted",
+      "expected": "IMPORT_ROW_ALREADY_PROCESSED or idempotent persisted",
+      "actual": {
+        "status": "persisted",
+        "code": "IMPORT_ROW_ALREADY_PROCESSED"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:29.742Z",
+      "id": "FU-003-02/C10",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "firstWon=true; secondWon=false",
+      "expected": "second CAS not confirming → IMPORT_ALREADY_CONFIRMED at app layer",
+      "actual": {
+        "firstWon": true,
+        "secondWon": false,
+        "mapsTo": "IMPORT_ALREADY_CONFIRMED"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:30.433Z",
+      "id": "FU-003-02/C02-C13",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "persisted=1; failed=1; status=completed_with_errors; countersOk=true",
+      "expected": "partial success + completed_with_errors + counters match",
+      "actual": {
+        "persisted": 1,
+        "failed": 1,
+        "skipped": 0,
+        "pending": 0,
+        "job": {
+          "status": "completed_with_errors",
+          "persisted_rows": 1,
+          "failed_rows": 1,
+          "skipped_rows": 0
+        }
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.042Z",
+      "id": "FU-003-02/C12",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "status=completed",
+      "expected": "completed",
+      "actual": {
+        "status": "completed"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.042Z",
+      "id": "FU-003-02/C14",
+      "classification": "unit",
+      "result": "PARTIAL",
+      "summary": "transport-failure path covered by existing unit tests; DB inject optional not forced",
+      "expected": "PERSISTENCE_FAILED stored on transport failure",
+      "actual": "unit evidence retained; no destructive transport inject",
+      "cleanup": "n/a"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.133Z",
+      "id": "FU-002-01/J01a",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "select vehicles allow=true expected=true",
+      "expected": "allow",
+      "actual": {
+        "allow": true,
+        "rowCount": 2,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.237Z",
+      "id": "FU-002-01/J01b",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "select vehicle_assignments allow=true expected=true",
+      "expected": "allow",
+      "actual": {
+        "allow": true,
+        "rowCount": 5,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.441Z",
+      "id": "FU-002-01/J02",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "insert drivers allow=true expected=true",
+      "expected": "allow",
+      "actual": {
+        "allow": true,
+        "rowCount": 0,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.548Z",
+      "id": "FU-002-01/J04",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "select import_jobs allow=true expected=true",
+      "expected": "allow",
+      "actual": {
+        "allow": true,
+        "rowCount": 5,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.745Z",
+      "id": "FU-002-01/J04w",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "insert import_jobs allow=true expected=true",
+      "expected": "allow",
+      "actual": {
+        "allow": true,
+        "rowCount": 0,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.857Z",
+      "id": "FU-002-01/J06",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "select vehicles allow=true expected=true",
+      "expected": "allow",
+      "actual": {
+        "allow": true,
+        "rowCount": 2,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:31.948Z",
+      "id": "FU-002-01/J07",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "insert drivers allow=false expected=false",
+      "expected": "deny",
+      "actual": {
+        "allow": false,
+        "rowCount": 0,
+        "error": "[object Object]"
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:32.030Z",
+      "id": "FU-002-01/J08",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "select import_jobs allow=false expected=false",
+      "expected": "deny",
+      "actual": {
+        "allow": false,
+        "rowCount": 0,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:32.130Z",
+      "id": "FU-002-01/J10r",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "select vehicles allow=true expected=true",
+      "expected": "allow",
+      "actual": {
+        "allow": true,
+        "rowCount": 2,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:32.223Z",
+      "id": "FU-002-01/J10w",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "insert drivers allow=false expected=false",
+      "expected": "deny",
+      "actual": {
+        "allow": false,
+        "rowCount": 0,
+        "error": "[object Object]"
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:32.312Z",
+      "id": "FU-002-01/J11",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "select vehicles allow=false expected=false",
+      "expected": "deny",
+      "actual": {
+        "allow": false,
+        "rowCount": 0,
+        "error": null
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:32.405Z",
+      "id": "FU-002-01/J12",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "insert drivers allow=false expected=false",
+      "expected": "deny",
+      "actual": {
+        "allow": false,
+        "rowCount": 0,
+        "error": "[object Object]"
+      },
+      "cleanup": "ephemeral rows removed if any"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:32.489Z",
+      "id": "FU-002-01/J09",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "manager RPC denied=true",
+      "expected": "deny",
+      "actual": {
+        "denied": true,
+        "code": "PERSISTENCE_FAILED",
+        "err": null
+      },
+      "cleanup": "n/a"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:32.603Z",
+      "id": "FU-002-01/J16",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "created_by matches admin uid=true",
+      "expected": "created_by = auth.uid()",
+      "actual": {
+        "created_by": "bc1c…d6ad",
+        "admin": "bc1c…d6ad"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:32.696Z",
+      "id": "FU-002-03",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "DB-bypass overlap rejected; app maps to ASSIGNMENT_OVERLAP",
+      "expected": "constraint reject → ASSIGNMENT_OVERLAP",
+      "actual": {
+        "rejected": true,
+        "mappedCode": "ASSIGNMENT_OVERLAP"
+      },
+      "cleanup": "none persisted"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:33.174Z",
+      "id": "FU-002-04",
+      "classification": "live JWT",
+      "result": "PASS",
+      "summary": "end via valid_until; master deactivate active=false; rows remain queryable",
+      "expected": "no hard delete; rows preserved",
+      "actual": {
+        "assignmentPresent": true,
+        "driverPresent": true,
+        "valid_until": "2026-06-15",
+        "deactivated": true
+      },
+      "cleanup": "driver reactivated for cleanup"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:33.424Z",
+      "id": "FU-002-02",
+      "classification": "concurrency",
+      "result": "PASS",
+      "summary": "successes=1; failures=1 (residual class OK)",
+      "expected": "≤1 success",
+      "actual": {
+        "successes": 1,
+        "failures": 1
+      },
+      "cleanup": "race rows deleted"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:33.794Z",
+      "id": "OQ-004-04",
+      "classification": "concurrency",
+      "result": "PASS",
+      "summary": "CAS winners=1; finalStatus=confirming (BEST-EFFORT)",
+      "expected": "exactly one confirming transition",
+      "actual": {
+        "winners": 1,
+        "finalStatus": "confirming"
+      },
+      "cleanup": "later"
+    },
+    {
+      "timestamp": "2026-08-03T10:15:34.939Z",
+      "id": "CLEANUP",
+      "classification": "remote database",
+      "result": "PASS",
+      "summary": "remaining={\"drivers\":0,\"customers\":0,\"vehicles\":0,\"assignments\":0}",
+      "expected": "zero p5ev fixtures",
+      "actual": {
+        "drivers": 0,
+        "customers": 0,
+        "vehicles": 0,
+        "assignments": 0
+      },
+      "cleanup": "verified"
+    }
+  ]
+}
