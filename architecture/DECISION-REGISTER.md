@@ -49,4 +49,11 @@
 - Rationale: PACK-003 FUs; Builder Dry-Run READY_WITH_REQUIRED_CORRECTIONS; OQ-004-01…04 resolved
 - Status: **ACCEPTED (design + implemented)**; formal pack **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** — migration `20260730170000`; FU-003-01 closed
 
-Authoritative ADR bodies: `architecture/ADR-001.md` … `architecture/ADR-008.md`.
+## ADR-009 — PDF transport-order extraction via multimodal AI APIs
+
+- Selected (proposed): **Separate domain; private Storage; immutable snapshot; provider-neutral AI (Gemini primary / xAI optional); server-only keys; AI suggestions only; persisted field `review_status`; explicit admin/manager confirm; viewer RO; no dispatcher Auth role; stable `stop_id`; partial loads/legs; aggregate CAS; idempotency; transactional confirm; manual stop reorder (drag + keyboard); Weiter server-gated 409 `ORDER_REVIEW_INCOMPLETE` / `ORDER_VERSION_CONFLICT`; static Maps link + stored km only**
+- Status: **ACCEPTED (design binding)** — 2026-08-04 · Accepted by **I. Dimitrov** · Architect Re-Review **PASS**; **DS-004 COMPLETE**; **DS-005 OPEN**; Apply **not authorized**
+- Rationale: AI + field-confirmation binding; C1/C2/H1–H4 verified closed; phase split 006/007/008; sample evidence on disk; live provider still gated
+- Binding for design/Dry-Run; product Apply requires separate human authorization
+
+Authoritative ADR bodies: `architecture/ADR-001.md` … `architecture/ADR-009.md`.

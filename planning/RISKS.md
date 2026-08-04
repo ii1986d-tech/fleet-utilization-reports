@@ -1,6 +1,6 @@
 # Risk Register
 
-> Updated 2026-08-03 — PACK-005 formally accepted with follow-ups
+> Updated 2026-08-04 — PACK-006 AI architecture update; DS-004 + DS-005 gates
 
 | ID | Risk | Probability | Impact | Mitigation | Owner | Status |
 |---|---|---|---|---|---|---|
@@ -20,6 +20,19 @@
 | RSK-008 | Dual documentation structures fork truth | Low | High | Ban architect/builder/.project-launcher for new project | Architect | MITIGATED |
 | RSK-009 | Local Docker/WSL unavailable on builder workstation | High | Low | Remote Supabase validation substitute; FU-002-06 **CLOSED** as env note | Architect | **ACCEPTED** (env note) |
 | RSK-010 | Remote-only validation diverges from future local stacks | Medium | Medium | Forward-only migrations; re-run local when Docker/WSL available | Architect | OPEN |
+| RSK-018 | No sample PDFs / manifests → non-evidence “accuracy” | High | High | DS-004 complete (8 human_verified + 26/26 pairs locally); keep private path ignored | Architect | **MITIGATED** |
+| RSK-019 | Scanned/image PDFs increase AI cost/error rates | Medium | High | SPL-006-003; multimodal Gemini; measure vs manifests | Architect | OPEN |
+| RSK-020 | First Supabase Storage bucket misconfigured (public leak) | Medium | Critical | Private bucket; RLS/signed URLs; security review at Apply | Architect | OPEN |
+| RSK-021 | Scope creep merging routes/export into PACK-006 | Medium | High | Hard phase split 006/007/008; manual reorder ≠ route optimization | Architect | MITIGATING |
+| RSK-022 | Sending real customer PDFs to Gemini/xAI without approval | High | Critical | DS-005; anonymized-only until resolved; server-only keys | Architect | OPEN |
+| RSK-023 | Unbounded AI cost / quota exhaustion / dual-provider spend | Medium | High | Config limits; no default dual-call; usage logging; budget ceiling | Architect | OPEN |
+| RSK-024 | AI hallucination trusted as operational data | High | High | Field-level confirm; no auto-confirm; server Weiter gate; snapshot immutable | Architect | MITIGATING |
+| RSK-025 | Client-only Weiter / color-only “confirmed” bypasses review | Medium | High | Persist review_status; server 409 ORDER_REVIEW_INCOMPLETE; icon+label required | Architect | MITIGATING |
+| RSK-026 | Stop reorder bypasses revoke/audit or overwrites AI snapshot | Medium | High | FR-006-39…42; AC-006-42…47; audit `stops_reordered`; snapshot immutable | Architect | MITIGATING |
+| RSK-027 | Incomplete GC/other addresses invented during extract/review | Medium | High | FR-006-44; AC-006-48; extract only PDF-shown values; street may stay null | Architect | MITIGATING |
+| RSK-028 | Concurrent reviewers cause lost updates or stale Weiter bypass | High | High | ADR-009 §21 CAS; ORDER_VERSION_CONFLICT; TX completion | Architect | MITIGATING |
+| RSK-029 | Index-based field paths / FKs break on stop reorder | High | High | Immutable stop_id; entity_type+entity_id+field_name | Architect | MITIGATING |
+| RSK-030 | Operational sample values committed to tracked docs | Medium | High | H4 redaction; references/private gitignored; ASM-022 | Architect | MITIGATING |
 
 ## RSK-012 detail (PACK-002 accepted follow-ups — historical OPEN → PACK-005 closure)
 

@@ -1,39 +1,19 @@
 # Architect Briefing
 
-> Updated 2026-08-03 — PACK-005 formally accepted with follow-ups
+> Updated 2026-08-04 — ADR-009 ACCEPTED; non-provider Dry-Run complete
 
-## Where things stand
+## PACK-006
 
-| Pack | Status | Checkpoint |
-|---|---|---|
-| PACK-001 | ACCEPTED | `20f2698` |
-| PACK-002 | ACCEPTED_WITH_FOLLOW_UPS | `21ab8aa` |
-| PACK-003 | ACCEPTED_WITH_FOLLOW_UPS | `a68d8f9` |
-| PACK-004 | **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** | `dbe59da` |
-| PACK-005 | **PACK_005_ACCEPTED_WITH_FOLLOW_UPS** | see `git log -1` after checkpoint |
+| Item | Status |
+|---|---|
+| ADR-009 | **ACCEPTED (design binding)** — 2026-08-04 · I. Dimitrov |
+| Architect Re-Review | **PASS** |
+| Non-provider Builder Dry-Run | **COMPLETE** (`BUILDER-DRY-RUN.md`) |
+| DS-004 sample evidence | **COMPLETE** |
+| DS-005 external AI approval | **OPEN** |
+| Builder Apply | **NOT AUTHORIZED** |
+| Live-provider integration | **Blocked by DS-005** |
 
-- Pack type: **evidence-closure** (not product features)
-- Evidence: `EVIDENCE-RUN-RESULTS.json` — 36 PASS / 1 PARTIAL (C14) / 0 FAIL
-- Review: `ARCHITECT-REVIEW.md` → **ACCEPT_WITH_FOLLOW_UPS**
-- Acceptance: `ACCEPTANCE-RECORD.md`
-- Production-readiness: **locked MVP is production-ready with documented residuals**
+Do not call Gemini/xAI/Maps routing. Do not commit private samples. Do not start Apply without explicit authorization.
 
-### Closed follow-ups
-
-FU-002-01…04, FU-002-06, FU-003-03, OQ-004-04 **CLOSED** / satisfied.
-FU-002-05 **CLOSED_WITH_RESIDUAL**. FU-003-02 **CLOSED_WITH_RESIDUAL**. FU-003-01 remains **CLOSED**.
-
-### Documented residuals
-
-A. `correctAssignment` `FOR UPDATE` gap · B. C14 unit-only transport evidence · C. local Docker/Supabase unavailable · D. retained non-prod Auth test identities
-
-## Do not
-
-- Auto-start Frotcom, reports dashboard, or exports
-- Invent PACK-006 without separate authorization
-- Paste secrets into chat or tracked files
-- Claim local database evidence
-
-## Next
-
-No automatic next pack. Frotcom remains **blocked by DS-001** until a separately authorized future pack.
+See `sprints/sprint-006/BUILDER-DRY-RUN.md`.

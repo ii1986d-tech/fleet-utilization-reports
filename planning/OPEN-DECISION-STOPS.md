@@ -39,3 +39,48 @@
 3. Unknown — treat as incident until confirmed
 
 **Recommendation:** Option 1 or 2 in writing; never paste secrets into the repo.
+
+## DS-004 — Sample transport-order PDFs (blocks PACK-006 PACK_READY / Apply)
+
+**Question:** Which anonymized Bordero/transport-order PDF layouts must the AI extractor support, and what are the expected-field manifests?
+
+**Required samples:**
+
+1. **SPL-006-001** — simple digital PDF; one pickup + one delivery + expected-field manifest  
+2. **SPL-006-002** — multiple pickup/delivery; references and tables + manifest  
+3. **SPL-006-003** — different layout; multi-page or scanned if used in ops + manifest  
+
+**Status: RESOLVED / COMPLETE (2026-08-04 final evidence check)**
+
+Local ignored path `references/private/pack-006/` now holds **26 PDFs + 26 expected manifests** (perfect pairing). **8** manifests are `human_verified` including the three required profiles (SPL-006-001/002/003) plus SPL-006-004/007/013/017/020. **18** remain intentional `template_empty` scaffolds (not fabricated). Path remains gitignored; samples are not tracked.
+
+**Residual (non-blocking for DS-004):** additional empty templates may be filled later for broader coverage; content-duplicate PDFs SPL-006-010 ≡ SPL-006-011 documented via SHA-256 / `rename-map.csv`.
+
+**Related:** SPL-006-*; RSK-018 mitigated; ADR-009 **ACCEPTED**; non-provider Dry-Run complete; DS-005 still open; `sprints/sprint-006/BUILDER-DRY-RUN.md`.
+
+## DS-005 — External AI processing of transport-order PDFs (blocks real-customer provider use)
+
+**Question:** May transport-order PDFs be sent to Gemini and/or xAI, under which terms?
+
+**Must approve:**
+
+- Whether **real customer PDFs** may be sent to Gemini  
+- Whether **real customer PDFs** may be sent to xAI  
+- Free-tier vs paid/approved processing  
+- Data-processing terms / DPA as applicable  
+- Retention/deletion behavior (remote provider files)  
+- Provider region, where relevant  
+- Company/legal approval  
+- Whether documents must be anonymized before send  
+
+**Options:**
+
+1. Anonymized/synthetic only until legal sign-off; then paid/approved mode for real docs (recommended default until resolved)  
+2. Approve named provider(s) for real customer PDFs with documented terms + deletion SLA  
+3. Forbid external AI entirely (forces strategy rewrite — out of current ADR-009)
+
+**Recommendation:** Option 1 until written approval. Until resolved: **no real customer document** may be sent to Gemini or xAI during development. Free-tier limited to anonymized/synthetic samples.
+
+**Impact:** Unapproved external processing creates legal/privacy exposure (RSK-022).
+
+**Related:** ADR-009; ASM-016; RSK-022; OQ-006-10.

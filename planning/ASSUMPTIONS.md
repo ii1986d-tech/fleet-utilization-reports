@@ -16,3 +16,13 @@
 | ASM-010 | Canonical SoT = v4.4.1 ZIP-export paths only | User freigabe | Dual-structure drift | Architect | ACCEPTED |
 | ASM-011 | PACK-003 limits: 5 MiB / 2000 rows / exactly one non-empty worksheet | ADR-007 D3/D4 dry-run correction | N/A — locked | Architect | **RESOLVED** (PACK-003) |
 | ASM-012 | Driver/customer import match = trimmed case-insensitive `full_name` / `name` | ADR-007 | Remap UX or employee_number later | Architect | ACCEPTED |
+| ASM-013 | Transport-order PDFs include DE/ES/EN layouts; field catalog informed by 8 human_verified samples (values private) | PACK-006 DS-004 + remediation | Field mapping rewrite if new layouts appear | Architect | ACCEPTED (samples exist) |
+| ASM-014 | Original PDF retained for audit; **retention duration** still legal-open; private Storage + delete/expire audit bind regardless | ADR-009 §24 / OQ-006-03/08 | Duration decision required before production retention SLA | Architect | OPEN (duration) / ACCEPTED (security behavior) |
+| ASM-015 | PACK-006 may generate static Maps link + store km; routing/optimization deferred to PACK-007; export to PACK-008 | ADR-009 §25 | Scope merge risk if ignored | Architect | ACCEPTED |
+| ASM-016 | External multimodal AI (Gemini primary, xAI optional) is the extraction strategy; APIs are not assumed free; real customer PDFs require DS-005 | AI architecture update 2026-08-04 | Strategy rewrite if legal forbids external AI | Architect | ACCEPTED (strategy) / OPEN (legal) |
+| ASM-017 | Free-tier / unpaid provider use is limited to anonymized or synthetic samples | DS-005 / ADR-009 | Cost or compliance breach if real docs sent | Architect | ACCEPTED |
+| ASM-018 | AI field values are never operational until explicit admin/manager field confirmation; no auto-confirm | Field-confirmation update 2026-08-04 | Wrong operational data / skipped review | Architect | ACCEPTED |
+| ASM-019 | “Dispatcher” means manager or admin acting in dispatch capacity; no separate Auth role without new ADR | OQ-006-01 RESOLVED | Role sprawl / RLS redesign | Architect | ACCEPTED |
+| ASM-020 | Working-order mutations use integer aggregate version CAS; stale → ORDER_VERSION_CONFLICT | ADR-009 §21 remediation | Lost updates / bypassed Weiter | Architect | ACCEPTED |
+| ASM-021 | Operational stop identity is immutable stop_id; sequence is ordering metadata only | ADR-009 §13a remediation | Broken FKs/provenance after reorder | Architect | ACCEPTED |
+| ASM-022 | Tracked documentation must not contain operational sample values; private path only | H4 privacy decision | Privacy leak in git | Architect | ACCEPTED |

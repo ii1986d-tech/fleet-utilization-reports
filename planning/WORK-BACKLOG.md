@@ -1,6 +1,6 @@
 # Work Backlog
 
-> Updated 2026-08-03 — PACK-005 formally accepted with follow-ups
+> Updated 2026-08-04 — ADR-009 ACCEPTED; PACK-006 non-provider Dry-Run complete
 
 | ID | Requirement | Priority | Score | Title | Owner | Status | Definition of Done | Evidence |
 |---|---|---|---:|---|---|---|---|---|
@@ -26,7 +26,15 @@
 
 | TASK-009 | REQ-UI | Must | 76 | Utilization overview + vehicle detail on mocks | Builder | **Deferred** (OQ-004-01 RESOLVED ACCEPT DEFAULT) | Filters + status engine + quality badges | Later pack (not PACK-005) |
 | TASK-010 | REQ-SYNC | Must | 70 | Live Frotcom + n8n daily workflow | Builder | **Blocked** (DS-001) | DS-001 cleared; sync_runs evidence | **Future pack after DS-001 — not PACK-005** |
-| TASK-011 | REQ-EXPORT | Must | 68 | Server-side Excel + PDF exports | Builder | Planned | Filter-respecting exports | Future pack (not PACK-005) |
+| TASK-011 | REQ-EXPORT | Must | 68 | Server-side Excel + PDF exports | Builder | Planned → **PACK-008** for transport-order/calc export; utilization filter exports TBD | Export formats PDF+Excel; roles admin/manager/viewer | PACK-008 (after 006/007) |
+| TASK-023 | REQ-PDF-ORDER | Must | 77 | Architect pack for PDF transport-order extraction (incl. AI update) | Architect | **Done (Architect)** | Sprint-006 + ADR-009 AI provider strategy | `sprints/sprint-006/*`; ADR-009 |
+| TASK-024 | REQ-PDF-ORDER | Must | 76 | Supply SPL-006-001…003 + expected-field manifests under references/private/pack-006/ | Human/Architect | **Done (local ignored)** | 26/26 pairs; 8 human_verified; DS-004 complete | DRY-RUN-READINESS.md |
+| TASK-030 | REQ-PDF-ORDER | Must | 75 | Architect Re-Review remediated ADR-009 | Architect | **Done** | ADR ACCEPTED (design); ARCHITECT_REVIEW_PASS | ARCHITECT-REVIEW.md |
+| TASK-028 | REQ-PDF-ORDER | Must | 76 | Resolve DS-005 external AI data-processing approval | Human/Legal/Architect | **Blocked** (DS-005) | Written approval for Gemini/xAI real vs anonymized | OPEN-DECISION-STOPS |
+| TASK-025 | REQ-PDF-ORDER | Must | 75 | PACK-006 Apply: AI extract + field confirm + Weiter gate | Builder | **Blocked** (Apply auth; live AI also DS-005) | AC-006-01…78; INC-01…11 in BUILDER-DRY-RUN.md | Future Apply |
+| TASK-029 | REQ-PDF-ORDER | Must | 74 | Architect: field-confirmation workflow docs | Architect | **Done** | Review states, roles, gate, audit, AC cases | sprint-006 + ADR-009 |
+| TASK-026 | REQ-ROUTE-KM | Must | 74 | PACK-007: predefined routes + Maps handling + km comparison | Builder | Planned | Corridor choice; route vs direct vs paid deltas | After PACK-006 |
+| TASK-027 | REQ-EXPORT-ORDERS | Must | 73 | PACK-008: export extracted+calculated order data | Builder | Planned | PDF + Excel; admin/manager/viewer | After PACK-007 |
 
 Notes:
 
@@ -34,5 +42,5 @@ Notes:
 - FU-003-01 remains **CLOSED**; do not reopen without regression evidence.
 - OQ-004-04 concurrent import CAS: **CLOSED / SATISFIED** (BEST-EFFORT).
 - Residuals remain visible: FOR UPDATE gap; C14 unit-only; local Docker unavailable; retained Auth test identities.
-- Frotcom remains DS-001-blocked and is **not** auto-assigned to a next pack.
-- No PACK-006 invented by this acceptance.
+- Frotcom remains DS-001-blocked and is **not** auto-assigned to PACK-006…008.
+- PACK-006 2026-08-04: ADR-009 **ACCEPTED**; non-provider Dry-Run **complete**; Apply not authorized; DS-005 open; private path gitignored.

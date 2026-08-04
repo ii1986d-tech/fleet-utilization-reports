@@ -5,10 +5,10 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-08-03T11:00:00.000Z",
+    "updatedAt": "2026-08-04T07:40:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
-  "status": "ACCEPTED",
+  "status": "ARCHITECT_READY",
   "statusHistory": [
     {
       "status": "DRAFT",
@@ -220,6 +220,41 @@
       "status": "ACCEPTED",
       "at": "2026-08-03T11:00:00.000Z",
       "note": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; evidence closure; checkpoint test: complete PACK-005 evidence closure; FU-002/FU-003 closed with residuals on FU-002-05 and FU-003-02; locked MVP production-ready with documented residuals; no Frotcom"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-08-04T06:30:00.000Z",
+      "note": "PACK_006_ARCHITECT_REQUIRES_SAMPLE_PDFS; post-MVP v1.0.0 feature phase; PDF transport-order extract/review docs only; ADR-009 DRAFT; DS-004 sample gate; no Apply; no migrations; no PDF libraries; PACK-007/008 planned"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-08-04T07:10:00.000Z",
+      "note": "PACK_006_AI_ARCHITECTURE_UPDATED_REQUIRES_SAMPLES; ADR-009 DRAFT multimodal AI; Gemini primary; xAI optional; provider-neutral interface; DS-004+DS-005 gates; no Apply; no SDKs; no API keys; no provider requests"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-08-04T07:20:00.000Z",
+      "note": "PACK_006_FIELD_CONFIRMATION_WORKFLOW_UPDATED; field review_status DB SoT; admin+manager confirm; viewer RO; no dispatcher role; Weiter 409 ORDER_REVIEW_INCOMPLETE; DS-004+DS-005 still block Apply; no code"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-08-04T07:40:00.000Z",
+      "note": "PACK_006_SAMPLE_ANALYSIS_BLOCKED; references/private/pack-006 missing; 0 PDF/manifest; Dry-Run not authorized; references/private gitignored; no provider calls"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-08-04T14:00:00.000Z",
+      "note": "PACK_006_DS004_COMPLETE; 26 PDF+26 manifests local ignored; 8 human_verified; ADR-009 DRAFT ready for Architect Review; DS-005 still OPEN; design Dry-Run ready after review; no live provider calls; no Apply"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-08-04T14:30:00.000Z",
+      "note": "PACK_006_ARCHITECTURE_REMEDIATION; C1/C2/H1-H4 closed in docs; ADR-009 DRAFT pending Architect Re-Review; H4 redacted; DS-005 OPEN; no code/migrations; no live provider; no stage/commit"
+    },
+    {
+      "status": "ARCHITECT_READY",
+      "at": "2026-08-04T15:06:00.000Z",
+      "note": "PACK_006_ADR_ACCEPTED_DRY_RUN; ADR-009 ACCEPTED by I. Dimitrov 2026-08-04; ARCHITECT_REVIEW_PASS; non-provider BUILDER-DRY-RUN complete; Apply NOT authorized; DS-005 OPEN; no product code/migrations; no live provider; no stage/commit"
     }
   ],
   "intake": {
@@ -503,22 +538,92 @@
       "status": "Planned",
       "dod": "No live calls",
       "evidence": ""
+    },
+    {
+      "id": "TASK-023",
+      "requirementId": "REQ-PDF-ORDER",
+      "priority": "Must",
+      "title": "Architect pack PACK-006 PDF AI extraction (Gemini/xAI)",
+      "owner": "Architect",
+      "status": "Done",
+      "dod": "Sprint-006 + ADR-009 AI strategy; DS-004/005 gates",
+      "evidence": "sprints/sprint-006/*; ADR-009"
+    },
+    {
+      "id": "TASK-024",
+      "requirementId": "REQ-PDF-ORDER",
+      "priority": "Must",
+      "title": "Sample PDFs SPL-006-001..003 + expected-field manifests",
+      "owner": "Human/Architect",
+      "status": "Done",
+      "dod": "Three samples + ground-truth manifests",
+      "evidence": "DS-004 COMPLETE; 8 human_verified under references/private/pack-006 (gitignored)"
+    },
+    {
+      "id": "TASK-028",
+      "requirementId": "REQ-PDF-ORDER",
+      "priority": "Must",
+      "title": "DS-005 external AI data-processing approval",
+      "owner": "Human/Legal/Architect",
+      "status": "Blocked",
+      "dod": "Written Gemini/xAI processing rules",
+      "evidence": "DS-005"
+    },
+    {
+      "id": "TASK-025",
+      "requirementId": "REQ-PDF-ORDER",
+      "priority": "Must",
+      "title": "PACK-006 Apply AI extract + field confirm + Weiter gate",
+      "owner": "Builder",
+      "status": "Blocked",
+      "dod": "AC-006-01..78 after Apply auth; live AI also needs DS-005 (INC-01..11)",
+      "evidence": "ADR-009 ACCEPTED; BUILDER-DRY-RUN.md; blocked on Apply auth (+ DS-005 for live)"
+    },
+    {
+      "id": "TASK-029",
+      "requirementId": "REQ-PDF-ORDER",
+      "priority": "Must",
+      "title": "Architect field-confirmation workflow docs",
+      "owner": "Architect",
+      "status": "Done",
+      "dod": "Review states, roles, gate, audit, AC cases, manual stop reorder (FR-006-39..44)",
+      "evidence": "sprint-006; ADR-009 §13a"
+    },
+    {
+      "id": "TASK-026",
+      "requirementId": "REQ-ROUTE-KM",
+      "priority": "Must",
+      "title": "PACK-007 routes + km comparison",
+      "owner": "Builder",
+      "status": "Planned",
+      "dod": "Corridors + deltas vs paid/direct; shortest-route suggestions; NOT in PACK-006",
+      "evidence": ""
+    },
+    {
+      "id": "TASK-027",
+      "requirementId": "REQ-EXPORT-ORDERS",
+      "priority": "Must",
+      "title": "PACK-008 PDF/Excel order export",
+      "owner": "Builder",
+      "status": "Planned",
+      "dod": "admin/manager/viewer export",
+      "evidence": ""
     }
   ],
   "quality": {
     "evidence": {
       "discovery": "DISCOVERY-REPORT.md Phase 0",
       "business": "BUSINESS-VALIDATION CONDITIONAL",
-      "dataModel": "data/DATA-MODEL.md",
-      "architecture": "ADR-001..008 (ADR-008 implemented; PACK-004 accepted with follow-ups)",
+      "dataModel": "data/DATA-MODEL.md (+ PACK-006 proposed transport-order entities)",
+      "architecture": "ADR-001..009 accepted (design); DS-004 COMPLETE; DS-005 OPEN",
       "governance": "PROFILE Professional",
-      "build": "PACK-005 evidence tooling + docs; product checkpoint baseline dbe59da unchanged for app/migrations",
-      "dryRun": "PACK-004 READY_WITH_REQUIRED_CORRECTIONS (complete)",
-      "approval": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS",
+      "build": "MVP v1.0.0; PACK-006 Dry-Run complete — Apply not authorized",
+      "dryRun": "PACK-006 non-provider Dry-Run COMPLETE; live-provider blocked on DS-005",
+      "approval": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; PACK-006 ADR_ACCEPTED_DRY_RUN; Apply pending; DS-005 open",
       "validation": "63/63 unit; lint/build PASS; live JWT PASS; confirm DB PASS (C14 unit residual); orphan PASS; CAS BEST-EFFORT PASS",
-      "review": "ACCEPT_WITH_FOLLOW_UPS; ARCHITECT-REVIEW COMPLETE",
+      "review": "ACCEPT_WITH_FOLLOW_UPS; ARCHITECT-REVIEW COMPLETE (PACK-005)",
       "accepted": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; ACCEPTANCE-RECORD.md; locked MVP production-ready with documented residuals",
-      "release": "",
+      "release": "v1.0.0",
       "production": "",
       "operations": ""
     },
@@ -544,7 +649,16 @@
       "Local Docker daemon / local Supabase unavailable (RSK-009 accepted env note)",
       "PACK-005 Auth test identities retained in non-prod (credentials untracked)",
       "DS-001 Frotcom contract unverified (future pack; not PACK-005)",
-      "TASK-009 reports UI deferred; TASK-011 exports deferred"
+      "TASK-009 reports UI deferred; TASK-011/PACK-008 exports planned after PACK-006/007",
+      "DS-004 / PACK-006: COMPLETE — 26/26 pairs; 8 human_verified (RSK-018 mitigated)",
+      "DS-005 / PACK-006: external AI (Gemini/xAI) data-processing approval required (RSK-022) — still OPEN",
+      "PACK-006: AI cost/quota controls mandatory; free APIs not assumed (RSK-023)",
+      "PACK-006: field confirmation required before Weiter; server 409 ORDER_REVIEW_INCOMPLETE (RSK-025)",
+      "PACK-006: manual stop reorder (drag + keyboard) invalidates sequence confirmation; audit stops_reordered; snapshot immutable (RSK-026)",
+      "PACK-006: incomplete GC/other streets must remain null / not invented (RSK-027; AC-006-48)",
+      "PACK-006: ADR-009 ACCEPTED 2026-08-04 (I. Dimitrov); non-provider Dry-Run complete; Apply not authorized; live provider blocked on DS-005",
+      "PACK-006: aggregate CAS ORDER_VERSION_CONFLICT; stable stop_id; partial loads/legs; OQ-006-11 closed (RSK-028/029)",
+      "PACK-006: tracked human-review notes redacted; operational values only under references/private (RSK-030)"
     ]
   },
   "knowledge": {

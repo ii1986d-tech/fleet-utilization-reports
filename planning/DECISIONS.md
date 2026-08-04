@@ -44,7 +44,9 @@ Mirror of `architecture/DECISION-REGISTER.md`.
 - PACK-003: **PACK_003_ACCEPTED_WITH_FOLLOW_UPS** (`a68d8f9`) — FU-003-01 closed in PACK-004; FU-003-02/03 closed at PACK-005 (02 with C14 residual)
 - PACK-004: **PACK_004_ACCEPTED_WITH_FOLLOW_UPS** (`dbe59da`); transport §9 accepted; FU-003-01 closed
 - PACK-005: **PACK_005_ACCEPTED_WITH_FOLLOW_UPS** — Evidence Closure only (JWT RLS + Import Persistence Proof); **not** Frotcom; locked MVP production-ready with documented residuals
-- Frotcom + n8n (TASK-010): blocked by DS-001 — future pack after DS-001 (**not PACK-005**; not auto-assigned)
+- PACK-006: **ADR_ACCEPTED_DRY_RUN** (2026-08-04) — ADR-009 ACCEPTED by I. Dimitrov; non-provider Dry-Run complete; Apply not authorized; DS-005 still open
+- PACK-007 / PACK-008: **PLANNED** (routes/km; export)
+- Frotcom + n8n (TASK-010): blocked by DS-001 — future pack after DS-001 (**not PACK-006…008**; not auto-assigned)
 - Reports UI (TASK-009): deferred — OQ-004-01 **RESOLVED ACCEPT DEFAULT**
 
 ## ADR-007 — Excel assignment import policy
@@ -58,4 +60,15 @@ Mirror of `architecture/DECISION-REGISTER.md`.
 - Selected: **`persist_assignment_import_row`; auth.uid(); persistence_errors; vocab valid|invalid + pending|persisted|skipped|failed; CAS search_path; formula-safe exceljs report**
 - Status: **ACCEPTED (design)**; Apply reviewed **ACCEPT_WITH_FOLLOW_UPS** — migration `20260730170000`
 - OQs: 01 ACCEPT DEFAULT · 02 DATABASE RPC · 03 DOCUMENT CURRENT · 04 **CLOSED / SATISFIED** (PACK-005 BEST-EFFORT evidence)
-- Mandatory correction (PACK-004): confirm transport-failure pending/finalize inconsistency — **accepted**; C14 remote inject residual accepted at PACK-005
+
+## ADR-009 — PDF transport-order extraction via multimodal AI APIs
+
+- Selected (proposed): **Provider-neutral AI; Gemini primary; xAI optional; field-level persisted review states; explicit admin/manager confirm; Weiter 409 ORDER_REVIEW_INCOMPLETE; no dispatcher role; aggregate CAS; stable stop_id; partial loads/legs**
+- Status: **ACCEPTED (design binding)** — 2026-08-04 · Accepted by **I. Dimitrov** · Re-Review **PASS**; **DS-004 COMPLETE**; **DS-005 OPEN**; Apply not authorized
+- OQ-006-01: **RESOLVED** (admin + manager; viewer RO; reorder)
+- OQ-006-11: **RESOLVED** — review-resolution catalog + structural minimum (ADR-009 §12)
+- Remediation (2026-08-04): CAS `ORDER_VERSION_CONFLICT`; transactional confirm; idempotency; stable `stop_id`; partial loads/legs; full audit catalog; explicit Save; static Maps link only; file security; H4 redaction of tracked review notes
+- Manual stop reordering: drag-and-drop **and** keyboard; sequence mutable only; audit old/new ordered `stop_id` arrays; snapshot immutable
+- Phase split: PACK-006 extract/field-confirm/**manual stop reorder** · PACK-007 routes/km/shortest-route suggestions · PACK-008 export
+- Formal pack status: **PACK_006_ADR_ACCEPTED_DRY_RUN** — ADR-009 ACCEPTED; non-provider Dry-Run authorized; Apply not authorized; `BUILDER-DRY-RUN.md`
+- Sample evidence: 8 human_verified manifests under ignored private path; live provider eval blocked on DS-005

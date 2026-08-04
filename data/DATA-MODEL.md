@@ -62,6 +62,28 @@ PACK-003 (ADR-007 corrected): mandatory protocol columns + `import_job_rows` at 
 
 `minimum_target_driving_seconds` (default 9h), `warning_target_driving_seconds` (default 7h), `business_timezone`, `report_generation_time`, `updated_by`, `updated_at`
 
+### transport-order domain (PACK-006 design — **no migrations yet**)
+
+Proposed after MVP `v1.0.0`. Separate from Excel `import_jobs` / `import_job_rows`.  
+Extraction via external multimodal AI (ADR-009): Gemini primary; xAI optional; provider-neutral internal schema.  
+Remediation 2026-08-04: aggregate versioning, stable `stop_id`, partial loads, legs, idempotency (see ADR-009 §§12–26).
+
+| Entity | Purpose |
+|---|---|
+| `transport_order_documents` | Uploaded PDF metadata + private Storage path + content hash + upload idempotency key + lifecycle |
+| `transport_order_extraction_runs` | Provider audit: provider/model/prompt/schema versions, hash, status, retries, usage/cost, safe errors, remote file id/deletion, snapshot link, extraction idempotency key |
+| `transport_order_extractions` | Immutable **normalized** snapshot (never mutated by edits/confirms/reorders); preserves original AI-extracted stop order |
+| `transport_orders` | Working header + progression status + Maps URL + km + **`version` / `updated_at` / `updated_by`** (CAS aggregate) + stop-order confirmation state |
+| `transport_order_stops` | `stop_id` (immutable UUID), `order_id`, mutable unique `sequence`, `type`, address/time fields; reorder changes sequence only |
+| `transport_order_partial_load_positions` | `position_id`, `order_id`, optional `position_number`, `pickup_stop_id`, `delivery_stop_id`, refs, optional cargo (null if undocumented; no invented split of aggregates) |
+| `transport_order_legs` | `leg_id`, `order_id`, `origin_stop_id`, `destination_stop_id`, `sequence`, refs, optional distance (no auto route calc in PACK-006) |
+| `transport_order_field_reviews` | Per-field SoT keyed by **`entity_type` + `entity_id` + `field_name`** (not array index); extracted/current values, confidence, controlled source page/snippet, provider/model, `extraction_run_id`, **`review_status`**, edited_*/confirmed_* |
+| `transport_order_field_review_events` | Append-only audit (full action catalog in ADR-009 §15); reorder payload = old/new ordered `stop_id` arrays + sequences; version before/after |
+
+**`review_status` enum (binding):** `pending_review` \| `edited_pending_review` \| `confirmed` \| `missing_confirmed` \| `not_applicable` \| `conflict` \| `extraction_failed`
+
+Rules (design): AI suggestions only; UI color not SoT; explicit Save + CAS (`expected_version`); stale write → 409 `ORDER_VERSION_CONFLICT`; Weiter TX checks version + review catalog + structural minimum → 409 `ORDER_REVIEW_INCOMPLETE`; transactional confirm (no partial persist); idempotent upload/extract/completion; edit of confirmed field revokes confirmation; stops/partial-loads/legs associate by `stop_id`; admin/manager reorder (viewer RO) invalidates stop-order confirmation; incomplete addresses stay incomplete; private Storage; no PDF body in logs; no provider credentials in DB; no automatic route optimization in PACK-006; PACK-007/008 consume only after progression gate. **DS-004 complete**; live provider Apply still blocked on **DS-005**.
+
 ## Indexes / integrity (Phase 1)
 
 - FKs on all `*_id` references
