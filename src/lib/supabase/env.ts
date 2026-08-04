@@ -1,5 +1,19 @@
 function requiredPublicEnv(name: "NEXT_PUBLIC_SUPABASE_URL" | "NEXT_PUBLIC_SUPABASE_ANON_KEY"): string {
-  const value = process.env[name];
+  // Next.js inlines NEXT_PUBLIC_* only for static property access in the client bundle.
+  // Dynamic process.env[name] stays undefined in the browser.
+  let value: string | undefined;
+  switch (name) {
+    case "NEXT_PUBLIC_SUPABASE_URL":
+      value = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      break;
+    case "NEXT_PUBLIC_SUPABASE_ANON_KEY":
+      value = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      break;
+    default: {
+      const _exhaustive: never = name;
+      throw new Error(`Unhandled public env: ${_exhaustive}`);
+    }
+  }
   if (!value) {
     throw new Error(
       `Missing ${name}. Copy .env.example to .env.local and set placeholders for local development.`,
