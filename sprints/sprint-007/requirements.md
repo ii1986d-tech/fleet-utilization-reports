@@ -1,22 +1,21 @@
 # PACK-007 — Requirements (draft)
 
 > Status: **ARCHITECT_PREPARATION**  
-> IDs are provisional until Architect review.
+> IDs provisional until Architect review.
 
-## Functional requirements (initial)
+## Functional requirements
 
 | ID | Requirement |
 |---|---|
-| FR-007-01 | System shall allow admin to define **4–5 predefined route corridors** (name, ordered waypoints or OD endpoints, active flag). |
-| FR-007-02 | For a reviewed transport order, system shall attempt to **match** the order’s stops to a corridor (rule TBD: auto and/or manual select). |
-| FR-007-03 | System shall obtain **calculated km** for the matched corridor path via Maps API (or cache). |
-| FR-007-04 | System shall compute or obtain **direct km** between primary pickup and delivery (definition TBD). |
-| FR-007-05 | UI shall display **PDF paid km**, **calculated km**, and **direct km**, plus signed **deltas** (paid − calculated, paid − direct, calculated − direct). |
-| FR-007-06 | Viewer may **read** km comparison; only admin/manager may refresh/recompute or change corridor selection. |
-| FR-007-07 | Standard corridor results shall be **cacheable** to limit Maps API cost; cache miss triggers one bounded API call. |
-| FR-007-08 | Failures (Maps quota, no match) shall surface safe errors; no silent overwrite of paid km. |
+| FR-007-01 | Define route corridors (origin, destination, waypoints). |
+| FR-007-02 | Match reviewed order to a corridor. |
+| FR-007-03 | Call Maps API for route distance (or serve from cache). |
+| FR-007-04 | Calculate KM delta (paid vs real/calculated vs direct). |
+| FR-007-05 | Display KM comparison in UI. |
+| FR-007-06 | Cache standard corridor distances. |
+| FR-007-07 | Handle Maps API errors gracefully (no silent overwrite of paid km; static Maps link fallback where appropriate). |
 
 ## Non-goals (draft)
 
-- Automatic fleet routing / live traffic optimization.
-- Replacing Frotcom odometer truth (future DS-001).
+- Full route optimization / live traffic routing.
+- Replacing Frotcom odometer truth (DS-001).

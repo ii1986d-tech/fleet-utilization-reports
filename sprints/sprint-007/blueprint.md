@@ -1,37 +1,39 @@
 # PACK-007 — Blueprint (draft)
 
-> Status: **ARCHITECT_PREPARATION**  
-> Not an Apply pack. No product code until Dry-Run / approval.
+> Status: **ARCHITECT_PREPARATION**
 
 ## High-level data flow
 
 ```
-Reviewed Working Order (PACK-006)
+Reviewed Order (PACK-006)
         │
         ▼
-Corridor matching (4–5 predefined corridors)
+Corridor matching
         │
-        ├─► Cache lookup (corridor / OD key)
+        ├─► Cache lookup (standard corridor / OD key)
         │         │ miss
         ▼         ▼
    Maps API call (Directions / Distance Matrix)
         │
+        ├─► on failure: safe error + keep paid km; optional static Maps link fallback
         ▼
-KM values: paid (from order) · calculated (corridor/Maps) · direct
+KM delta calculation (paid vs real/calculated vs direct)
         │
         ▼
-KM delta presentation (+ optional persist on order)
+UI display (+ optional persist)
 ```
 
-## Caching strategy (cost control)
+## Caching
 
-- Cache standard corridor legs and frequent origin–destination pairs server-side.
-- Prefer cache hit before any Maps API call.
-- TTL / invalidation TBD in Architect (corridor definition change must invalidate).
-- Never log full Maps request/response bodies with addresses beyond safe correlation IDs.
+- Cache standard corridor distances server-side before any Maps call.
+- Invalidate when corridor definitions change (TBD with OQ-007-04).
+- Goal: reduce Maps API cost under OQ-007-05 ceiling.
 
-## Dependencies
+## Error handling
 
-- PACK-006 confirmed stops + paid kilometers on working order.
-- Server-only Maps API key (never `NEXT_PUBLIC_*`).
-- DS-005 already covers AI; Maps is a separate vendor/terms decision if required.
+- Maps quota / network / invalid geocode → controlled failure; no silent overwrite of paid km.
+- If Directions unavailable: fall back to existing **static Maps link** (PACK-006) for navigation context only (not a substitute distance unless Architect decides otherwise).
+
+## Secrets
+
+- Maps API key: server-only; never `NEXT_PUBLIC_*`.
