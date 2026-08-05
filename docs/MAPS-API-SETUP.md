@@ -60,7 +60,7 @@ Default `MAPS_API_ENABLED=false` until keys, billing, and cost monitoring are re
 |---|---|---|
 | Part 1 | Client + caching + cost tracking | **IMPLEMENTED** |
 | Part 2 | KM delta + manual override | **IMPLEMENTED** |
-| Part 3 | UI + corridor selection | **PENDING** |
+| Part 3 | UI + corridor selection | **IMPLEMENTED** |
 
 - API key: **NOT YET CONFIGURED** (user will add later in local/server secrets).
 - Module path: `src/lib/maps/` (`client`, `cache`, `cost-tracker`, `route-service`, `km-delta-service`, `haversine`).
@@ -82,3 +82,15 @@ Default `MAPS_API_ENABLED=false` until keys, billing, and cost monitoring are re
 - Effective route URL = `manual_route_url` if set, else auto `route_url`.
 - Admin/manager can set overrides via `PATCH`; viewer can **read** including manuals but cannot edit.
 - Safe audit log code only (`km_manual_override`) — no business payloads in logs.
+
+## 9. UI (Part 3)
+
+| Surface | Path |
+|---|---|
+| Order KM panel | `/settings/orders/[orderId]` — corridor select, Calculate KM, manual overrides |
+| Corridor admin | `/settings/corridors` — list / create / deactivate (admin write) |
+| Corridor API | `GET|POST /api/route-corridors`, `PATCH /api/route-corridors/[id]` |
+| KM API | `POST|GET|PATCH /api/transport-orders/[orderId]/km-delta` (POST accepts `corridorId`) |
+
+- Table: `route_corridors` (migration `20260806020000_pack007_route_corridors.sql`).
+- Viewer: read-only for KM + corridors; admin/manager may calculate and set overrides; corridor CRUD is **admin only**.

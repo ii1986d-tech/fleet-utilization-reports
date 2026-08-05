@@ -6,7 +6,7 @@
 - Release baseline: **v1.0.0** (`a0b96a1`) — PACK-001…005 accepted
 - PACK-006 status: **COMPLETE** (Gemini free-tier pilot SUCCESS 2026-08-05)
 - AI tuning follow-up: **FU-AI-001** (complex multi-stop prompt tuning)
-- PACK-007 status: Part 1 + Part 2 **IMPLEMENTED** (`751c978`, `3d73d76`); Part 3 (UI) pending
+- PACK-007 status: Part 1–3 **IMPLEMENTED** (`751c978`, `3d73d76`, Part 3 UI/corridors)
 - PACK-007 scope: FR-007-08/09/10 (manual Maps link, manual KM, corridors)
 - Maps API: **Google Directions API** · ceiling **$50/month** · cache TTL **7 days**
 - Scaling assessment documented: `docs/SCALING-ASSESSMENT-50-DISPATCHERS.md`
@@ -25,14 +25,14 @@
 |---|---|
 | PACK-001…005 | **COMPLETE** |
 | PACK-006 | **COMPLETE** |
-| PACK-007 | Part 1–2 done; Part 3 (UI) pending |
+| PACK-007 | Part 1–3 **IMPLEMENTED** (UI + corridors) |
 | PACK-008 | **NOT_STARTED** (PDF/Excel export) |
 
 ## Next authorized action
 
-1. PACK-007 Part 3: UI for KM comparison + manual override + corridor selection.
-2. Resolve OQ-007-06 / OQ-007-07 if still open before corridor Apply.
-3. Pilot with 1–5 users; do not scale past Phase 1 without FU-SCALE items.
+1. Pilot with 1–5 users; configure Maps API key when ready (`MAPS_API_ENABLED`).
+2. Do not scale past Phase 1 without FU-SCALE-001…008.
+3. PACK-008 export when authorized.
 4. FU-AI-001 / FU-SEC-001 as scheduled.
 
 ## Evidence pointers

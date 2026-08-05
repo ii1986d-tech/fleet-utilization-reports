@@ -47,7 +47,7 @@ export async function GET(
 }
 
 export async function POST(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ orderId: string }> },
 ) {
   const auth = await requireAdminOrManager();
@@ -59,8 +59,20 @@ export async function POST(
   }
 
   const { orderId } = await context.params;
+  let corridorId: string | null | undefined;
+  try {
+    const text = await request.text();
+    if (text.trim()) {
+      const body = JSON.parse(text) as { corridorId?: string | null };
+      corridorId = body.corridorId;
+    }
+  } catch {
+    return jsonError("VALIDATION_ERROR", "Invalid JSON body.", 400);
+  }
+
   const result = await calculateKmDelta(orderId, {
     orderLoader: getTransportOrderStore(),
+    corridorId: corridorId === undefined ? undefined : corridorId,
   });
   if (isKmDeltaError(result)) {
     return jsonError(result.code, result.message, result.httpStatus);

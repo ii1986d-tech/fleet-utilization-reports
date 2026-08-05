@@ -4,6 +4,11 @@ import {
   type LatLon,
 } from "@/lib/maps/haversine";
 import {
+  createCorridorStore,
+  type CorridorStore,
+} from "@/lib/maps/corridor-store";
+import { isCorridorError } from "@/lib/maps/corridor-types";
+import {
   createKmComparisonStore,
   rowToResult,
   type KmComparisonStore,
@@ -21,6 +26,7 @@ import {
   calculateRoute,
   type CalculateRouteOptions,
 } from "@/lib/maps/route-service";
+import { buildStaticRouteUrl } from "@/lib/maps/static-link";
 import type { RouteResult } from "@/lib/maps/types";
 import type {
   TransportOrderStop,
@@ -47,6 +53,9 @@ export type OrderLoader = {
 export type CalculateKmDeltaOptions = {
   store?: KmComparisonStore;
   orderLoader?: OrderLoader;
+  corridorStore?: CorridorStore;
+  /** Selected corridor; null/undefined = use stops (direct). */
+  corridorId?: string | null;
   calculateRouteImpl?: (
     origin: string,
     destination: string,
@@ -176,6 +185,7 @@ function buildResult(input: {
   directKm: number | null;
   routeUrlAuto: string | null;
   manualRouteUrl: string | null;
+  corridorId: string | null;
   routeSource: RouteResult["source"] | KmDeltaSource;
   errorMessage: string | null;
   noStops: boolean;
@@ -223,6 +233,7 @@ function buildResult(input: {
     routeUrl: effectiveRoute,
     routeUrlAuto: input.routeUrlAuto,
     manualRouteUrl: input.manualRouteUrl,
+    corridorId: input.corridorId,
     errorMessage,
   };
 }
@@ -270,8 +281,41 @@ export async function calculateKmDelta(
   const actualKmManual = existing?.actualKmManual ?? null;
   const manualRouteUrl = existing?.manualRouteUrl ?? null;
 
-  const endpoints = extractOriginDestination(order.stops);
-  if (!endpoints) {
+  const requestedCorridorId =
+    options.corridorId !== undefined
+      ? options.corridorId
+      : (existing?.corridorId ?? null);
+
+  let origin = "";
+  let destination = "";
+  let waypoints: string[] = [];
+  let corridorId: string | null = null;
+  let noStops = false;
+
+  if (requestedCorridorId) {
+    const corridorStore = options.corridorStore ?? createCorridorStore();
+    const corridor = await corridorStore.getById(requestedCorridorId);
+    if (isCorridorError(corridor)) {
+      return kmDeltaError("VALIDATION_ERROR", "Failed to load corridor.");
+    }
+    if (!corridor || !corridor.active) {
+      return kmDeltaError("VALIDATION_ERROR", "Corridor not found or inactive.");
+    }
+    origin = corridor.origin;
+    destination = corridor.destination;
+    waypoints = corridor.waypoints;
+    corridorId = corridor.id;
+  } else {
+    const endpoints = extractOriginDestination(order.stops);
+    if (!endpoints) {
+      noStops = true;
+    } else {
+      origin = endpoints.origin;
+      destination = endpoints.destination;
+    }
+  }
+
+  if (noStops) {
     const result = buildResult({
       orderId,
       paidKmExtracted,
@@ -281,6 +325,7 @@ export async function calculateKmDelta(
       directKm: null,
       routeUrlAuto: null,
       manualRouteUrl,
+      corridorId: null,
       routeSource: "fallback",
       errorMessage: "No stops found",
       noStops: true,
@@ -292,11 +337,11 @@ export async function calculateKmDelta(
   }
 
   const routeImpl = options.calculateRouteImpl ?? calculateRoute;
-  const route = await routeImpl(
-    endpoints.origin,
-    endpoints.destination,
-    options.routeOptions,
-  );
+  const route = await routeImpl(origin, destination, options.routeOptions);
+  const routeUrlAuto =
+    waypoints.length > 0
+      ? buildStaticRouteUrl(origin, destination, waypoints)
+      : route.routeUrl;
   const { actualKmCalculated, mapsUnavailable } = actualFromRoute(route);
   const directKm = calculateDirectKmFromCoords(
     options.originCoords ?? null,
@@ -310,8 +355,9 @@ export async function calculateKmDelta(
     actualKmCalculated,
     actualKmManual,
     directKm,
-    routeUrlAuto: route.routeUrl,
+    routeUrlAuto,
     manualRouteUrl,
+    corridorId,
     routeSource: route.source,
     errorMessage: null,
     noStops: false,
@@ -352,6 +398,10 @@ export async function setManualOverride(
     overrides.manualRouteUrl !== undefined
       ? overrides.manualRouteUrl
       : existing.manualRouteUrl;
+  const corridorId =
+    overrides.corridorId !== undefined
+      ? overrides.corridorId
+      : existing.corridorId;
 
   if (
     paidKmManual !== null &&
@@ -380,6 +430,7 @@ export async function setManualOverride(
     directKm: existing.directKm,
     routeUrlAuto: existing.routeUrl,
     manualRouteUrl: manualRouteUrl ?? null,
+    corridorId: corridorId ?? null,
     routeSource: "manual",
     errorMessage: null,
     noStops: false,

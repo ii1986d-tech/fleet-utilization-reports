@@ -19,6 +19,7 @@ import {
   reviewChipStyle,
 } from "@/lib/transport-orders/review/ui-helpers";
 import type { FieldReview, WorkingTransportOrder } from "@/lib/transport-orders/types";
+import { KmComparisonPanel } from "./km-comparison-panel";
 
 function isError(value: unknown): value is AppError {
   return (
@@ -354,6 +355,8 @@ export default function TransportOrderReviewPage() {
           (no routing API)
         </p>
       ) : null}
+
+      <KmComparisonPanel orderId={order.header.orderId} canReview={canReview} />
 
       <h3>Stops</h3>
       <p>

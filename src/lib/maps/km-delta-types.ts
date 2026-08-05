@@ -18,6 +18,7 @@ export type KmComparisonResult = {
   routeUrl: string | null;
   routeUrlAuto: string | null;
   manualRouteUrl: string | null;
+  corridorId: string | null;
   errorMessage: string | null;
 };
 
@@ -25,6 +26,7 @@ export type ManualOverride = {
   paidKmManual?: number | null;
   actualKmManual?: number | null;
   manualRouteUrl?: string | null;
+  corridorId?: string | null;
 };
 
 export type KmComparisonRow = {
@@ -42,6 +44,7 @@ export type KmComparisonRow = {
   routeUrl: string | null;
   manualRouteUrl: string | null;
   effectiveRouteUrl: string | null;
+  corridorId: string | null;
   errorMessage: string | null;
   createdAt: string;
   updatedAt: string;

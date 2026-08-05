@@ -28,6 +28,7 @@ type DbRow = {
   route_url: string | null;
   manual_route_url: string | null;
   effective_route_url: string | null;
+  corridor_id: string | null;
   error_message: string | null;
   created_at: string;
   updated_at: string;
@@ -55,6 +56,7 @@ function mapRow(row: DbRow): KmComparisonRow {
     routeUrl: row.route_url,
     manualRouteUrl: row.manual_route_url,
     effectiveRouteUrl: row.effective_route_url,
+    corridorId: row.corridor_id ?? null,
     errorMessage: row.error_message,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -78,6 +80,7 @@ export function rowToResult(row: KmComparisonRow): KmComparisonResult {
     routeUrl: row.effectiveRouteUrl ?? row.manualRouteUrl ?? row.routeUrl,
     routeUrlAuto: row.routeUrl,
     manualRouteUrl: row.manualRouteUrl,
+    corridorId: row.corridorId,
     errorMessage: row.errorMessage,
   };
 }
@@ -114,6 +117,7 @@ export class MemoryKmComparisonStore implements KmComparisonStore {
       routeUrl: result.routeUrlAuto,
       manualRouteUrl: result.manualRouteUrl,
       effectiveRouteUrl: result.routeUrl,
+      corridorId: result.corridorId,
       errorMessage: result.errorMessage,
       createdAt: existing?.createdAt ?? now,
       updatedAt: now,
@@ -163,6 +167,7 @@ export class SupabaseKmComparisonStore implements KmComparisonStore {
         route_url: result.routeUrlAuto,
         manual_route_url: result.manualRouteUrl,
         effective_route_url: result.routeUrl,
+        corridor_id: result.corridorId,
         error_message: result.errorMessage,
         updated_at: new Date().toISOString(),
       };
