@@ -1,6 +1,6 @@
 # Work Backlog
 
-> Updated **2026-08-05** — PACK-006 **COMPLETE**; Gemini pilot SUCCESS; focus **PACK-007 Architect Preparation**; FU-AI-001 / FU-SEC open
+> Updated **2026-08-06** — PACK-006 **COMPLETE**; PACK-007 Part 1 done; scope + FR-007-08/09/10; FU-AI-001 / FU-SEC open
 
 | ID | Requirement | Priority | Score | Title | Owner | Status | Definition of Done | Evidence |
 |---|---|---|---:|---|---|---|---|---|
@@ -34,7 +34,10 @@
 | TASK-025 | REQ-PDF-ORDER | Must | 75 | PACK-006 Apply: AI extract + field confirm + Weiter gate | Builder | **DONE** | Mock-path + provider wiring; gates/UAT/smoke PASS; DS-005 APPROVED; ASM-014 SET | CLOSEOUT-AUDIT.md; BUILDER-REPORT.md; `08acb65`…`3bbd605` |
 | TASK-031 | REQ-PDF-ORDER | Must | 75 | PACK-006 manual browser smoke (Settings → Orders) | Human/Builder | **DONE** | Admin/manager/viewer 30/30 PASS · I. Dimitrov · 2026-08-05 | `MANUAL-BROWSER-SMOKE-CHECKLIST.md` |
 | TASK-029 | REQ-PDF-ORDER | Must | 74 | Architect: field-confirmation workflow docs | Architect | **Done** | Review states, roles, gate, audit, AC cases | sprint-006 + ADR-009 |
-| TASK-026 | REQ-ROUTE-KM | Must | 74 | PACK-007: predefined routes + Maps handling + km comparison | Architect→Builder | **Architect Preparation** | Corridor choice; Maps; paid vs calculated vs direct km; cache | `sprints/sprint-007/` |
+| TASK-026 | REQ-ROUTE-KM | Must | 74 | PACK-007: predefined routes + Maps handling + km comparison | Architect→Builder | **In progress** (Part 1 done) | Corridor choice; Maps; paid vs calculated vs direct km; cache; manual overrides | `sprints/sprint-007/` · `751c978` |
+| TASK-034 | REQ-ROUTE-KM / FR-007-08 | Must | 72 | Implement manual Google Maps link input | Builder | **NOT_STARTED** — HIGH | Dispatcher override `manual_route_url`; viewer read-only; audit log; ~0.5 days | Depends on PACK-007 Part 2 (KM delta) |
+| TASK-035 | REQ-ROUTE-KM / FR-007-09 | Must | 72 | Implement manual KM input | Builder | **NOT_STARTED** — HIGH | Manual paid_km / actual_km; source=manual; viewer read-only; audit; ~0.5 days | Depends on PACK-007 Part 2 (KM delta) |
+| TASK-036 | REQ-ROUTE-KM / FR-007-10 | Should | 68 | Implement predefined route corridors (selectable) | Builder | **NOT_STARTED** — MEDIUM | 4–5 corridors; `route_corridors` table; admin CRUD/deactivate; UI select; ~1–2 days | Depends on PACK-007 Part 3 (UI) |
 | TASK-027 | REQ-EXPORT-ORDERS | Must | 73 | PACK-008: export extracted+calculated order data | Builder | Planned | PDF + Excel; admin/manager/viewer | After PACK-007 |
 | FU-AI-001 | REQ-PDF-ORDER / AI | Should | 50 | Gemini prompt tuning for complex multi-stop orders | Architect/Builder | **NOT_STARTED** — MEDIUM | Improve extraction for 2–3 pickup + 2–3 delivery / complex layouts; prompt + optional schema; ~1–2 days | After PACK-007 or more PDF templates; pilot 2026-08-05 |
 | FU-SEC-001 | REQ-SEC / npm audit | Should | 55 | Next.js 15 → 16 major upgrade (postcss + sharp highs) | Engineering | **Open** — MEDIUM; before 50-disponent rollout | Regression suite PACK-001…006 + browser smoke re-test; ~2–3 days | `SECURITY_OPERATIONS_READINESS_REPORT.md` |
@@ -50,4 +53,4 @@ Notes:
 - Frotcom remains DS-001-blocked and is **not** auto-assigned to PACK-006…008.
 - PACK-006 **COMPLETE** 2026-08-05; Gemini free-tier pilot **SUCCESS** (`docs/GEMINI-PILOT-REPORT-2026-08-05.md`); FU-AI-001 for complex multi-stop tuning.
 - npm audit residuals → **FU-SEC-001** / **FU-SEC-002** (non-blocking for PACK-007).
-- PACK-007: **ARCHITECT_PREPARATION** (`sprints/sprint-007/`). PACK-008: **NOT_STARTED**.
+- PACK-007: Part 1 **IMPLEMENTED** (`751c978`); scope expanded FR-007-08/09/10; TASK-034…036 queued. PACK-008: **NOT_STARTED** (PDF/Excel export).

@@ -1,6 +1,7 @@
 # PACK-007 — Blueprint (draft)
 
 > Status: **ARCHITECT_DECISIONS_MADE**
+> Scope expanded 2026-08-06: manual override + corridor selection (FR-007-08…10)
 
 ## High-level data flow
 
@@ -11,7 +12,11 @@ Reviewed Order (PACK-006)
 Extract stops (origin, destination)
         │
         ▼
-Corridor matching
+Corridor selection (dispatcher chooses from 4–5 options
+                    OR "direct route" if none match)
+        │
+        ▼
+KM calculation (via selected corridor OR manual input)
         │
         ├─► Cache lookup (standard corridor / origin+destination)
         │         │ miss
@@ -20,14 +25,36 @@ Google Directions API call
         │
         ├─► on failure: retry once (timeout) → static Maps link fallback
         ▼
-Distance calculation
-        │
-        ▼
-KM delta (paid vs actual vs direct)
+KM delta comparison (paid vs actual vs direct)
         │
         ▼
 Display in UI (+ optional persist)
 ```
+
+## Manual override and corridor selection
+
+### Manual override flow
+
+Dispatcher (admin/manager) can override:
+
+| Field | Storage / note |
+|---|---|
+| Google Maps link | `manual_route_url` |
+| Paid KM | manual `paid_km` |
+| Actual KM | manual `actual_km` |
+
+- Manual values take precedence over calculated values (pending OQ-007-07 confirmation).
+- Source indicator: `'manual'` vs `'api'` vs `'cache'` (and fallback as applicable).
+- All manual changes are logged for audit.
+- Viewer: read-only for manual fields.
+
+### Corridor selection flow
+
+- Dispatcher sees **4–5** predefined corridors in the UI.
+- Dispatcher selects the matching corridor for the order.
+- KM calculation uses the selected corridor.
+- If no corridor matches, dispatcher can choose **"direct route"** (no corridor).
+- Corridors stored in `route_corridors` (pending OQ-007-06 confirmation).
 
 ## Maps API integration
 
@@ -54,7 +81,7 @@ Display in UI (+ optional persist)
 | Quota exceeded | Fall back to static Maps link |
 | Other API error | Log safe error (no request/response dumps), fall back to static Maps link |
 
-Static Maps link = existing PACK-006 navigation context; not a substitute distance unless Architect later decides otherwise.
+Static Maps link = existing PACK-006 navigation context; not a substitute distance unless Architect later decides otherwise. Manual link (FR-007-08) overrides generated/static link when set.
 
 ## Cost tracking
 
@@ -66,3 +93,7 @@ Static Maps link = existing PACK-006 navigation context; not a substitute distan
 ## Secrets
 
 - Maps API key: server-only; never `NEXT_PUBLIC_*`; never commit.
+
+## Export
+
+- PDF/Excel packaging of order + KM comparison → **PACK-008** (out of PACK-007).
