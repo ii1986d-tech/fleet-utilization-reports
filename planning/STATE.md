@@ -4,34 +4,36 @@
 - SoT freshness: see `project-state.json` → `launcherFreshness` · process: `planning/LAUNCHER-SYNC.md`
 - Binding operating model: **Mission Control at repository root** (vendor launcher = presentation only)
 - Release baseline: **v1.0.0** (`a0b96a1`) — PACK-001…005 accepted
-- PACK-006 status: **COMPLETE**
-- Gemini free-tier pilot: **SUCCESS** (2026-08-05, I. Dimitrov) — report `docs/GEMINI-PILOT-REPORT-2026-08-05.md`
-- AI tuning follow-up: **FU-AI-001** documented (complex multi-stop prompt tuning)
-- Current focus: **PACK-007 Architect Preparation** (started)
-- ADR-009: **ACCEPTED (design binding)**
-- DS-005: **RESOLVED / APPROVED** (I. Dimitrov, 2026-08-05)
-- ASM-014: **RESOLVED** — Duration SET (7y/7y/7y/10y); legal auto-purge follow-up
+- PACK-006 status: **COMPLETE** (Gemini free-tier pilot SUCCESS 2026-08-05)
+- AI tuning follow-up: **FU-AI-001** (complex multi-stop prompt tuning)
+- PACK-007 status: **ARCHITECT_DECISIONS_MADE** (OQ-007-01, OQ-007-05 resolved)
+- Maps API: **Google Directions API**
+- Maps cost ceiling: **$50/month** (80% warning; kill switch `MAPS_API_ENABLED=false`)
+- Maps caching: **standard routes**, TTL **7 days**
+- Next: PACK-007 technical preparation (API key, SDK, implementation) — not started
+- DS-005: **RESOLVED / APPROVED**
+- ASM-014: **RESOLVED** (7y/7y/7y/10y; legal auto-purge follow-up)
 - Security follow-ups: **FU-SEC-001** / **FU-SEC-002** (non-blocking)
-- `readyForStaging`: **false**
 
 ## Pack ladder
 
 | Pack | Status |
 |---|---|
 | PACK-001…005 | **COMPLETE** |
-| PACK-006 | **COMPLETE** (+ Gemini pilot SUCCESS) |
-| PACK-007 | **ARCHITECT_PREPARATION** — Routenlogik + KM-Vergleich |
+| PACK-006 | **COMPLETE** |
+| PACK-007 | **ARCHITECT_DECISIONS_MADE** |
 | PACK-008 | **NOT_STARTED** |
 
 ## Next authorized action
 
-1. Architect: resolve PACK-007 open questions (OQ-007-01…05), especially Maps API provider + cost ceiling.
-2. FU-AI-001 after PACK-007 or when more PDF templates are available.
-3. Schedule FU-SEC-001 before 50-disponent rollout.
+1. Technical preparation: Maps API key + billing + env kill switch (see `docs/MAPS-API-SETUP.md`).
+2. PACK-007 Dry-Run / implementation when product authorizes Apply.
+3. Resolve remaining OQ-007-02 (corridor model) if needed before Apply.
+4. FU-AI-001 / FU-SEC-001 as scheduled.
 
 ## Evidence pointers
 
-- `docs/GEMINI-PILOT-REPORT-2026-08-05.md`
-- `sprints/sprint-006/CLOSEOUT-AUDIT.md`
 - `sprints/sprint-007/PACK-007.md`
-- `planning/WORK-BACKLOG.md` (TASK-026, FU-AI-001, FU-SEC-001/002)
+- `docs/MAPS-API-SETUP.md`
+- `docs/GEMINI-PILOT-REPORT-2026-08-05.md`
+- `planning/WORK-BACKLOG.md` (TASK-026, FU-AI-001)
