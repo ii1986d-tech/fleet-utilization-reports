@@ -32,10 +32,10 @@ Also configure Google Cloud **budget alerts** at ~$40 and $50 for the billing ac
 
 ```bash
 # Server-only — never NEXT_PUBLIC_*
+MAPS_API_KEY=
 MAPS_API_ENABLED=false
-# GOOGLE_MAPS_API_KEY=
-# Optional: MAPS_MONTHLY_BUDGET_USD=50
-# Optional: MAPS_BUDGET_WARNING_RATIO=0.8
+MAPS_API_MONTHLY_BUDGET=50
+MAPS_API_WARNING_THRESHOLD=80
 ```
 
 Default `MAPS_API_ENABLED=false` until keys, billing, and cost monitoring are ready.
@@ -53,3 +53,16 @@ Default `MAPS_API_ENABLED=false` until keys, billing, and cost monitoring are re
 - Track Directions request count per month.
 - Track estimated cost per month.
 - Alert at 80% of $50; disable via kill switch if needed.
+
+## 7. Implementation status
+
+| Part | Scope | Status |
+|---|---|---|
+| Part 1 | Client + caching + cost tracking | **IMPLEMENTED** |
+| Part 2 | KM delta (paid vs actual vs direct) | **PENDING** |
+| Part 3 | UI | **PENDING** |
+
+- API key: **NOT YET CONFIGURED** (user will add later in local/server secrets).
+- Module path: `src/lib/maps/` (`client`, `cache`, `cost-tracker`, `route-service`).
+- Tests use mock `fetch` only — no live Directions calls in CI.
+- Keep `MAPS_API_ENABLED=false` until billing, key restrictions, and budget alerts are ready.
