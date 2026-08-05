@@ -320,16 +320,22 @@ describe("PACK-006 store flow (MemoryTransportOrderStore — test-only)", () => 
     expect(link?.startsWith("https://www.google.com/maps/dir/")).toBe(true);
   });
 
-  it("live providers are blocked by registry while DS-005 open", () => {
-    expect(() =>
-      resolveExtractionProvider({
-        env: { TRANSPORT_ORDER_PROVIDER: "gemini" } as unknown as NodeJS.ProcessEnv,
-      }),
-    ).toThrow(/DS-005/);
-    expect(() =>
-      resolveExtractionProvider({
-        env: { TRANSPORT_ORDER_PROVIDER: "xai" } as unknown as NodeJS.ProcessEnv,
-      }),
-    ).toThrow(/DS-005/);
+  it("live providers resolve when DS-005 secrets are configured (no network)", () => {
+    const gemini = resolveExtractionProvider({
+      env: {
+        TRANSPORT_ORDER_PROVIDER: "gemini",
+        GEMINI_API_KEY: "test-key-not-real",
+      } as unknown as NodeJS.ProcessEnv,
+      withFallbacks: false,
+    });
+    expect(gemini.providerName).toBe("gemini");
+    const grok = resolveExtractionProvider({
+      env: {
+        TRANSPORT_ORDER_PROVIDER: "xai",
+        XAI_API_KEY: "test-key-not-real",
+      } as unknown as NodeJS.ProcessEnv,
+      withFallbacks: false,
+    });
+    expect(grok.providerName).toBe("grok");
   });
 });

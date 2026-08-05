@@ -8,6 +8,8 @@ import {
 
 export const EXTRACTION_SCHEMA_VERSION = "pack006.extraction.v1";
 export const PROMPT_VERSION_MOCK = "mock.v1";
+export const PROMPT_VERSION_LIVE = "live.extraction.v1";
+export const PROMPT_VERSION_MANUAL = "manual.v1";
 
 export const reviewStatusSchema = z.enum(REVIEW_STATUSES);
 export const stopTypeSchema = z.enum(STOP_TYPES);
