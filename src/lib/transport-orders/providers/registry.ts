@@ -26,13 +26,16 @@ function buildNamedProvider(
       return new MockPdfExtractionProvider(options.mode ?? "success_simple");
     case "manual":
       return new ManualPdfExtractionProvider();
-    case "gemini":
+    case "gemini": {
+      const modelName =
+        env.GEMINI_MODEL_ID?.trim() || env.GEMINI_MODEL?.trim() || undefined;
       return new GeminiPdfExtractionProvider({
         apiKey: requireServerSecret(env, "GEMINI_API_KEY"),
-        modelName: env.GEMINI_MODEL,
+        modelName,
         apiBaseUrl: env.GEMINI_API_BASE_URL,
         fetchImpl: options.fetchImpl,
       });
+    }
     case "grok": {
       const grokKey = env.GROK_API_KEY?.trim() || env.XAI_API_KEY?.trim();
       if (!grokKey) {

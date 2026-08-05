@@ -199,6 +199,49 @@ describe("registry", () => {
     expect(p.providerName).toBe("gemini");
   });
 
+  it("GEMINI_MODEL_ID wins over legacy GEMINI_MODEL", () => {
+    const p = resolveExtractionProvider({
+      env: {
+        TRANSPORT_ORDER_PROVIDER: "gemini",
+        GEMINI_API_KEY: "test-key-not-real",
+        GEMINI_MODEL_ID: "models/from-model-id",
+        GEMINI_MODEL: "models/from-legacy",
+        TRANSPORT_ORDER_FALLBACK_PROVIDERS: "manual",
+      } as unknown as NodeJS.ProcessEnv,
+      withFallbacks: false,
+    });
+    expect(p.providerName).toBe("gemini");
+    expect(p.modelName).toBe("models/from-model-id");
+  });
+
+  it("uses legacy GEMINI_MODEL when MODEL_ID is absent", () => {
+    const p = resolveExtractionProvider({
+      env: {
+        TRANSPORT_ORDER_PROVIDER: "gemini",
+        GEMINI_API_KEY: "test-key-not-real",
+        GEMINI_MODEL: "models/legacy-only",
+        TRANSPORT_ORDER_FALLBACK_PROVIDERS: "manual",
+      } as unknown as NodeJS.ProcessEnv,
+      withFallbacks: false,
+    });
+    expect(p.modelName).toBe("models/legacy-only");
+  });
+
+  it("ignores empty/whitespace model env and keeps a safe default", () => {
+    const p = resolveExtractionProvider({
+      env: {
+        TRANSPORT_ORDER_PROVIDER: "gemini",
+        GEMINI_API_KEY: "test-key-not-real",
+        GEMINI_MODEL_ID: "   ",
+        GEMINI_MODEL: "",
+        TRANSPORT_ORDER_FALLBACK_PROVIDERS: "manual",
+      } as unknown as NodeJS.ProcessEnv,
+      withFallbacks: false,
+    });
+    expect(p.modelName.trim().length).toBeGreaterThan(0);
+    expect(p.modelName).not.toMatch(/^\s*$/);
+  });
+
   it("resolves manual and grok/qwen names", () => {
     expect(
       resolveExtractionProvider({
