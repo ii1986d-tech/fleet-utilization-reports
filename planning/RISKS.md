@@ -1,6 +1,6 @@
 # Risk Register
 
-> Updated 2026-08-04 — PACK-006 AI architecture update; DS-004 + DS-005 gates
+> Updated 2026-08-06 — scaling assessment (50 dispatchers); RSK-SCALE-001
 
 | ID | Risk | Probability | Impact | Mitigation | Owner | Status |
 |---|---|---|---|---|---|---|
@@ -34,6 +34,21 @@
 | RSK-029 | Index-based field paths / FKs break on stop reorder | High | High | Immutable stop_id; entity_type+entity_id+field_name | Architect | MITIGATING |
 | RSK-030 | Operational sample values committed to tracked docs | Medium | High | H4 redaction; references/private gitignored; ASM-022 | Architect | MITIGATING |
 | RSK-SEC-001 | Known npm audit vulnerabilities deferred (5 remain: 3 high, 2 moderate) | Medium | Medium | Safe `npm audit fix` applied (brace-expansion); breaking upgrades deferred post-pilot as FU-SEC-001/002; escalate before 50-disponent or active exploit | Engineering / ops | **OPEN / MITIGATING** |
+| RSK-SCALE-001 | Architecture not ready for 50 dispatchers (pilot-scale only) | High | High | Phase 1 pilot 1–5 users now; Phase 2/3 infra via FU-SCALE-001…008 before wider rollout | Engineering / ops | **OPEN / MITIGATING** |
+
+### RSK-SCALE-001 detail (50-dispatcher scaling — 2026-08-06)
+
+| Field | Value |
+|---|---|
+| Severity | **HIGH** |
+| Status | **OPEN / MITIGATING** |
+| Description | Current architecture is suitable for **1–5 users (pilot)**. Scaling to **50 users** requires additional infrastructure: Gemini Paid Tier, queue/worker, Supabase Paid Tier, Redis (or shared cache), rate limiting, load testing, monitoring. |
+| Bottlenecks | (1) Gemini Free Tier ~60 req/min · (2) Maps $50/mo budget · (3) Supabase Free 5 GB storage · (4) In-memory cache · (5) Sync PDF extraction · (6) No rate limiting |
+| Mitigation | **Phase 1 (pilot):** start with 1–5 users immediately. **Phase 2 (10–20):** Gemini Paid, Maps budget ↑, Redis, rate limiting. **Phase 3 (50):** queue/worker, Supabase Paid, load test, monitoring. |
+| Follow-ups | **FU-SCALE-001…008** |
+| Escalation trigger | Before scaling **beyond 5 users** |
+| Owner | Engineering / ops |
+| Evidence | `docs/SCALING-ASSESSMENT-50-DISPATCHERS.md` |
 
 ### RSK-SEC-001 detail (npm audit residual — 2026-08-05)
 
