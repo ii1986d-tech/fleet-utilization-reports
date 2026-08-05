@@ -1,30 +1,30 @@
 {
-  "status": "REVIEW",
-  "updatedAt": "2026-08-05T16:40:00.000Z",
+  "status": "ACCEPTED",
+  "updatedAt": "2026-08-05T16:45:00.000Z",
   "lifecycle": {
     "PACK-001": "COMPLETE",
     "PACK-002": "COMPLETE",
     "PACK-003": "COMPLETE",
     "PACK-004": "COMPLETE",
     "PACK-005": "COMPLETE",
-    "PACK-006": "READY_FOR_STAGING",
+    "PACK-006": "COMPLETE",
     "PACK-007": "NOT_STARTED",
     "PACK-008": "NOT_STARTED"
   },
-  "packStatus": "PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT",
+  "packStatus": "PACK_006_COMPLETE",
   "pack006CloseoutComplete": true,
-  "pack006FormalAcceptance": false,
+  "pack006FormalAcceptance": true,
   "completedPack": "PACK-006",
-  "completedPackNote": "Closeout complete; git commit pending; formal acceptance after commit/push as authorized",
-  "activePack": "PACK-006",
+  "completedPackNote": "PACK-006 COMPLETE 2026-08-05: smoke 30/30, DS-005 APPROVED, ASM-014 SET, provider wiring pushed, closeout docs finalized",
+  "activePack": null,
   "plannedPacks": ["PACK-007", "PACK-008"],
-  "readyForStaging": true,
-  "pack006StagedCommittedPushed": false,
+  "readyForStaging": false,
+  "pack006StagedCommittedPushed": true,
   "nextPhaseAuthorization": {
-    "status": "ACCEPTED",
-    "objective": "COMMIT_PACK_006",
-    "forbid": ["PUSH_UNTIL_AUTHORIZED", "LIVE_PROVIDER_CALLS_BEFORE_CONFIG", "START_PACK_007_BEFORE_COMMIT_CHECKPOINT"],
-    "acceptedAt": "2026-08-05T16:40:00.000Z"
+    "status": "PENDING_PRODUCT",
+    "objective": "START_PACK_007_WHEN_AUTHORIZED",
+    "forbid": ["START_PACK_007_WITHOUT_AUTHORIZATION", "LIVE_AI_CALLS_WITHOUT_PILOT_GATE"],
+    "acceptedAt": "2026-08-05T16:45:00.000Z"
   },
   "pack006FinishSequence": [
     {
@@ -45,7 +45,7 @@
     {
       "step": 4,
       "action": "Resolve ASM-014",
-      "status": "DURATION_SET_LEGAL_FOLLOW_UP"
+      "status": "RESOLVED_DURATION_SET_LEGAL_FOLLOW_UP"
     },
     {
       "step": 5,
@@ -56,12 +56,12 @@
     {
       "step": 6,
       "action": "READY_FOR_STAGING",
-      "status": "YES"
+      "status": "DONE"
     },
     {
       "step": 7,
       "action": "Stage / commit / push",
-      "status": "STAGING_PREPARED_COMMIT_PENDING"
+      "status": "DONE"
     }
   ],
   "ladder": {
@@ -70,15 +70,16 @@
     "PACK-003": "completed",
     "PACK-004": "completed",
     "PACK-005": "completed",
-    "PACK-006": "complete_pending_commit",
+    "PACK-006": "completed",
     "PACK-007": "not_started",
     "PACK-008": "not_started"
   },
-  "architectRecommendation": "COMMIT_PACK_006_THEN_CONFIGURE_PROVIDERS",
+  "architectRecommendation": "PACK_006_COMPLETE_NEXT_PACK_007_OR_GEMINI_PILOT",
   "missionControlWorkflow": "ADOPTED",
   "evidence": {
     "technicalGates": "PASS",
-    "tests": "93/93",
+    "tests": "146/30_skipped_after_provider_wiring",
+    "testsCloseoutBaseline": "93/93",
     "lint": "PASS",
     "typecheck": "PASS",
     "build": "PASS",
@@ -108,25 +109,31 @@
   },
   "openBlockers": [
     {
-      "id": "GIT_COMMIT",
-      "kind": "open_check",
-      "status": "PENDING",
-      "detail": "Staging prepared; commit not yet created"
-    },
-    {
       "id": "ASM_014_LEGAL_AUTOPURGE",
       "kind": "follow_up",
       "status": "OPEN_NON_BLOCKING",
       "detail": "Legal validation required before production auto-purge"
     },
     {
-      "id": "PROVIDER_CONFIG",
+      "id": "FU_SEC_001",
       "kind": "follow_up",
-      "status": "POST_COMMIT",
-      "detail": "Configure Gemini/Groq/Qwen after commit; do not call until configured"
+      "status": "OPEN_NON_BLOCKING",
+      "detail": "Next.js 15→16; postcss+sharp highs; before 50-disponent"
+    },
+    {
+      "id": "FU_SEC_002",
+      "kind": "follow_up",
+      "status": "OPEN_NON_BLOCKING",
+      "detail": "exceljs uuid moderate"
+    },
+    {
+      "id": "GEMINI_FREE_TIER_PILOT",
+      "kind": "ops",
+      "status": "READY_PENDING_HUMAN_GATE",
+      "detail": "Wiring complete; first live call requires human authorization"
     }
   ],
-  "nextRecommendedAction": "Verify staged set (no secrets). Commit PACK-006. Push only when authorized. Then configure live providers under DS-005.",
+  "nextRecommendedAction": "Gemini free-tier pilot when authorized; then PACK-007 (Routenlogik + KM-Vergleich) when product starts it.",
   "gates": {
     "typecheck": true,
     "lint": true,
@@ -138,18 +145,19 @@
     "manualBrowserSmoke": true,
     "ds005": true,
     "asm014Duration": true,
-    "readyForStaging": true
+    "readyForStaging": false,
+    "pack006Complete": true
   },
   "ds005": "RESOLVED_APPROVED",
-  "asm014": "DURATION_SET_LEGAL_FOLLOW_UP",
-  "liveProvider": "APPROVED_CONFIG_POST_COMMIT",
+  "asm014": "RESOLVED_DURATION_SET_LEGAL_FOLLOW_UP",
+  "liveProvider": "WIRING_COMPLETE_MOCK_DEFAULT_PILOT_PENDING",
   "pack007": "NOT_STARTED",
   "pack008": "NOT_STARTED",
   "freshness": {
-    "sotUpdatedAt": "2026-08-05T16:40:00.000Z",
+    "sotUpdatedAt": "2026-08-05T16:45:00.000Z",
     "launcherImportAt": null,
-    "sourceCommitHash": "f6667c1",
-    "workingTreeDirty": true,
+    "sourceCommitHash": "3bbd605",
+    "workingTreeDirty": false,
     "staleWarning": "STALE until HTML launcher re-imports project-state.json"
   },
   "sourceOfTruth": [

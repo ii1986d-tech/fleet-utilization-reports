@@ -1,8 +1,8 @@
 # PACK-006 — Manual browser smoke checklist (Settings → Orders)
 
 > Status: **PASS** (human executed)
-> Lifecycle: PACK-006 closeout → **READY_FOR_STAGING / commit preparation**
-> Provider during smoke: **mock** (live Gemini/Groq/Qwen configuration is post-commit)
+> Lifecycle: PACK-006 → **COMPLETE** (closeout docs finalize)
+> Provider during smoke: **mock**
 > Maps: static link only — **no routing API**
 > Related: `SYNTHETIC-UAT-RESULTS.md` · `CLOSEOUT-AUDIT.md`
 
@@ -82,16 +82,17 @@
 | Executor | I. Dimitrov |
 | Date (local) | 2026-08-05 |
 | App URL | http://127.0.0.1:3000 |
-| Synthetic order id(s) | (human session — synthetic order(s) under local Settings → Orders) |
+| Synthetic order id(s) | SYN-TOUR-001, SYN-BIZ-1, SYN-EDITED-1, SYN-PARTIAL-001, SYN-ADMIN-E2E |
 | Admin steps PASS/FAIL/BLOCKED counts | 18 PASS / 0 FAIL / 0 BLOCKED |
 | Manager counts | 5 PASS / 0 FAIL / 0 BLOCKED |
 | Viewer counts | 7 PASS / 0 FAIL / 0 BLOCKED |
 | Defects found | None |
+| Evidence | Human confirmed all 30 steps via browser interaction |
 | Overall smoke verdict | **PASS** |
 
 ## After human execution (Mission Control discipline)
 
 1. Evidence columns filled from human confirmation (2026-08-05).
-2. Update Mission Control / closeout audit / builder report.
+2. Mission Control / closeout audit / builder report updated for PACK-006 COMPLETE.
 3. Do **not** set `launcherImportAt` unless HTML import actually done.
-4. Live provider configuration (Gemini / Groq / Qwen) is **post-commit** — not part of this smoke run.
+4. Live Gemini free-tier pilot is separate ops work under DS-005 (wiring already committed; no live calls required for this smoke).

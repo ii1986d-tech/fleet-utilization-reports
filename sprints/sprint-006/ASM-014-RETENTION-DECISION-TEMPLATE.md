@@ -110,4 +110,4 @@
 ## Explicit decision statement
 
 **ASM-014 durations are SET (pragmatic defaults, 2026-08-05):** PDF/snapshot/order **7 years**; audit **10 years**; yearly auto-expire **YES**; legal hold **YES**; backup purge lag **30 days**.
-**Legal validation before production auto-purge** remains a documented **non-blocking follow-up** for PACK-006 staging.
+**Legal validation before production auto-purge** remains a documented **non-blocking follow-up** (PACK-006 COMPLETE; does not block PACK-007 start).

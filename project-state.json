@@ -5,17 +5,17 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-08-05T16:40:00.000Z",
+    "updatedAt": "2026-08-05T16:45:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
   "launcherFreshness": {
-    "sotUpdatedAt": "2026-08-05T16:40:00.000Z",
+    "sotUpdatedAt": "2026-08-05T16:45:00.000Z",
     "launcherImportAt": null,
-    "sourceCommitHash": "f6667c1",
-    "workingTreeDirty": true,
+    "sourceCommitHash": "3bbd605",
+    "workingTreeDirty": false,
     "staleWarning": "STALE until HTML launcher re-imports project-state.json"
   },
-  "status": "REVIEW",
+  "status": "ACCEPTED",
   "statusHistory": [
     {
       "status": "DRAFT",
@@ -282,6 +282,11 @@
       "status": "REVIEW",
       "at": "2026-08-05T16:40:00.000Z",
       "note": "PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-08-05T16:45:00.000Z",
+      "note": "PACK_006_COMPLETE; smoke 30/30; DS-005 APPROVED; ASM-014 SET; provider wiring pushed; readyForStaging false"
     }
   ],
   "intake": {
@@ -592,9 +597,9 @@
       "priority": "Must",
       "title": "DS-005 external AI data-processing approval",
       "owner": "Human/Legal/Architect",
-      "status": "Blocked",
-      "dod": "Written Gemini/xAI processing rules",
-      "evidence": "DS-005"
+      "status": "Done",
+      "dod": "Written Gemini/Grok/Qwen/Manual processing rules",
+      "evidence": "DS-005 APPROVED 2026-08-05 I. Dimitrov; DS-005-DECISION-TEMPLATE.md"
     },
     {
       "id": "TASK-025",
@@ -602,9 +607,9 @@
       "priority": "Must",
       "title": "PACK-006 Apply AI extract + field confirm + Weiter gate",
       "owner": "Builder",
-      "status": "In Progress",
-      "dod": "Mock-path AC evidence PASS; browser smoke + formal close pending; live AI still needs DS-005",
-      "evidence": "SYNTHETIC-UAT-RESULTS.md 19/19; pack006-evidence DB 11/1/0; UAT-DEF-001 resolved; closeout OPEN"
+      "status": "Done",
+      "dod": "Mock-path + provider wiring; smoke PASS; DS-005 APPROVED; ASM-014 SET; PACK-006 COMPLETE",
+      "evidence": "CLOSEOUT-AUDIT.md; BUILDER-REPORT.md; 08acb65…3bbd605"
     },
     {
       "id": "TASK-031",
@@ -612,9 +617,9 @@
       "priority": "Must",
       "title": "PACK-006 manual browser smoke (Settings → Orders)",
       "owner": "Human/Builder",
-      "status": "Ready",
-      "dod": "Admin/manager/viewer interactive smoke recorded; not claimed from API/static alone; no step PASS without human; finish-sequence step 1",
-      "evidence": "SESSION_STARTED_NOT_EXECUTED — awaiting human Admin→Manager→Viewer"
+      "status": "Done",
+      "dod": "Admin/manager/viewer interactive smoke recorded; not claimed from API/static alone",
+      "evidence": "MANUAL-BROWSER-SMOKE-CHECKLIST.md 30/30 PASS I. Dimitrov 2026-08-05"
     },
     {
       "id": "TASK-029",
@@ -651,18 +656,18 @@
     "evidence": {
       "discovery": "DISCOVERY-REPORT.md Phase 0",
       "business": "BUSINESS-VALIDATION CONDITIONAL",
-      "dataModel": "data/DATA-MODEL.md (+ PACK-006 proposed transport-order entities)",
-      "architecture": "ADR-001..009 accepted (design); DS-004 COMPLETE; DS-005 OPEN",
+      "dataModel": "data/DATA-MODEL.md (+ PACK-006 transport-order entities)",
+      "architecture": "ADR-001..009 accepted; DS-004 COMPLETE; DS-005 RESOLVED_APPROVED; ASM-014 RESOLVED",
       "governance": "PROFILE Professional",
-      "build": "MVP v1.0.0; PACK-006 mock impl substantially complete (unstaged); not formally closed",
-      "dryRun": "PACK-006 non-provider Dry-Run COMPLETE (historical); live-provider blocked on DS-005",
-      "approval": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; PACK-006 finish sequence authorized; DS-005 + ASM-014 open; READY_FOR_STAGING not yet",
-      "validation": "PACK-006: gates/evidence/UAT PASS; browser smoke NOT_EXECUTED; Mission Control next phase accepted",
-      "review": "PACK-006 closeout pending; PACK-005 ARCHITECT-REVIEW COMPLETE",
-      "accepted": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; PACK-006 not accepted",
+      "build": "MVP v1.0.0; PACK-006 COMPLETE (Apply + provider wiring)",
+      "dryRun": "PACK-006 non-provider Dry-Run COMPLETE (historical)",
+      "approval": "PACK-006 COMPLETE 2026-08-05; DS-005 APPROVED; ASM-014 SET",
+      "validation": "PACK-006: gates/DB/UAT/smoke PASS (DB 11/1/0; UAT 19/19; browser 30/30)",
+      "review": "PACK-006 CLOSEOUT-AUDIT COMPLETE; PACK-005 ARCHITECT-REVIEW COMPLETE",
+      "accepted": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; PACK-006 COMPLETE",
       "release": "v1.0.0",
       "production": "",
-      "operations": ""
+      "operations": "Gemini free-tier pilot ready; FU-SEC-001/002 open"
     },
     "checks": {
       "tests": true,
@@ -672,8 +677,8 @@
       "backup": false,
       "rollback": false
     },
-    "approval": "PACK-006 CLOSEOUT COMPLETE READY_FOR_COMMIT; DS-005 APPROVED; ASM-014 durations set",
-    "validation": "gates/DB/UAT/smoke PASS; READY_FOR_STAGING true"
+    "approval": "PACK-006 COMPLETE; DS-005 APPROVED; ASM-014 SET",
+    "validation": "gates/DB/UAT/smoke PASS; readyForStaging false (already pushed)"
   },
   "operations": {
     "releasePlan": "Private repo; pilot after Phase 8",
@@ -687,18 +692,8 @@
       "FU-003-02 residual: C14 transport-failure remote inject not performed (unit coverage retained)",
       "PACK-005 Auth test identities retained in non-prod (credentials untracked)",
       "DS-001 Frotcom contract unverified (future pack; not PACK-005)",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
-      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006 COMPLETE 2026-08-05; DS-005 APPROVED; ASM-014 SET; provider wiring done; Gemini free-tier pilot pending",
+      "FU-SEC-001 / FU-SEC-002 open (npm audit residual; non-blocking)",
       "PACK-007 not started; PACK-008 not started"
     ]
   },
@@ -744,11 +739,12 @@
   },
   "pack006": {
     "status": "COMPLETE",
-    "packStatus": "PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT",
-    "readyForStaging": true,
+    "packStatus": "PACK_006_COMPLETE",
+    "readyForStaging": false,
     "ds005": "RESOLVED_APPROVED",
-    "asm014": "DURATION_SET_LEGAL_FOLLOW_UP",
+    "asm014": "RESOLVED_DURATION_SET_LEGAL_FOLLOW_UP",
     "manualBrowserSmoke": "PASS",
-    "closeoutAudit": "sprints/sprint-006/CLOSEOUT-AUDIT.md"
+    "closeoutAudit": "sprints/sprint-006/CLOSEOUT-AUDIT.md",
+    "completionDate": "2026-08-05"
   }
 }

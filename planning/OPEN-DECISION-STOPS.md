@@ -62,18 +62,33 @@ Local ignored path `references/private/pack-006/` now holds **26 PDFs + 26 expec
 
 **Status: RESOLVED / APPROVED — 2026-08-05 · I. Dimitrov**
 
-**Decision:**
+**Resolution details:**
 
+- Approval owner: **I. Dimitrov**
+- Approval date: **2026-08-05**
 - Real customer PDFs: **PERMITTED from day 1**
-- AVV / separate DPA: **NOT REQUIRED** (provider Standard Terms sufficient)
-- Primary provider: **Gemini** (configure after PACK-006 staging/commit)
-- Fallbacks: **Groq** (Tier 2), **Qwen** (Tier 3), **Manual mode** (Tier 4)
+- AVV / separate DPA: **NOT REQUIRED** (Standard Terms sufficient)
+- Primary provider: **Gemini** (free tier for pilot)
+- Fallback providers: **Grok** (Tier 2), **Qwen** (Tier 3), **Manual mode** (Tier 4); **Groq** Tier 2 alt
 - Provider retention / training / region: **Per provider Standard Terms**
-- Logging: no PDF bytes; no operational dumps (**binding**)
-- Secrets: server-only; never `NEXT_PUBLIC_*` (**binding**)
+- Logging restrictions: no PDF bytes; no operational dumps (**binding**)
+- Secrets management: server-only; never `NEXT_PUBLIC_*` (**binding**)
+- Revocation: set `TRANSPORT_ORDER_PROVIDER=mock`, rotate keys
 
 **Template:** `sprints/sprint-006/DS-005-DECISION-TEMPLATE.md` — **APPROVED**.
 
 **Related:** ADR-009; ASM-016; RSK-022; OQ-006-10.
 
-**Note:** Live provider API calls remain deferred until post-commit configuration.
+**Note:** Live provider **wiring** is complete (`09fb2a6`, `3bbd605`); default remains `mock`. First live Gemini free-tier call remains human-gated.
+
+## ASM-014 — Retention durations
+
+**Status: RESOLVED (duration SET) — 2026-08-05**
+
+Durations are recorded in `planning/ASSUMPTIONS.md` (ASM-014) and `sprints/sprint-006/ASM-014-RETENTION-DECISION-TEMPLATE.md`:
+
+- Source PDF / extraction snapshot / reviewed order: **7 years**
+- Audit events: **10 years**
+- Auto-expire job: **YES (yearly)**; legal hold: **YES**; backup purge lag: **30 days**
+- Owner: I. Dimitrov (product) + Legal (validation)
+- **Legal validation REQUIRED before production auto-purge** (non-blocking follow-up)

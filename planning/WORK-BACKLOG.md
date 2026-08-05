@@ -1,6 +1,6 @@
 # Work Backlog
 
-> Updated **2026-08-05** — PACK-006 closed/pushed; FU-SEC-001/002 documented (remaining npm audit)
+> Updated **2026-08-05** — PACK-006 **COMPLETE**; FU-SEC-001/002 remain open follow-ups
 
 | ID | Requirement | Priority | Score | Title | Owner | Status | Definition of Done | Evidence |
 |---|---|---|---:|---|---|---|---|---|
@@ -31,8 +31,8 @@
 | TASK-024 | REQ-PDF-ORDER | Must | 76 | Supply SPL-006-001…003 + expected-field manifests under references/private/pack-006/ | Human/Architect | **Done (local ignored)** | 26/26 pairs; 8 human_verified; DS-004 complete | DRY-RUN-READINESS.md |
 | TASK-030 | REQ-PDF-ORDER | Must | 75 | Architect Re-Review remediated ADR-009 | Architect | **Done** | ADR ACCEPTED (design); ARCHITECT_REVIEW_PASS | ARCHITECT-REVIEW.md |
 | TASK-028 | REQ-PDF-ORDER | Must | 76 | Resolve DS-005 external AI data-processing approval | Human/Legal/Architect | **Done** | DS-005 APPROVED 2026-08-05 (Gemini/Groq/Qwen/Manual; real PDFs permitted) | DS-005-DECISION-TEMPLATE.md |
-| TASK-025 | REQ-PDF-ORDER | Must | 75 | PACK-006 Apply: AI extract + field confirm + Weiter gate | Builder | **Done** (closeout; commit pending) | Mock-path gates/UAT/smoke PASS; DS-005 APPROVED; ASM-014 set | CLOSEOUT-AUDIT.md; BUILDER-REPORT.md |
-| TASK-031 | REQ-PDF-ORDER | Must | 75 | PACK-006 manual browser smoke (Settings → Orders) | Human/Builder | **Done** | Admin/manager/viewer 30/30 PASS · I. Dimitrov · 2026-08-05 | `MANUAL-BROWSER-SMOKE-CHECKLIST.md` |
+| TASK-025 | REQ-PDF-ORDER | Must | 75 | PACK-006 Apply: AI extract + field confirm + Weiter gate | Builder | **DONE** | Mock-path + provider wiring; gates/UAT/smoke PASS; DS-005 APPROVED; ASM-014 SET | CLOSEOUT-AUDIT.md; BUILDER-REPORT.md; `08acb65`…`3bbd605` |
+| TASK-031 | REQ-PDF-ORDER | Must | 75 | PACK-006 manual browser smoke (Settings → Orders) | Human/Builder | **DONE** | Admin/manager/viewer 30/30 PASS · I. Dimitrov · 2026-08-05 | `MANUAL-BROWSER-SMOKE-CHECKLIST.md` |
 | TASK-029 | REQ-PDF-ORDER | Must | 74 | Architect: field-confirmation workflow docs | Architect | **Done** | Review states, roles, gate, audit, AC cases | sprint-006 + ADR-009 |
 | TASK-026 | REQ-ROUTE-KM | Must | 74 | PACK-007: predefined routes + Maps handling + km comparison | Builder | Planned | Corridor choice; route vs direct vs paid deltas | After PACK-006 |
 | TASK-027 | REQ-EXPORT-ORDERS | Must | 73 | PACK-008: export extracted+calculated order data | Builder | Planned | PDF + Excel; admin/manager/viewer | After PACK-007 |
@@ -47,6 +47,6 @@ Notes:
 - Residuals remain visible: FOR UPDATE gap; C14 unit-only; retained Auth test identities.
 - Local Docker/Supabase: **available** for PACK-006 local evidence (preflight + DB suite + synthetic UAT).
 - Frotcom remains DS-001-blocked and is **not** auto-assigned to PACK-006…008.
-- PACK-006 2026-08-05: closed and pushed (`08acb65`); security audit safe fixes (`55eabf3`); DS-005 APPROVED; ASM-014 durations set; provider config post-deploy.
-- npm audit: brace-expansion safe fixes applied; **5 vulns remain** → **FU-SEC-001** (Next 16 / postcss+sharp) · **FU-SEC-002** (exceljs/uuid). Deferred post-pilot; not blocking PACK-006 closure or PACK-007 start.
-- PACK-007 / PACK-008: **not started**.
+- PACK-006 **COMPLETE** 2026-08-05: Apply `08acb65`; security `55eabf3`; FU-SEC docs `01b0657`; provider wiring `09fb2a6`/`3bbd605`; smoke 30/30; DS-005 APPROVED; ASM-014 SET.
+- npm audit: brace-expansion safe fixes applied; **5 vulns remain** → **FU-SEC-001** (Next 16 / postcss+sharp) · **FU-SEC-002** (exceljs/uuid). Deferred post-pilot; not blocking PACK-007 start.
+- PACK-007 / PACK-008: **NOT_STARTED**.
