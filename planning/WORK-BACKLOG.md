@@ -1,6 +1,6 @@
 # Work Backlog
 
-> Updated **2026-08-05** — PACK-006 **COMPLETE**; FU-SEC-001/002 remain open follow-ups
+> Updated **2026-08-05** — PACK-006 **COMPLETE**; focus **PACK-007 Architect Preparation**; FU-SEC-001/002 open
 
 | ID | Requirement | Priority | Score | Title | Owner | Status | Definition of Done | Evidence |
 |---|---|---|---:|---|---|---|---|---|
@@ -34,7 +34,7 @@
 | TASK-025 | REQ-PDF-ORDER | Must | 75 | PACK-006 Apply: AI extract + field confirm + Weiter gate | Builder | **DONE** | Mock-path + provider wiring; gates/UAT/smoke PASS; DS-005 APPROVED; ASM-014 SET | CLOSEOUT-AUDIT.md; BUILDER-REPORT.md; `08acb65`…`3bbd605` |
 | TASK-031 | REQ-PDF-ORDER | Must | 75 | PACK-006 manual browser smoke (Settings → Orders) | Human/Builder | **DONE** | Admin/manager/viewer 30/30 PASS · I. Dimitrov · 2026-08-05 | `MANUAL-BROWSER-SMOKE-CHECKLIST.md` |
 | TASK-029 | REQ-PDF-ORDER | Must | 74 | Architect: field-confirmation workflow docs | Architect | **Done** | Review states, roles, gate, audit, AC cases | sprint-006 + ADR-009 |
-| TASK-026 | REQ-ROUTE-KM | Must | 74 | PACK-007: predefined routes + Maps handling + km comparison | Builder | Planned | Corridor choice; route vs direct vs paid deltas | After PACK-006 |
+| TASK-026 | REQ-ROUTE-KM | Must | 74 | PACK-007: predefined routes + Maps handling + km comparison | Architect→Builder | **Architect Preparation** | Corridor choice; Maps; paid vs calculated vs direct km; cache | `sprints/sprint-007/` |
 | TASK-027 | REQ-EXPORT-ORDERS | Must | 73 | PACK-008: export extracted+calculated order data | Builder | Planned | PDF + Excel; admin/manager/viewer | After PACK-007 |
 | FU-SEC-001 | REQ-SEC / npm audit | Should | 55 | Next.js 15 → 16 major upgrade (postcss + sharp highs) | Engineering | **Open** — MEDIUM; before 50-disponent rollout | Regression suite PACK-001…006 + browser smoke re-test; ~2–3 days | Blocked by PACK-006 pilot validation; `SECURITY_OPERATIONS_READINESS_REPORT.md` |
 | FU-SEC-002 | REQ-SEC / npm audit | Could | 35 | exceljs uuid moderate vulnerability | Engineering | **Open** — LOW; low exploitability in import path | Wait for exceljs bump **or** approved override review; ~0.5d override / 0d if upstream | Blocked by upstream exceljs or security review; commit `55eabf3` |
@@ -49,4 +49,4 @@ Notes:
 - Frotcom remains DS-001-blocked and is **not** auto-assigned to PACK-006…008.
 - PACK-006 **COMPLETE** 2026-08-05: Apply `08acb65`; security `55eabf3`; FU-SEC docs `01b0657`; provider wiring `09fb2a6`/`3bbd605`; smoke 30/30; DS-005 APPROVED; ASM-014 SET.
 - npm audit: brace-expansion safe fixes applied; **5 vulns remain** → **FU-SEC-001** (Next 16 / postcss+sharp) · **FU-SEC-002** (exceljs/uuid). Deferred post-pilot; not blocking PACK-007 start.
-- PACK-007 / PACK-008: **NOT_STARTED**.
+- PACK-007: **ARCHITECT_PREPARATION** (`sprints/sprint-007/`). PACK-008: **NOT_STARTED**.
