@@ -59,10 +59,26 @@ Default `MAPS_API_ENABLED=false` until keys, billing, and cost monitoring are re
 | Part | Scope | Status |
 |---|---|---|
 | Part 1 | Client + caching + cost tracking | **IMPLEMENTED** |
-| Part 2 | KM delta (paid vs actual vs direct) | **PENDING** |
-| Part 3 | UI | **PENDING** |
+| Part 2 | KM delta + manual override | **IMPLEMENTED** |
+| Part 3 | UI + corridor selection | **PENDING** |
 
 - API key: **NOT YET CONFIGURED** (user will add later in local/server secrets).
-- Module path: `src/lib/maps/` (`client`, `cache`, `cost-tracker`, `route-service`).
-- Tests use mock `fetch` only — no live Directions calls in CI.
+- Module path: `src/lib/maps/` (`client`, `cache`, `cost-tracker`, `route-service`, `km-delta-service`, `haversine`).
+- Table: `transport_order_km_comparison` (migration `20260806010000_pack007_km_comparison.sql`).
+- API: `POST|GET|PATCH /api/transport-orders/[orderId]/km-delta`.
+- Tests use mock `fetch` / injectable route + memory store — no live Directions calls in CI.
 - Keep `MAPS_API_ENABLED=false` until billing, key restrictions, and budget alerts are ready.
+
+## 8. Manual override (FR-007-08 / FR-007-09)
+
+| Override | Field | Behavior |
+|---|---|---|
+| Maps link | `manual_route_url` | Overrides auto-generated `route_url` when set |
+| Paid KM | `paid_km_manual` | Overrides PDF-extracted `paid_km` when set |
+| Actual KM | `actual_km_manual` | Overrides Maps-calculated `actual_km` when set |
+
+- Manual values **always take precedence** over calculated/extracted values (OQ-007-07 recommendation).
+- `source` becomes `'manual'` when any override is set.
+- Effective route URL = `manual_route_url` if set, else auto `route_url`.
+- Admin/manager can set overrides via `PATCH`; viewer can **read** including manuals but cannot edit.
+- Safe audit log code only (`km_manual_override`) — no business payloads in logs.
