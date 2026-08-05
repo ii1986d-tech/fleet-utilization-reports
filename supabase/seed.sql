@@ -1,0 +1,2 @@
+-- Empty seed for local `supabase db reset`.
+-- PACK-006 evidence uses synthetic runtime fixtures, not this file.

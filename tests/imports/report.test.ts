@@ -174,7 +174,8 @@ describe("PACK-004 error report inclusion and columns", () => {
       ],
     });
     const wb = new ExcelJS.Workbook();
-    await wb.xlsx.load(Uint8Array.from(buffer));
+    // exceljs Buffer typing differs across @types/node versions
+    await wb.xlsx.load(Uint8Array.from(buffer) as unknown as ExcelJS.Buffer);
     expect(wb.worksheets.map((s) => s.name)).toEqual(["ImportErrors"]);
     const sheet = wb.getWorksheet("ImportErrors")!;
     expect(sheet.rowCount).toBe(3);

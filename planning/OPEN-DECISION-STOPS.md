@@ -46,9 +46,9 @@
 
 **Required samples:**
 
-1. **SPL-006-001** — simple digital PDF; one pickup + one delivery + expected-field manifest  
-2. **SPL-006-002** — multiple pickup/delivery; references and tables + manifest  
-3. **SPL-006-003** — different layout; multi-page or scanned if used in ops + manifest  
+1. **SPL-006-001** — simple digital PDF; one pickup + one delivery + expected-field manifest
+2. **SPL-006-002** — multiple pickup/delivery; references and tables + manifest
+3. **SPL-006-003** — different layout; multi-page or scanned if used in ops + manifest
 
 **Status: RESOLVED / COMPLETE (2026-08-04 final evidence check)**
 
@@ -58,29 +58,22 @@ Local ignored path `references/private/pack-006/` now holds **26 PDFs + 26 expec
 
 **Related:** SPL-006-*; RSK-018 mitigated; ADR-009 **ACCEPTED**; non-provider Dry-Run complete; DS-005 still open; `sprints/sprint-006/BUILDER-DRY-RUN.md`.
 
-## DS-005 — External AI processing of transport-order PDFs (blocks real-customer provider use)
+## DS-005 — External AI processing of transport-order PDFs
 
-**Question:** May transport-order PDFs be sent to Gemini and/or xAI, under which terms?
+**Status: RESOLVED / APPROVED — 2026-08-05 · I. Dimitrov**
 
-**Must approve:**
+**Decision:**
 
-- Whether **real customer PDFs** may be sent to Gemini  
-- Whether **real customer PDFs** may be sent to xAI  
-- Free-tier vs paid/approved processing  
-- Data-processing terms / DPA as applicable  
-- Retention/deletion behavior (remote provider files)  
-- Provider region, where relevant  
-- Company/legal approval  
-- Whether documents must be anonymized before send  
+- Real customer PDFs: **PERMITTED from day 1**
+- AVV / separate DPA: **NOT REQUIRED** (provider Standard Terms sufficient)
+- Primary provider: **Gemini** (configure after PACK-006 staging/commit)
+- Fallbacks: **Groq** (Tier 2), **Qwen** (Tier 3), **Manual mode** (Tier 4)
+- Provider retention / training / region: **Per provider Standard Terms**
+- Logging: no PDF bytes; no operational dumps (**binding**)
+- Secrets: server-only; never `NEXT_PUBLIC_*` (**binding**)
 
-**Options:**
-
-1. Anonymized/synthetic only until legal sign-off; then paid/approved mode for real docs (recommended default until resolved)  
-2. Approve named provider(s) for real customer PDFs with documented terms + deletion SLA  
-3. Forbid external AI entirely (forces strategy rewrite — out of current ADR-009)
-
-**Recommendation:** Option 1 until written approval. Until resolved: **no real customer document** may be sent to Gemini or xAI during development. Free-tier limited to anonymized/synthetic samples.
-
-**Impact:** Unapproved external processing creates legal/privacy exposure (RSK-022).
+**Template:** `sprints/sprint-006/DS-005-DECISION-TEMPLATE.md` — **APPROVED**.
 
 **Related:** ADR-009; ASM-016; RSK-022; OQ-006-10.
+
+**Note:** Live provider API calls remain deferred until post-commit configuration.

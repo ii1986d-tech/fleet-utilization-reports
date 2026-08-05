@@ -1,6 +1,6 @@
 # Work Backlog
 
-> Updated 2026-08-04 — ADR-009 ACCEPTED; PACK-006 non-provider Dry-Run complete
+> Updated **2026-08-05** — PACK-006 closeout COMPLETE; READY_FOR_COMMIT
 
 | ID | Requirement | Priority | Score | Title | Owner | Status | Definition of Done | Evidence |
 |---|---|---|---:|---|---|---|---|---|
@@ -30,8 +30,9 @@
 | TASK-023 | REQ-PDF-ORDER | Must | 77 | Architect pack for PDF transport-order extraction (incl. AI update) | Architect | **Done (Architect)** | Sprint-006 + ADR-009 AI provider strategy | `sprints/sprint-006/*`; ADR-009 |
 | TASK-024 | REQ-PDF-ORDER | Must | 76 | Supply SPL-006-001…003 + expected-field manifests under references/private/pack-006/ | Human/Architect | **Done (local ignored)** | 26/26 pairs; 8 human_verified; DS-004 complete | DRY-RUN-READINESS.md |
 | TASK-030 | REQ-PDF-ORDER | Must | 75 | Architect Re-Review remediated ADR-009 | Architect | **Done** | ADR ACCEPTED (design); ARCHITECT_REVIEW_PASS | ARCHITECT-REVIEW.md |
-| TASK-028 | REQ-PDF-ORDER | Must | 76 | Resolve DS-005 external AI data-processing approval | Human/Legal/Architect | **Blocked** (DS-005) | Written approval for Gemini/xAI real vs anonymized | OPEN-DECISION-STOPS |
-| TASK-025 | REQ-PDF-ORDER | Must | 75 | PACK-006 Apply: AI extract + field confirm + Weiter gate | Builder | **Blocked** (Apply auth; live AI also DS-005) | AC-006-01…78; INC-01…11 in BUILDER-DRY-RUN.md | Future Apply |
+| TASK-028 | REQ-PDF-ORDER | Must | 76 | Resolve DS-005 external AI data-processing approval | Human/Legal/Architect | **Done** | DS-005 APPROVED 2026-08-05 (Gemini/Groq/Qwen/Manual; real PDFs permitted) | DS-005-DECISION-TEMPLATE.md |
+| TASK-025 | REQ-PDF-ORDER | Must | 75 | PACK-006 Apply: AI extract + field confirm + Weiter gate | Builder | **Done** (closeout; commit pending) | Mock-path gates/UAT/smoke PASS; DS-005 APPROVED; ASM-014 set | CLOSEOUT-AUDIT.md; BUILDER-REPORT.md |
+| TASK-031 | REQ-PDF-ORDER | Must | 75 | PACK-006 manual browser smoke (Settings → Orders) | Human/Builder | **Done** | Admin/manager/viewer 30/30 PASS · I. Dimitrov · 2026-08-05 | `MANUAL-BROWSER-SMOKE-CHECKLIST.md` |
 | TASK-029 | REQ-PDF-ORDER | Must | 74 | Architect: field-confirmation workflow docs | Architect | **Done** | Review states, roles, gate, audit, AC cases | sprint-006 + ADR-009 |
 | TASK-026 | REQ-ROUTE-KM | Must | 74 | PACK-007: predefined routes + Maps handling + km comparison | Builder | Planned | Corridor choice; route vs direct vs paid deltas | After PACK-006 |
 | TASK-027 | REQ-EXPORT-ORDERS | Must | 73 | PACK-008: export extracted+calculated order data | Builder | Planned | PDF + Excel; admin/manager/viewer | After PACK-007 |
@@ -41,6 +42,8 @@ Notes:
 - PACK-005: **PACK_005_ACCEPTED_WITH_FOLLOW_UPS** — evidence-closure only; FU-002/FU-003 follow-ups closed (with residuals on FU-002-05 / FU-003-02).
 - FU-003-01 remains **CLOSED**; do not reopen without regression evidence.
 - OQ-004-04 concurrent import CAS: **CLOSED / SATISFIED** (BEST-EFFORT).
-- Residuals remain visible: FOR UPDATE gap; C14 unit-only; local Docker unavailable; retained Auth test identities.
+- Residuals remain visible: FOR UPDATE gap; C14 unit-only; retained Auth test identities.
+- Local Docker/Supabase: **available** for PACK-006 local evidence (preflight + DB suite + synthetic UAT).
 - Frotcom remains DS-001-blocked and is **not** auto-assigned to PACK-006…008.
-- PACK-006 2026-08-04: ADR-009 **ACCEPTED**; non-provider Dry-Run **complete**; Apply not authorized; DS-005 open; private path gitignored.
+- PACK-006 2026-08-05: **PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT** — smoke PASS; DS-005 APPROVED; ASM-014 durations set; staging for commit; push not done; provider config post-commit.
+- PACK-007 / PACK-008: **not started** (begin after PACK-006 commit checkpoint).

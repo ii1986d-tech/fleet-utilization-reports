@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { canManageMasterData, canReadReports } from "@/lib/auth/roles";
+import {
+  canManageMasterData,
+  canReadReports,
+  canReviewTransportOrders,
+  canUploadTransportOrders,
+} from "@/lib/auth/roles";
 import { appError, mapDatabaseError } from "@/lib/assignments/errors";
 
 describe("PACK-002 authorization matrix (helpers)", () => {
@@ -16,6 +21,13 @@ describe("PACK-002 authorization matrix (helpers)", () => {
     expect(canReadReports("viewer")).toBe(true);
     expect(canReadReports("manager")).toBe(true);
     expect(canReadReports("admin")).toBe(true);
+  });
+
+  it("PACK-006: admin/manager review; viewer cannot write", () => {
+    expect(canReviewTransportOrders("admin")).toBe(true);
+    expect(canReviewTransportOrders("manager")).toBe(true);
+    expect(canReviewTransportOrders("viewer")).toBe(false);
+    expect(canUploadTransportOrders("manager")).toBe(true);
   });
 });
 

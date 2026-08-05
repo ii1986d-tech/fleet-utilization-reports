@@ -15,3 +15,7 @@ supabase/.branches/
 
 # PACK-006 private transport-order samples + expected manifests (never commit)
 references/private/
+
+# PACK-006 / PACK-005 evidence secrets (never commit)
+scripts/pack006-evidence/.env.local
+scripts/pack005-evidence/.env.local

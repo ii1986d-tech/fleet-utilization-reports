@@ -9,7 +9,12 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "pack006:preflight": "node scripts/pack006-evidence/preflight.mjs",
+    "pack006:provision-local-users": "node scripts/pack006-evidence/provision-local-users.mjs",
+    "pack006:destructive-guard": "node scripts/pack006-evidence/check-destructive-guard.mjs",
+    "test:pack006-db-evidence": "node scripts/pack006-evidence/run-evidence-suite.mjs",
+    "pack006:synthetic-uat": "node scripts/pack006-evidence/run-synthetic-uat.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",

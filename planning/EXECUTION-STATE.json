@@ -1,89 +1,168 @@
 {
-  "status": "ACCEPTED",
-  "completedPack": "PACK-005",
-  "completedPackCheckpointBaseline": "dbe59da",
-  "completedPackCommit": "test: complete PACK-005 evidence closure",
-  "completedPackAcceptance": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS",
-  "baselineCheckpoint": "dbe59da",
-  "activePack": null,
-  "plannedPack": null,
-  "packStatus": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS",
-  "architectRecommendation": "ACCEPT_WITH_FOLLOW_UPS",
-  "architectReview": "sprints/sprint-005/ARCHITECT-REVIEW.md",
-  "acceptanceRecord": "sprints/sprint-005/ACCEPTANCE-RECORD.md",
-  "evidenceResults": "sprints/sprint-005/EVIDENCE-RUN-RESULTS.json",
-  "evidenceCounts": {
-    "total": 37,
-    "pass": 36,
-    "partial": 1,
-    "fail": 0,
-    "blocked": 0
+  "status": "REVIEW",
+  "updatedAt": "2026-08-05T16:40:00.000Z",
+  "lifecycle": {
+    "PACK-001": "COMPLETE",
+    "PACK-002": "COMPLETE",
+    "PACK-003": "COMPLETE",
+    "PACK-004": "COMPLETE",
+    "PACK-005": "COMPLETE",
+    "PACK-006": "READY_FOR_STAGING",
+    "PACK-007": "NOT_STARTED",
+    "PACK-008": "NOT_STARTED"
   },
-  "accessStatus": "PACK_005_ACCESS_READY",
-  "accessVerification": "sprints/sprint-005/ACCESS-VERIFICATION.md",
-  "testIdentities": "RETAINED_NON_PROD",
-  "architectPackage": "sprints/sprint-005/",
-  "assessmentRecord": "planning/POST-PACK-004-ASSESSMENT.md",
-  "evidenceDryRun": "sprints/sprint-005/EVIDENCE-DRY-RUN.md",
-  "accessRequirements": "sprints/sprint-005/ACCESS-REQUIREMENTS.md",
-  "evidenceTooling": "scripts/pack005-evidence/",
-  "applyAuthorized": true,
-  "applyCompleted": true,
-  "evidenceExecuted": true,
-  "formalAcceptanceAuthorized": true,
-  "formalAcceptanceCompleted": true,
-  "checkpointCommitted": true,
-  "liveJwt": true,
-  "confirmDbSuite": true,
-  "empiricalOrphanRollback": true,
-  "concurrentCas": true,
-  "pack005Goal": "evidence-closure-jwt-rls-import-persistence-proof",
-  "pack005ProductScope": "NONE",
-  "migrationExpectation": "NONE",
-  "codeChangeExpectation": "NONE",
-  "migrationLocalRemote": "EQUAL",
-  "productionReadiness": "LOCKED_MVP_PRODUCTION_READY_WITH_DOCUMENTED_RESIDUALS",
+  "packStatus": "PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT",
+  "pack006CloseoutComplete": true,
+  "pack006FormalAcceptance": false,
+  "completedPack": "PACK-006",
+  "completedPackNote": "Closeout complete; git commit pending; formal acceptance after commit/push as authorized",
+  "activePack": "PACK-006",
+  "plannedPacks": ["PACK-007", "PACK-008"],
+  "readyForStaging": true,
+  "pack006StagedCommittedPushed": false,
+  "nextPhaseAuthorization": {
+    "status": "ACCEPTED",
+    "objective": "COMMIT_PACK_006",
+    "forbid": ["PUSH_UNTIL_AUTHORIZED", "LIVE_PROVIDER_CALLS_BEFORE_CONFIG", "START_PACK_007_BEFORE_COMMIT_CHECKPOINT"],
+    "acceptedAt": "2026-08-05T16:40:00.000Z"
+  },
+  "pack006FinishSequence": [
+    {
+      "step": 1,
+      "action": "Human executes MANUAL-BROWSER-SMOKE-CHECKLIST.md",
+      "status": "PASS"
+    },
+    {
+      "step": 2,
+      "action": "Cursor records observed human results",
+      "status": "DONE"
+    },
+    {
+      "step": 3,
+      "action": "Resolve DS-005",
+      "status": "RESOLVED_APPROVED"
+    },
+    {
+      "step": 4,
+      "action": "Resolve ASM-014",
+      "status": "DURATION_SET_LEGAL_FOLLOW_UP"
+    },
+    {
+      "step": 5,
+      "action": "Final PACK-006 closeout audit",
+      "status": "DONE",
+      "artifact": "sprints/sprint-006/CLOSEOUT-AUDIT.md"
+    },
+    {
+      "step": 6,
+      "action": "READY_FOR_STAGING",
+      "status": "YES"
+    },
+    {
+      "step": 7,
+      "action": "Stage / commit / push",
+      "status": "STAGING_PREPARED_COMMIT_PENDING"
+    }
+  ],
+  "ladder": {
+    "PACK-001": "completed",
+    "PACK-002": "completed",
+    "PACK-003": "completed",
+    "PACK-004": "completed",
+    "PACK-005": "completed",
+    "PACK-006": "complete_pending_commit",
+    "PACK-007": "not_started",
+    "PACK-008": "not_started"
+  },
+  "architectRecommendation": "COMMIT_PACK_006_THEN_CONFIGURE_PROVIDERS",
+  "missionControlWorkflow": "ADOPTED",
+  "evidence": {
+    "technicalGates": "PASS",
+    "tests": "93/93",
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "build": "PASS",
+    "preflight": "PACK006_PREFLIGHT_PASS",
+    "dbEvidence": {
+      "passed": 11,
+      "intentionalSkip": 1,
+      "failed": 0
+    },
+    "syntheticUat": {
+      "total": 19,
+      "passed": 19,
+      "failed": 0,
+      "results": "sprints/sprint-006/SYNTHETIC-UAT-RESULTS.md"
+    },
+    "manualBrowserSmoke": "PASS",
+    "manualBrowserSmokeCounts": {
+      "admin": 18,
+      "manager": 5,
+      "viewer": 7,
+      "total": 30
+    },
+    "manualBrowserSmokeExecutor": "I. Dimitrov",
+    "manualBrowserSmokeDate": "2026-08-05",
+    "closeoutAudit": "sprints/sprint-006/CLOSEOUT-AUDIT.md",
+    "builderReport": "sprints/sprint-006/BUILDER-REPORT.md"
+  },
+  "openBlockers": [
+    {
+      "id": "GIT_COMMIT",
+      "kind": "open_check",
+      "status": "PENDING",
+      "detail": "Staging prepared; commit not yet created"
+    },
+    {
+      "id": "ASM_014_LEGAL_AUTOPURGE",
+      "kind": "follow_up",
+      "status": "OPEN_NON_BLOCKING",
+      "detail": "Legal validation required before production auto-purge"
+    },
+    {
+      "id": "PROVIDER_CONFIG",
+      "kind": "follow_up",
+      "status": "POST_COMMIT",
+      "detail": "Configure Gemini/Groq/Qwen after commit; do not call until configured"
+    }
+  ],
+  "nextRecommendedAction": "Verify staged set (no secrets). Commit PACK-006. Push only when authorized. Then configure live providers under DS-005.",
   "gates": {
-    "test": true,
-    "testCount": "63/63",
+    "typecheck": true,
     "lint": true,
+    "test": true,
     "build": true,
-    "diffCheck": true,
-    "liveJwt": true,
-    "concurrentCas": true,
-    "empiricalOrphanRollback": true,
-    "confirmDbSuite": true,
-    "cleanupVerify": true,
-    "secretScan": true
+    "preflight": true,
+    "dbEvidence": true,
+    "syntheticUat": true,
+    "manualBrowserSmoke": true,
+    "ds005": true,
+    "asm014Duration": true,
+    "readyForStaging": true
   },
-  "readiness": 100,
-  "pack005": "ACCEPTED_WITH_FOLLOW_UPS",
-  "frotcom": "BLOCKED_DS001_NOT_PACK_005",
-  "reportsUiDeferred": true,
-  "exportsDeferred": true,
-  "closedFollowUps": [
-    "FU-002-01",
-    "FU-002-02",
-    "FU-002-03",
-    "FU-002-04",
-    "FU-002-06",
-    "FU-003-01",
-    "FU-003-03",
-    "OQ-004-04"
+  "ds005": "RESOLVED_APPROVED",
+  "asm014": "DURATION_SET_LEGAL_FOLLOW_UP",
+  "liveProvider": "APPROVED_CONFIG_POST_COMMIT",
+  "pack007": "NOT_STARTED",
+  "pack008": "NOT_STARTED",
+  "freshness": {
+    "sotUpdatedAt": "2026-08-05T16:40:00.000Z",
+    "launcherImportAt": null,
+    "sourceCommitHash": "f6667c1",
+    "workingTreeDirty": true,
+    "staleWarning": "STALE until HTML launcher re-imports project-state.json"
+  },
+  "sourceOfTruth": [
+    "project-state.json",
+    "planning/STATE.md",
+    "planning/EXECUTION-STATE.json",
+    "planning/PACK-REGISTRY.md",
+    "planning/WORK-BACKLOG.md",
+    "planning/DECISIONS.md",
+    "planning/OPEN-DECISION-STOPS.md",
+    "planning/ARCHITECT-BRIEFING.md",
+    "planning/LAUNCHER-SYNC.md"
   ],
-  "closedWithResidualFollowUps": ["FU-002-05", "FU-003-02"],
-  "openFollowUpsPack003": [],
-  "openFollowUpsPack002": [],
-  "acceptedResiduals": [
-    "FU-002-05_FOR_UPDATE_GAP",
-    "FU-003-02_C14_UNIT_ONLY",
-    "LOCAL_DOCKER_SUPABASE_UNAVAILABLE",
-    "RETAINED_AUTH_TEST_IDENTITIES"
-  ],
-  "workingTreeNote": "PACK-005 acceptance checkpoint; no product/migration changes; .env.local untracked",
-  "blockers": [
-    "DS-001 Frotcom contract (future pack after DS-001; not PACK-005; not auto-assigned)",
-    "TASK-009 reports UI deferred (OQ-004-01)",
-    "TASK-011 exports deferred"
-  ]
+  "launcherRole": "presentation_only",
+  "launcherSync": "manual — see planning/LAUNCHER-SYNC.md"
 }

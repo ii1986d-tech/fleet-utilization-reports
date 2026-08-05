@@ -5,10 +5,17 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-08-04T07:40:00.000Z",
+    "updatedAt": "2026-08-05T16:40:00.000Z",
     "projectId": "PRJ-FUR-001"
   },
-  "status": "ARCHITECT_READY",
+  "launcherFreshness": {
+    "sotUpdatedAt": "2026-08-05T16:40:00.000Z",
+    "launcherImportAt": null,
+    "sourceCommitHash": "f6667c1",
+    "workingTreeDirty": true,
+    "staleWarning": "STALE until HTML launcher re-imports project-state.json"
+  },
+  "status": "REVIEW",
   "statusHistory": [
     {
       "status": "DRAFT",
@@ -255,6 +262,26 @@
       "status": "ARCHITECT_READY",
       "at": "2026-08-04T15:06:00.000Z",
       "note": "PACK_006_ADR_ACCEPTED_DRY_RUN; ADR-009 ACCEPTED by I. Dimitrov 2026-08-04; ARCHITECT_REVIEW_PASS; non-provider BUILDER-DRY-RUN complete; Apply NOT authorized; DS-005 OPEN; no product code/migrations; no live provider; no stage/commit"
+    },
+    {
+      "status": "BUILDING",
+      "at": "2026-08-05T10:00:00.000Z",
+      "note": "PACK_006_IMPLEMENTATION_IN_PROGRESS; mock-path transport-order domain/UI/RPCs; local Supabase evidence tooling; DS-005 still OPEN; no formal close"
+    },
+    {
+      "status": "VALIDATING",
+      "at": "2026-08-05T12:40:00.000Z",
+      "note": "superseded by PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT"
+    },
+    {
+      "status": "VALIDATING",
+      "at": "2026-08-05T13:55:00.000Z",
+      "note": "LAUNCHER_HISTORICAL_BACKFILL; PACK-001..005 verified against git/acceptance; LAUNCHER-SYNC binding; freshness fields added; HTML import still required (launcherImportAt null)"
+    },
+    {
+      "status": "REVIEW",
+      "at": "2026-08-05T16:40:00.000Z",
+      "note": "PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT"
     }
   ],
   "intake": {
@@ -575,9 +602,19 @@
       "priority": "Must",
       "title": "PACK-006 Apply AI extract + field confirm + Weiter gate",
       "owner": "Builder",
-      "status": "Blocked",
-      "dod": "AC-006-01..78 after Apply auth; live AI also needs DS-005 (INC-01..11)",
-      "evidence": "ADR-009 ACCEPTED; BUILDER-DRY-RUN.md; blocked on Apply auth (+ DS-005 for live)"
+      "status": "In Progress",
+      "dod": "Mock-path AC evidence PASS; browser smoke + formal close pending; live AI still needs DS-005",
+      "evidence": "SYNTHETIC-UAT-RESULTS.md 19/19; pack006-evidence DB 11/1/0; UAT-DEF-001 resolved; closeout OPEN"
+    },
+    {
+      "id": "TASK-031",
+      "requirementId": "REQ-PDF-ORDER",
+      "priority": "Must",
+      "title": "PACK-006 manual browser smoke (Settings → Orders)",
+      "owner": "Human/Builder",
+      "status": "Ready",
+      "dod": "Admin/manager/viewer interactive smoke recorded; not claimed from API/static alone; no step PASS without human; finish-sequence step 1",
+      "evidence": "SESSION_STARTED_NOT_EXECUTED — awaiting human Admin→Manager→Viewer"
     },
     {
       "id": "TASK-029",
@@ -617,12 +654,12 @@
       "dataModel": "data/DATA-MODEL.md (+ PACK-006 proposed transport-order entities)",
       "architecture": "ADR-001..009 accepted (design); DS-004 COMPLETE; DS-005 OPEN",
       "governance": "PROFILE Professional",
-      "build": "MVP v1.0.0; PACK-006 Dry-Run complete — Apply not authorized",
-      "dryRun": "PACK-006 non-provider Dry-Run COMPLETE; live-provider blocked on DS-005",
-      "approval": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; PACK-006 ADR_ACCEPTED_DRY_RUN; Apply pending; DS-005 open",
-      "validation": "63/63 unit; lint/build PASS; live JWT PASS; confirm DB PASS (C14 unit residual); orphan PASS; CAS BEST-EFFORT PASS",
-      "review": "ACCEPT_WITH_FOLLOW_UPS; ARCHITECT-REVIEW COMPLETE (PACK-005)",
-      "accepted": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; ACCEPTANCE-RECORD.md; locked MVP production-ready with documented residuals",
+      "build": "MVP v1.0.0; PACK-006 mock impl substantially complete (unstaged); not formally closed",
+      "dryRun": "PACK-006 non-provider Dry-Run COMPLETE (historical); live-provider blocked on DS-005",
+      "approval": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; PACK-006 finish sequence authorized; DS-005 + ASM-014 open; READY_FOR_STAGING not yet",
+      "validation": "PACK-006: gates/evidence/UAT PASS; browser smoke NOT_EXECUTED; Mission Control next phase accepted",
+      "review": "PACK-006 closeout pending; PACK-005 ARCHITECT-REVIEW COMPLETE",
+      "accepted": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; PACK-006 not accepted",
       "release": "v1.0.0",
       "production": "",
       "operations": ""
@@ -634,7 +671,9 @@
       "accessibility": false,
       "backup": false,
       "rollback": false
-    }
+    },
+    "approval": "PACK-006 CLOSEOUT COMPLETE READY_FOR_COMMIT; DS-005 APPROVED; ASM-014 durations set",
+    "validation": "gates/DB/UAT/smoke PASS; READY_FOR_STAGING true"
   },
   "operations": {
     "releasePlan": "Private repo; pilot after Phase 8",
@@ -646,19 +685,21 @@
     "techDebt": [
       "FU-002-05 residual: correctAssignment missing FOR UPDATE (GiST exclusion authoritative)",
       "FU-003-02 residual: C14 transport-failure remote inject not performed (unit coverage retained)",
-      "Local Docker daemon / local Supabase unavailable (RSK-009 accepted env note)",
       "PACK-005 Auth test identities retained in non-prod (credentials untracked)",
       "DS-001 Frotcom contract unverified (future pack; not PACK-005)",
-      "TASK-009 reports UI deferred; TASK-011/PACK-008 exports planned after PACK-006/007",
-      "DS-004 / PACK-006: COMPLETE — 26/26 pairs; 8 human_verified (RSK-018 mitigated)",
-      "DS-005 / PACK-006: external AI (Gemini/xAI) data-processing approval required (RSK-022) — still OPEN",
-      "PACK-006: AI cost/quota controls mandatory; free APIs not assumed (RSK-023)",
-      "PACK-006: field confirmation required before Weiter; server 409 ORDER_REVIEW_INCOMPLETE (RSK-025)",
-      "PACK-006: manual stop reorder (drag + keyboard) invalidates sequence confirmation; audit stops_reordered; snapshot immutable (RSK-026)",
-      "PACK-006: incomplete GC/other streets must remain null / not invented (RSK-027; AC-006-48)",
-      "PACK-006: ADR-009 ACCEPTED 2026-08-04 (I. Dimitrov); non-provider Dry-Run complete; Apply not authorized; live provider blocked on DS-005",
-      "PACK-006: aggregate CAS ORDER_VERSION_CONFLICT; stable stop_id; partial loads/legs; OQ-006-11 closed (RSK-028/029)",
-      "PACK-006: tracked human-review notes redacted; operational values only under references/private (RSK-030)"
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-006: CLOSEOUT COMPLETE READY_FOR_COMMIT 2026-08-05; DS-005 APPROVED; ASM-014 set; commit pending; providers post-commit",
+      "PACK-007 not started; PACK-008 not started"
     ]
   },
   "knowledge": {
@@ -700,5 +741,14 @@
   },
   "ui": {
     "lastView": "export"
+  },
+  "pack006": {
+    "status": "COMPLETE",
+    "packStatus": "PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT",
+    "readyForStaging": true,
+    "ds005": "RESOLVED_APPROVED",
+    "asm014": "DURATION_SET_LEGAL_FOLLOW_UP",
+    "manualBrowserSmoke": "PASS",
+    "closeoutAudit": "sprints/sprint-006/CLOSEOUT-AUDIT.md"
   }
 }

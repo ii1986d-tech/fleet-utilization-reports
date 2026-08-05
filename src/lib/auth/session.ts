@@ -1,4 +1,9 @@
-import { parseRoleFromAppMetadata, type AppRole, canManageMasterData } from "@/lib/auth/roles";
+import {
+  parseRoleFromAppMetadata,
+  type AppRole,
+  canManageMasterData,
+  canReviewTransportOrders,
+} from "@/lib/auth/roles";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { appError, type AppError } from "@/lib/assignments/errors";
 
@@ -29,6 +34,18 @@ export async function requireAdmin(): Promise<AuthContext | AppError> {
   }
   if (!canManageMasterData(auth.role)) {
     return appError("FORBIDDEN", "Admin role required for write operations.");
+  }
+  return auth;
+}
+
+/** PACK-006 writes: admin or manager (not a new dispatcher role). */
+export async function requireAdminOrManager(): Promise<AuthContext | AppError> {
+  const auth = await requireAuthenticated();
+  if ("code" in auth) {
+    return auth;
+  }
+  if (!canReviewTransportOrders(auth.role)) {
+    return appError("FORBIDDEN", "Admin or manager role required for transport-order review.");
   }
   return auth;
 }

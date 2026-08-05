@@ -18,6 +18,7 @@ export default function SettingsLayout({
           <Link href="/settings/customers">Customers</Link>
           <Link href="/settings/assignments">Assignments</Link>
           <Link href="/settings/imports">Imports</Link>
+          <Link href="/settings/orders">Transport orders</Link>
           <Link href="/login">Login</Link>
         </nav>
         <p style={{ color: "#555", fontSize: "0.9rem" }}>

@@ -20,6 +20,8 @@ const eslintConfig = [
       "out/**",
       // Next.js auto-generated; do not lint
       "next-env.d.ts",
+      // Local Supabase CLI generated cache/state (also gitignored)
+      "supabase/.temp/**",
     ],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),

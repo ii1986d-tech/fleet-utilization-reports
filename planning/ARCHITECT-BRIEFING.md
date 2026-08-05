@@ -1,19 +1,19 @@
 # Architect Briefing
 
-> Updated 2026-08-04 — ADR-009 ACCEPTED; non-provider Dry-Run complete
+> Updated **2026-08-05** — PACK-006 closeout complete; READY_FOR_STAGING / commit
+> Vendor kit: presentation only
 
-## PACK-006
+## Current pack: PACK-006
 
 | Item | Status |
 |---|---|
-| ADR-009 | **ACCEPTED (design binding)** — 2026-08-04 · I. Dimitrov |
-| Architect Re-Review | **PASS** |
-| Non-provider Builder Dry-Run | **COMPLETE** (`BUILDER-DRY-RUN.md`) |
-| DS-004 sample evidence | **COMPLETE** |
-| DS-005 external AI approval | **OPEN** |
-| Builder Apply | **NOT AUTHORIZED** |
-| Live-provider integration | **Blocked by DS-005** |
+| Closeout | **COMPLETE** |
+| Lifecycle (git) | **READY_FOR_STAGING** — commit pending |
+| Technical gates / DB / UAT | **PASS** |
+| Manual browser smoke | **PASS** (I. Dimitrov, 2026-08-05) |
+| DS-005 | **RESOLVED / APPROVED** |
+| ASM-014 | Duration SET; legal auto-purge validation follow-up |
+| Live providers | Config **post-commit** (Gemini / Groq / Qwen / Manual) |
+| PACK-007 | NOT_STARTED |
 
-Do not call Gemini/xAI/Maps routing. Do not commit private samples. Do not start Apply without explicit authorization.
-
-See `sprints/sprint-006/BUILDER-DRY-RUN.md`.
+See `planning/STATE.md` and `sprints/sprint-006/CLOSEOUT-AUDIT.md`.

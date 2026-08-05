@@ -26,6 +26,38 @@ export function canManageMasterData(role: AppRole): boolean {
   return role === "admin";
 }
 
+/** PACK-006: admin + manager may upload/review/confirm/reorder transport orders. */
+export function canReviewTransportOrders(role: AppRole): boolean {
+  switch (role) {
+    case "admin":
+    case "manager":
+      return true;
+    case "viewer":
+      return false;
+    default: {
+      const _exhaustive: never = role;
+      return _exhaustive;
+    }
+  }
+}
+
+export function canUploadTransportOrders(role: AppRole): boolean {
+  return canReviewTransportOrders(role);
+}
+
+export function canReadTransportOrders(role: AppRole): boolean {
+  switch (role) {
+    case "admin":
+    case "manager":
+    case "viewer":
+      return true;
+    default: {
+      const _exhaustive: never = role;
+      return _exhaustive;
+    }
+  }
+}
+
 export function canReadReports(role: AppRole): boolean {
   switch (role) {
     case "admin":
