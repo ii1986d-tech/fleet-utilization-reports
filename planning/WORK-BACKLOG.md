@@ -1,6 +1,6 @@
 # Work Backlog
 
-> Updated **2026-08-05** — PACK-006 closeout COMPLETE; READY_FOR_COMMIT
+> Updated **2026-08-05** — PACK-006 closed/pushed; FU-SEC-001/002 documented (remaining npm audit)
 
 | ID | Requirement | Priority | Score | Title | Owner | Status | Definition of Done | Evidence |
 |---|---|---|---:|---|---|---|---|---|
@@ -36,6 +36,8 @@
 | TASK-029 | REQ-PDF-ORDER | Must | 74 | Architect: field-confirmation workflow docs | Architect | **Done** | Review states, roles, gate, audit, AC cases | sprint-006 + ADR-009 |
 | TASK-026 | REQ-ROUTE-KM | Must | 74 | PACK-007: predefined routes + Maps handling + km comparison | Builder | Planned | Corridor choice; route vs direct vs paid deltas | After PACK-006 |
 | TASK-027 | REQ-EXPORT-ORDERS | Must | 73 | PACK-008: export extracted+calculated order data | Builder | Planned | PDF + Excel; admin/manager/viewer | After PACK-007 |
+| FU-SEC-001 | REQ-SEC / npm audit | Should | 55 | Next.js 15 → 16 major upgrade (postcss + sharp highs) | Engineering | **Open** — MEDIUM; before 50-disponent rollout | Regression suite PACK-001…006 + browser smoke re-test; ~2–3 days | Blocked by PACK-006 pilot validation; `SECURITY_OPERATIONS_READINESS_REPORT.md` |
+| FU-SEC-002 | REQ-SEC / npm audit | Could | 35 | exceljs uuid moderate vulnerability | Engineering | **Open** — LOW; low exploitability in import path | Wait for exceljs bump **or** approved override review; ~0.5d override / 0d if upstream | Blocked by upstream exceljs or security review; commit `55eabf3` |
 
 Notes:
 
@@ -45,5 +47,6 @@ Notes:
 - Residuals remain visible: FOR UPDATE gap; C14 unit-only; retained Auth test identities.
 - Local Docker/Supabase: **available** for PACK-006 local evidence (preflight + DB suite + synthetic UAT).
 - Frotcom remains DS-001-blocked and is **not** auto-assigned to PACK-006…008.
-- PACK-006 2026-08-05: **PACK_006_CLOSEOUT_COMPLETE_READY_FOR_COMMIT** — smoke PASS; DS-005 APPROVED; ASM-014 durations set; staging for commit; push not done; provider config post-commit.
-- PACK-007 / PACK-008: **not started** (begin after PACK-006 commit checkpoint).
+- PACK-006 2026-08-05: closed and pushed (`08acb65`); security audit safe fixes (`55eabf3`); DS-005 APPROVED; ASM-014 durations set; provider config post-deploy.
+- npm audit: brace-expansion safe fixes applied; **5 vulns remain** → **FU-SEC-001** (Next 16 / postcss+sharp) · **FU-SEC-002** (exceljs/uuid). Deferred post-pilot; not blocking PACK-006 closure or PACK-007 start.
+- PACK-007 / PACK-008: **not started**.

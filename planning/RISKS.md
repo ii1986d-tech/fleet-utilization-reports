@@ -33,6 +33,20 @@
 | RSK-028 | Concurrent reviewers cause lost updates or stale Weiter bypass | High | High | ADR-009 §21 CAS; ORDER_VERSION_CONFLICT; TX completion | Architect | MITIGATING |
 | RSK-029 | Index-based field paths / FKs break on stop reorder | High | High | Immutable stop_id; entity_type+entity_id+field_name | Architect | MITIGATING |
 | RSK-030 | Operational sample values committed to tracked docs | Medium | High | H4 redaction; references/private gitignored; ASM-022 | Architect | MITIGATING |
+| RSK-SEC-001 | Known npm audit vulnerabilities deferred (5 remain: 3 high, 2 moderate) | Medium | Medium | Safe `npm audit fix` applied (brace-expansion); breaking upgrades deferred post-pilot as FU-SEC-001/002; escalate before 50-disponent or active exploit | Engineering / ops | **OPEN / MITIGATING** |
+
+### RSK-SEC-001 detail (npm audit residual — 2026-08-05)
+
+| Field | Value |
+|---|---|
+| Severity | **MEDIUM** |
+| Status | **OPEN / MITIGATING** |
+| Description | After safe `npm audit fix` (`55eabf3`), **5** vulnerabilities remain (3 high, 2 moderate). Dev brace-expansion highs fixed. Remaining require breaking upgrades. |
+| Mitigation | **postcss/sharp** (via Next): build-time / image-optimization path; not primary request surface. **uuid** (via exceljs): low exploitability in current import path (v3/v5/v6+buf). |
+| Follow-ups | **FU-SEC-001** Next 15→16 (postcss+sharp); **FU-SEC-002** exceljs/uuid upstream or override |
+| Escalation trigger | Before **50-disponent** rollout, or if a CVE becomes actively exploited |
+| Owner | Engineering / ops |
+| Evidence | `sprints/sprint-006/SECURITY_OPERATIONS_READINESS_REPORT.md`; `npm audit` after `55eabf3` |
 
 ## RSK-012 detail (PACK-002 accepted follow-ups — historical OPEN → PACK-005 closure)
 
