@@ -56,7 +56,7 @@ Local ignored path `references/private/pack-006/` now holds **26 PDFs + 26 expec
 
 **Residual (non-blocking for DS-004):** additional empty templates may be filled later for broader coverage; content-duplicate PDFs SPL-006-010 ≡ SPL-006-011 documented via SHA-256 / `rename-map.csv`.
 
-**Related:** SPL-006-*; RSK-018 mitigated; ADR-009 **ACCEPTED**; non-provider Dry-Run complete; DS-005 still open; `sprints/sprint-006/BUILDER-DRY-RUN.md`.
+**Related:** SPL-006-*; RSK-018 mitigated; ADR-009 **ACCEPTED**; non-provider Dry-Run complete; DS-005 **APPROVED** (see below); `sprints/sprint-006/BUILDER-DRY-RUN.md`.
 
 ## DS-005 — External AI processing of transport-order PDFs
 
@@ -79,7 +79,7 @@ Local ignored path `references/private/pack-006/` now holds **26 PDFs + 26 expec
 
 **Related:** ADR-009; ASM-016; RSK-022; OQ-006-10.
 
-**Note:** Live provider **wiring** is complete (`09fb2a6`, `3bbd605`); default remains `mock`. First live Gemini free-tier call remains human-gated.
+**Note:** Live provider **wiring** is complete (`09fb2a6`, `3bbd605`); default remains `mock`. Gemini free-tier pilot **SUCCESS** (`docs/GEMINI-PILOT-REPORT-2026-08-05.md`). Further live calls remain an ops/human gate (not a Decision Stop reopen).
 
 ## ASM-014 — Retention durations
 

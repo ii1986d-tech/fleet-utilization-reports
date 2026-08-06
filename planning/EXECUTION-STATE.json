@@ -1,6 +1,6 @@
 {
   "status": "ACCEPTED",
-  "updatedAt": "2026-08-05T16:45:00.000Z",
+  "updatedAt": "2026-08-06T18:46:23.000Z",
   "lifecycle": {
     "PACK-001": "COMPLETE",
     "PACK-002": "COMPLETE",
@@ -8,23 +8,33 @@
     "PACK-004": "COMPLETE",
     "PACK-005": "COMPLETE",
     "PACK-006": "COMPLETE",
-    "PACK-007": "NOT_STARTED",
-    "PACK-008": "NOT_STARTED"
+    "PACK-007": "CLOSEOUT_OPEN",
+    "PACK-008": "PUSHED"
   },
-  "packStatus": "PACK_006_COMPLETE",
+  "packStatus": "PACK_006_COMPLETE_007_IMPLEMENTED_PENDING_CLOSEOUT_008_IMPLEMENTED_PENDING_PILOT",
   "pack006CloseoutComplete": true,
   "pack006FormalAcceptance": true,
   "completedPack": "PACK-006",
   "completedPackNote": "PACK-006 COMPLETE 2026-08-05: smoke 30/30, DS-005 APPROVED, ASM-014 SET, provider wiring pushed, closeout docs finalized",
   "activePack": null,
-  "plannedPacks": ["PACK-007", "PACK-008"],
+  "plannedPacks": [],
+  "implementedPendingCloseout": [
+    "PACK-007"
+  ],
+  "implementedPendingPilot": [
+    "PACK-008"
+  ],
   "readyForStaging": false,
   "pack006StagedCommittedPushed": true,
   "nextPhaseAuthorization": {
-    "status": "PENDING_PRODUCT",
-    "objective": "START_PACK_007_WHEN_AUTHORIZED",
-    "forbid": ["START_PACK_007_WITHOUT_AUTHORIZATION", "LIVE_AI_CALLS_WITHOUT_PILOT_GATE"],
-    "acceptedAt": "2026-08-05T16:45:00.000Z"
+    "status": "OPS_FOLLOW_UPS",
+    "objective": "TASK_037_EXPORT_PILOT_AND_OPTIONAL_PACK_007_CLOSEOUT",
+    "forbid": [
+      "MARK_PACK_007_COMPLETE_WITHOUT_CLOSEOUT",
+      "MARK_PACK_008_COMPLETE_WHILE_TASK_037_OPEN",
+      "START_NEW_FEATURE_PACK_UNTIL_LAUNCHER_IMPORT"
+    ],
+    "acceptedAt": "2026-08-06T16:25:00.000Z"
   },
   "pack006FinishSequence": [
     {
@@ -71,11 +81,15 @@
     "PACK-004": "completed",
     "PACK-005": "completed",
     "PACK-006": "completed",
-    "PACK-007": "not_started",
-    "PACK-008": "not_started"
+    "PACK-007": "implemented_pending_closeout",
+    "PACK-008": "implemented_pending_pilot"
   },
-  "architectRecommendation": "PACK_006_COMPLETE_NEXT_PACK_007_OR_GEMINI_PILOT",
+  "architectRecommendation": "TASK_037_EXPORT_PILOT_THEN_OPTIONAL_PACK_007_CLOSEOUT",
   "missionControlWorkflow": "ADOPTED",
+  "governanceReconciliation": {
+    "at": "2026-08-06T16:25:00.000Z",
+    "note": "Aligned SoT to repository evidence; no false COMPLETE for 007/008"
+  },
   "evidence": {
     "technicalGates": "PASS",
     "tests": "146/30_skipped_after_provider_wiring",
@@ -105,7 +119,11 @@
     "manualBrowserSmokeExecutor": "I. Dimitrov",
     "manualBrowserSmokeDate": "2026-08-05",
     "closeoutAudit": "sprints/sprint-006/CLOSEOUT-AUDIT.md",
-    "builderReport": "sprints/sprint-006/BUILDER-REPORT.md"
+    "builderReport": "sprints/sprint-006/BUILDER-REPORT.md",
+    "geminiPilot": "SUCCESS",
+    "geminiPilotReport": "docs/GEMINI-PILOT-REPORT-2026-08-05.md",
+    "pack007Implementation": "3fb96fb",
+    "pack008Implementation": "86bcf2f"
   },
   "openBlockers": [
     {
@@ -127,13 +145,19 @@
       "detail": "exceljs uuid moderate"
     },
     {
-      "id": "GEMINI_FREE_TIER_PILOT",
+      "id": "PACK_007_CLOSEOUT",
+      "kind": "governance",
+      "status": "OPEN_NON_BLOCKING",
+      "detail": "IMPLEMENTED_PENDING_CLOSEOUT — formal closeout/acceptance missing"
+    },
+    {
+      "id": "TASK_037_EXPORT_PILOT",
       "kind": "ops",
-      "status": "READY_PENDING_HUMAN_GATE",
-      "detail": "Wiring complete; first live call requires human authorization"
+      "status": "NOT_STARTED",
+      "detail": "PACK-008 IMPLEMENTED_PENDING_PILOT"
     }
   ],
-  "nextRecommendedAction": "Gemini free-tier pilot when authorized; then PACK-007 (Routenlogik + KM-Vergleich) when product starts it.",
+  "nextRecommendedAction": "TASK-037 export pilot with real orders; optional PACK-007 formal closeout.",
   "gates": {
     "typecheck": true,
     "lint": true,
@@ -146,19 +170,22 @@
     "ds005": true,
     "asm014Duration": true,
     "readyForStaging": false,
-    "pack006Complete": true
+    "pack006Complete": true,
+    "pack007Complete": false,
+    "pack008Complete": false
   },
   "ds005": "RESOLVED_APPROVED",
   "asm014": "RESOLVED_DURATION_SET_LEGAL_FOLLOW_UP",
-  "liveProvider": "WIRING_COMPLETE_MOCK_DEFAULT_PILOT_PENDING",
-  "pack007": "NOT_STARTED",
-  "pack008": "NOT_STARTED",
+  "liveProvider": "WIRING_COMPLETE_MOCK_DEFAULT_GEMINI_PILOT_SUCCESS",
+  "pack007": "IMPLEMENTED_PENDING_CLOSEOUT",
+  "pack008": "IMPLEMENTED_PENDING_PILOT",
   "freshness": {
-    "sotUpdatedAt": "2026-08-05T16:45:00.000Z",
-    "launcherImportAt": null,
-    "sourceCommitHash": "3bbd605",
-    "workingTreeDirty": false,
-    "staleWarning": "STALE until HTML launcher re-imports project-state.json"
+    "sotUpdatedAt": "2026-08-06T18:46:23.000Z",
+    "launcherImportAt": "2026-08-06T18:46:23.000Z",
+    "sourceCommitHash": "86bcf2f",
+    "workingTreeDirty": true,
+    "staleWarning": null,
+    "freshnessNote": "FRESH — human HTML import of project-state.json visually verified; launcherImportAt recorded 2026-08-06T18:46:23.000Z"
   },
   "sourceOfTruth": [
     "project-state.json",

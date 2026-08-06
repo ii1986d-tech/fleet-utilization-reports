@@ -24,7 +24,7 @@
 | RSK-019 | Scanned/image PDFs increase AI cost/error rates | Medium | High | SPL-006-003; multimodal Gemini; measure vs manifests | Architect | OPEN |
 | RSK-020 | First Supabase Storage bucket misconfigured (public leak) | Medium | Critical | Private bucket; RLS/signed URLs; security review at Apply | Architect | OPEN |
 | RSK-021 | Scope creep merging routes/export into PACK-006 | Medium | High | Hard phase split 006/007/008; manual reorder ≠ route optimization | Architect | MITIGATING |
-| RSK-022 | Sending real customer PDFs to Gemini/xAI without approval | High | Critical | DS-005; anonymized-only until resolved; server-only keys | Architect | OPEN |
+| RSK-022 | Sending real customer PDFs to Gemini/xAI without approval | High | Critical | DS-005 **APPROVED** 2026-08-05; default `mock`; server-only keys; pilot SUCCESS | Architect | **MITIGATED** (approval recorded; ops gate remains) |
 | RSK-023 | Unbounded AI cost / quota exhaustion / dual-provider spend | Medium | High | Config limits; no default dual-call; usage logging; budget ceiling | Architect | OPEN |
 | RSK-024 | AI hallucination trusted as operational data | High | High | Field-level confirm; no auto-confirm; server Weiter gate; snapshot immutable | Architect | MITIGATING |
 | RSK-025 | Client-only Weiter / color-only “confirmed” bypasses review | Medium | High | Persist review_status; server 409 ORDER_REVIEW_INCOMPLETE; icon+label required | Architect | MITIGATING |

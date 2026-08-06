@@ -5,15 +5,16 @@
     "stateFormat": "4.4.1",
     "templateVersion": "4.4.1",
     "createdAt": "2026-07-29T12:00:00.000Z",
-    "updatedAt": "2026-08-05T16:45:00.000Z",
+    "updatedAt": "2026-08-06T18:46:23.000Z",
     "projectId": "PRJ-FUR-001"
   },
   "launcherFreshness": {
-    "sotUpdatedAt": "2026-08-05T16:45:00.000Z",
-    "launcherImportAt": null,
-    "sourceCommitHash": "3bbd605",
-    "workingTreeDirty": false,
-    "staleWarning": "STALE until HTML launcher re-imports project-state.json"
+    "sotUpdatedAt": "2026-08-06T18:46:23.000Z",
+    "launcherImportAt": "2026-08-06T18:46:23.000Z",
+    "sourceCommitHash": "86bcf2f",
+    "workingTreeDirty": true,
+    "staleWarning": null,
+    "freshnessNote": "FRESH — human HTML import of project-state.json visually verified; launcherImportAt recorded 2026-08-06T18:46:23.000Z"
   },
   "status": "ACCEPTED",
   "statusHistory": [
@@ -287,6 +288,21 @@
       "status": "ACCEPTED",
       "at": "2026-08-05T16:45:00.000Z",
       "note": "PACK_006_COMPLETE; smoke 30/30; DS-005 APPROVED; ASM-014 SET; provider wiring pushed; readyForStaging false"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-08-06T16:25:00.000Z",
+      "note": "MISSION_CONTROL_GOVERNANCE_RECONCILIATION; PACK-006 COMPLETE; PACK-007 IMPLEMENTED_PENDING_CLOSEOUT; PACK-008 IMPLEMENTED_PENDING_PILOT; DS-005 APPROVED; ASM-014 RESOLVED; Gemini pilot SUCCESS; launcherImportAt still null; sourceCommitHash 86bcf2f"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-08-06T17:30:00.000Z",
+      "note": "PROJECT_STATE_V441_COMPATIBILITY; decisions ADR-001..009; pack ladder backlog PACK-001..008; foundation tasks Done; launcherImportAt still null; sourceCommitHash 86bcf2f"
+    },
+    {
+      "status": "ACCEPTED",
+      "at": "2026-08-06T18:46:23.000Z",
+      "note": "MISSION_CONTROL_IMPORT_RECORDED; human HTML import visually verified ADR-001..009 + PACK-001..008; launcherImportAt=2026-08-06T18:46:23.000Z; sourceCommitHash 86bcf2f; FRESH"
     }
   ],
   "intake": {
@@ -508,6 +524,216 @@
           "lockin": 1
         }
       ]
+    },
+    {
+      "id": "ADR-005",
+      "question": "Vehicle assignment overlap policy",
+      "context": "PACK-002; Anweisungen §8.4; TM-10 concurrency",
+      "selectedAlternativeId": "A",
+      "rationale": "Hard block per vehicle + mandatory GiST exclusion (daterange inclusive []); HTTP 409 ASSIGNMENT_OVERLAP",
+      "alternatives": [
+        {
+          "id": "A",
+          "name": "Hard block + GiST exclusion",
+          "description": "DB-enforced overlap; race-safe",
+          "cost": 2,
+          "speed": 4,
+          "maintainability": 5,
+          "scalability": 4,
+          "risk": 1,
+          "lockin": 2
+        },
+        {
+          "id": "B",
+          "name": "Soft warn only in UI",
+          "description": "No DB integrity under concurrency",
+          "cost": 1,
+          "speed": 5,
+          "maintainability": 2,
+          "scalability": 2,
+          "risk": 5,
+          "lockin": 1
+        },
+        {
+          "id": "C",
+          "name": "Separate driver vs customer tracks",
+          "description": "Schema redesign; does not solve vehicle ambiguity",
+          "cost": 4,
+          "speed": 2,
+          "maintainability": 2,
+          "scalability": 3,
+          "risk": 4,
+          "lockin": 3
+        }
+      ]
+    },
+    {
+      "id": "ADR-006",
+      "question": "Assignment lifecycle and correction",
+      "context": "PACK-002; preserve history; single correction path",
+      "selectedAlternativeId": "A",
+      "rationale": "No hard DELETE (end/deactivate; FK RESTRICT); correction = in-place transactional UPDATE",
+      "alternatives": [
+        {
+          "id": "A",
+          "name": "End/deactivate + in-place UPDATE",
+          "description": "History retained; single TX correction",
+          "cost": 2,
+          "speed": 4,
+          "maintainability": 5,
+          "scalability": 4,
+          "risk": 1,
+          "lockin": 2
+        },
+        {
+          "id": "B",
+          "name": "Close + create replacement as correct",
+          "description": "Splits history; silent Builder choice",
+          "cost": 3,
+          "speed": 3,
+          "maintainability": 2,
+          "scalability": 3,
+          "risk": 4,
+          "lockin": 2
+        },
+        {
+          "id": "C",
+          "name": "Hard DELETE allowed in product",
+          "description": "Destroys attribution; violates history rule",
+          "cost": 1,
+          "speed": 5,
+          "maintainability": 1,
+          "scalability": 1,
+          "risk": 5,
+          "lockin": 1
+        }
+      ]
+    },
+    {
+      "id": "ADR-007",
+      "question": "Excel assignment import policy",
+      "context": "PACK-003; Anweisungen §7.2; exceljs server-only",
+      "selectedAlternativeId": "A",
+      "rationale": "Partial success; exceljs; mandatory migration; CAS confirm; per-row persist; create masters default OFF",
+      "alternatives": [
+        {
+          "id": "A",
+          "name": "Partial success + exceljs + CAS",
+          "description": "Controlled import with per-row outcomes",
+          "cost": 2,
+          "speed": 4,
+          "maintainability": 5,
+          "scalability": 3,
+          "risk": 2,
+          "lockin": 2
+        },
+        {
+          "id": "B",
+          "name": "All-or-nothing workbook commit",
+          "description": "One bad row blocks entire job",
+          "cost": 2,
+          "speed": 3,
+          "maintainability": 3,
+          "scalability": 2,
+          "risk": 4,
+          "lockin": 2
+        },
+        {
+          "id": "C",
+          "name": "Client-side XLSX parse as authority",
+          "description": "Bypasses server validation; weaker audit",
+          "cost": 2,
+          "speed": 5,
+          "maintainability": 1,
+          "scalability": 2,
+          "risk": 5,
+          "lockin": 3
+        }
+      ]
+    },
+    {
+      "id": "ADR-008",
+      "question": "Atomic import-row persistence and audit-preserving transitions",
+      "context": "PACK-004 hardening; FU-003; Builder dry-run corrections",
+      "selectedAlternativeId": "A",
+      "rationale": "persist_assignment_import_row SECURITY INVOKER RPC; persistence_errors mandatory; CAS search_path; no SQL leakage",
+      "alternatives": [
+        {
+          "id": "A",
+          "name": "DB RPC per row (INVOKER)",
+          "description": "Atomic master+assignment; audit-preserving",
+          "cost": 2,
+          "speed": 3,
+          "maintainability": 5,
+          "scalability": 4,
+          "risk": 1,
+          "lockin": 2
+        },
+        {
+          "id": "B",
+          "name": "App multi-statement TX only",
+          "description": "Orphan-master risk under failure",
+          "cost": 2,
+          "speed": 4,
+          "maintainability": 2,
+          "scalability": 2,
+          "risk": 5,
+          "lockin": 2
+        },
+        {
+          "id": "C",
+          "name": "Defer hardening / accept orphans",
+          "description": "Fails FU-003 and audit rules",
+          "cost": 1,
+          "speed": 5,
+          "maintainability": 1,
+          "scalability": 1,
+          "risk": 5,
+          "lockin": 1
+        }
+      ]
+    },
+    {
+      "id": "ADR-009",
+      "question": "PDF transport-order extraction via multimodal AI APIs",
+      "context": "PACK-006; DS-004 COMPLETE; DS-005 APPROVED; field confirmation binding",
+      "selectedAlternativeId": "A",
+      "rationale": "Separate domain; Gemini primary / xAI optional; AI suggestions only; review_status; admin+manager confirm; Weiter 409 gate; mock default",
+      "alternatives": [
+        {
+          "id": "A",
+          "name": "Provider-neutral AI + field confirm",
+          "description": "Gemini primary; human confirm before operational use",
+          "cost": 3,
+          "speed": 3,
+          "maintainability": 4,
+          "scalability": 4,
+          "risk": 2,
+          "lockin": 3
+        },
+        {
+          "id": "B",
+          "name": "Manual PDF entry only",
+          "description": "No AI; slower ops; avoids DS-005",
+          "cost": 2,
+          "speed": 2,
+          "maintainability": 4,
+          "scalability": 2,
+          "risk": 1,
+          "lockin": 1
+        },
+        {
+          "id": "C",
+          "name": "Auto-accept AI without confirm",
+          "description": "Unsafe; violates AI-suggestions-only rule",
+          "cost": 2,
+          "speed": 5,
+          "maintainability": 1,
+          "scalability": 3,
+          "risk": 5,
+          "lockin": 4
+        }
+      ]
     }
   ],
   "backlog": [
@@ -517,9 +743,12 @@
       "priority": "Must",
       "title": "Next.js + TS scaffold",
       "owner": "Builder",
-      "status": "Planned",
+      "status": "Done",
       "dod": "App boots; scripts pass",
-      "evidence": ""
+      "evidence": "PACK-001 Builder Report; app boots",
+      "businessImpact": 5,
+      "riskReduction": 3,
+      "effort": 2
     },
     {
       "id": "TASK-002",
@@ -527,9 +756,12 @@
       "priority": "Must",
       "title": "Supabase wiring + env example",
       "owner": "Builder",
-      "status": "Planned",
+      "status": "Done",
       "dod": "Helpers + .env.example",
-      "evidence": ""
+      "evidence": "PACK-001 Builder Report; .env.example; helpers",
+      "businessImpact": 5,
+      "riskReduction": 3,
+      "effort": 2
     },
     {
       "id": "TASK-003",
@@ -537,9 +769,12 @@
       "priority": "Must",
       "title": "Auth roles + RLS stubs",
       "owner": "Builder",
-      "status": "Planned",
+      "status": "Done",
       "dod": "Policies for master tables",
-      "evidence": ""
+      "evidence": "docs/AUTH-ROLES.md + migrations",
+      "businessImpact": 5,
+      "riskReduction": 4,
+      "effort": 3
     },
     {
       "id": "TASK-004",
@@ -547,9 +782,12 @@
       "priority": "Must",
       "title": "SQL migrations for data model",
       "owner": "Builder",
-      "status": "Planned",
+      "status": "Done",
       "dod": "Unique vehicle/day",
-      "evidence": ""
+      "evidence": "supabase/migrations; unique vehicle/day",
+      "businessImpact": 5,
+      "riskReduction": 4,
+      "effort": 3
     },
     {
       "id": "TASK-005",
@@ -557,9 +795,12 @@
       "priority": "Must",
       "title": "Test infra + fixtures",
       "owner": "Builder",
-      "status": "Planned",
+      "status": "Done",
       "dod": "Runner + smoke fixture",
-      "evidence": ""
+      "evidence": "Vitest runner + fixtures",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 2
     },
     {
       "id": "TASK-006",
@@ -567,9 +808,12 @@
       "priority": "Must",
       "title": "Frotcom adapter + mocks",
       "owner": "Builder",
-      "status": "Planned",
+      "status": "Done",
       "dod": "No live calls",
-      "evidence": ""
+      "evidence": "src/lib/frotcom mocks; no live calls",
+      "businessImpact": 4,
+      "riskReduction": 5,
+      "effort": 2
     },
     {
       "id": "TASK-023",
@@ -579,7 +823,10 @@
       "owner": "Architect",
       "status": "Done",
       "dod": "Sprint-006 + ADR-009 AI strategy; DS-004/005 gates",
-      "evidence": "sprints/sprint-006/*; ADR-009"
+      "evidence": "sprints/sprint-006/*; ADR-009",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 3
     },
     {
       "id": "TASK-024",
@@ -589,7 +836,10 @@
       "owner": "Human/Architect",
       "status": "Done",
       "dod": "Three samples + ground-truth manifests",
-      "evidence": "DS-004 COMPLETE; 8 human_verified under references/private/pack-006 (gitignored)"
+      "evidence": "DS-004 COMPLETE; 8 human_verified under references/private/pack-006 (gitignored)",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 3
     },
     {
       "id": "TASK-028",
@@ -599,7 +849,10 @@
       "owner": "Human/Legal/Architect",
       "status": "Done",
       "dod": "Written Gemini/Grok/Qwen/Manual processing rules",
-      "evidence": "DS-005 APPROVED 2026-08-05 I. Dimitrov; DS-005-DECISION-TEMPLATE.md"
+      "evidence": "DS-005 APPROVED 2026-08-05 I. Dimitrov; DS-005-DECISION-TEMPLATE.md",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 3
     },
     {
       "id": "TASK-025",
@@ -609,7 +862,10 @@
       "owner": "Builder",
       "status": "Done",
       "dod": "Mock-path + provider wiring; smoke PASS; DS-005 APPROVED; ASM-014 SET; PACK-006 COMPLETE",
-      "evidence": "CLOSEOUT-AUDIT.md; BUILDER-REPORT.md; 08acb65…3bbd605"
+      "evidence": "CLOSEOUT-AUDIT.md; BUILDER-REPORT.md; 08acb65…3bbd605",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 3
     },
     {
       "id": "TASK-031",
@@ -619,7 +875,10 @@
       "owner": "Human/Builder",
       "status": "Done",
       "dod": "Admin/manager/viewer interactive smoke recorded; not claimed from API/static alone",
-      "evidence": "MANUAL-BROWSER-SMOKE-CHECKLIST.md 30/30 PASS I. Dimitrov 2026-08-05"
+      "evidence": "MANUAL-BROWSER-SMOKE-CHECKLIST.md 30/30 PASS I. Dimitrov 2026-08-05",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 3
     },
     {
       "id": "TASK-029",
@@ -629,7 +888,10 @@
       "owner": "Architect",
       "status": "Done",
       "dod": "Review states, roles, gate, audit, AC cases, manual stop reorder (FR-006-39..44)",
-      "evidence": "sprint-006; ADR-009 §13a"
+      "evidence": "sprint-006; ADR-009 §13a",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 3
     },
     {
       "id": "TASK-026",
@@ -637,9 +899,12 @@
       "priority": "Must",
       "title": "PACK-007 routes + km comparison",
       "owner": "Builder",
-      "status": "Planned",
-      "dod": "Corridors + deltas vs paid/direct; shortest-route suggestions; NOT in PACK-006",
-      "evidence": ""
+      "status": "Done",
+      "dod": "Corridors + Maps + KM deltas + manuals + UI on master; pack IMPLEMENTED_PENDING_CLOSEOUT (no formal closeout)",
+      "evidence": "3fb96fb; src/lib/maps; migrations 20260806010000 / 20260806020000; sprints/sprint-007/PACK-007.md",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 3
     },
     {
       "id": "TASK-027",
@@ -647,9 +912,137 @@
       "priority": "Must",
       "title": "PACK-008 PDF/Excel order export",
       "owner": "Builder",
+      "status": "Done",
+      "dod": "Excel+PDF export on master; pack IMPLEMENTED_PENDING_PILOT (TASK-037 open)",
+      "evidence": "86bcf2f; src/lib/export; app/api/export",
+      "businessImpact": 4,
+      "riskReduction": 3,
+      "effort": 3
+    },
+    {
+      "id": "TASK-037",
+      "requirementId": "REQ-EXPORT-ORDERS",
+      "priority": "Should",
+      "title": "PACK-008 Pilot — export with real data",
+      "owner": "Human/Builder",
       "status": "Planned",
-      "dod": "admin/manager/viewer export",
-      "evidence": ""
+      "dod": "Smoke Excel + PDF with real orders; verify sheets/pages/filters",
+      "evidence": "",
+      "businessImpact": 3,
+      "riskReduction": 2,
+      "effort": 2
+    },
+    {
+      "requirementId": "REQ-PACK",
+      "priority": "Must",
+      "owner": "Architect/Builder",
+      "businessImpact": 5,
+      "riskReduction": 4,
+      "effort": 2,
+      "dependencies": "",
+      "dod": "Lifecycle COMPLETE",
+      "evidence": "PACK_001_ACCEPTED; checkpoint 20f2698",
+      "status": "Done",
+      "id": "PACK-001",
+      "title": "Pack ladder: PACK-001 foundation scaffold — COMPLETE"
+    },
+    {
+      "requirementId": "REQ-PACK",
+      "priority": "Must",
+      "owner": "Architect/Builder",
+      "businessImpact": 5,
+      "riskReduction": 5,
+      "effort": 3,
+      "dependencies": "",
+      "dod": "Lifecycle COMPLETE",
+      "evidence": "PACK_002_ACCEPTED_WITH_FOLLOW_UPS; ADR-005/006",
+      "status": "Done",
+      "id": "PACK-002",
+      "title": "Pack ladder: PACK-002 assignments overlap/lifecycle — COMPLETE"
+    },
+    {
+      "requirementId": "REQ-PACK",
+      "priority": "Must",
+      "owner": "Architect/Builder",
+      "businessImpact": 5,
+      "riskReduction": 4,
+      "effort": 3,
+      "dependencies": "",
+      "dod": "Lifecycle COMPLETE",
+      "evidence": "PACK_003_ACCEPTED_WITH_FOLLOW_UPS; ADR-007; a68d8f9",
+      "status": "Done",
+      "id": "PACK-003",
+      "title": "Pack ladder: PACK-003 Excel assignment import — COMPLETE"
+    },
+    {
+      "requirementId": "REQ-PACK",
+      "priority": "Must",
+      "owner": "Architect/Builder",
+      "businessImpact": 5,
+      "riskReduction": 5,
+      "effort": 3,
+      "dependencies": "",
+      "dod": "Lifecycle COMPLETE",
+      "evidence": "PACK_004_ACCEPTED_WITH_FOLLOW_UPS; ADR-008; dbe59da",
+      "status": "Done",
+      "id": "PACK-004",
+      "title": "Pack ladder: PACK-004 import hardening — COMPLETE"
+    },
+    {
+      "requirementId": "REQ-PACK",
+      "priority": "Must",
+      "owner": "Architect/Builder",
+      "businessImpact": 4,
+      "riskReduction": 4,
+      "effort": 2,
+      "dependencies": "",
+      "dod": "Lifecycle COMPLETE",
+      "evidence": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; FU-002/003 closed w/ residuals",
+      "status": "Done",
+      "id": "PACK-005",
+      "title": "Pack ladder: PACK-005 evidence closure — COMPLETE"
+    },
+    {
+      "requirementId": "REQ-PACK",
+      "priority": "Must",
+      "owner": "Architect/Builder",
+      "businessImpact": 5,
+      "riskReduction": 5,
+      "effort": 4,
+      "dependencies": "",
+      "dod": "Lifecycle COMPLETE; DS-005 APPROVED; ASM-014 RESOLVED",
+      "evidence": "PACK_006_COMPLETE 2026-08-05; smoke 30/30; CLOSEOUT-AUDIT.md",
+      "status": "Done",
+      "id": "PACK-006",
+      "title": "Pack ladder: PACK-006 PDF AI extract + field confirm — COMPLETE"
+    },
+    {
+      "requirementId": "REQ-PACK",
+      "priority": "Must",
+      "owner": "Architect/Builder",
+      "businessImpact": 5,
+      "riskReduction": 3,
+      "effort": 4,
+      "dependencies": "",
+      "dod": "Code on master; formal closeout missing (not COMPLETE)",
+      "evidence": "IMPLEMENTED_PENDING_CLOSEOUT; commit 3fb96fb; sprints/sprint-007/",
+      "status": "Review",
+      "id": "PACK-007",
+      "title": "Pack ladder: PACK-007 routes + km comparison — IMPLEMENTED_PENDING_CLOSEOUT"
+    },
+    {
+      "requirementId": "REQ-PACK",
+      "priority": "Must",
+      "owner": "Architect/Builder",
+      "businessImpact": 5,
+      "riskReduction": 2,
+      "effort": 3,
+      "dependencies": "",
+      "dod": "Export on master; TASK-037 pilot open (not COMPLETE)",
+      "evidence": "IMPLEMENTED_PENDING_PILOT; commit 86bcf2f; TASK-037 open",
+      "status": "In Progress",
+      "id": "PACK-008",
+      "title": "Pack ladder: PACK-008 PDF/Excel order export — IMPLEMENTED_PENDING_PILOT"
     }
   ],
   "quality": {
@@ -658,8 +1051,8 @@
       "business": "BUSINESS-VALIDATION CONDITIONAL",
       "dataModel": "data/DATA-MODEL.md (+ PACK-006 transport-order entities)",
       "architecture": "ADR-001..009 accepted; DS-004 COMPLETE; DS-005 RESOLVED_APPROVED; ASM-014 RESOLVED",
-      "governance": "PROFILE Professional",
-      "build": "MVP v1.0.0; PACK-006 COMPLETE (Apply + provider wiring)",
+      "governance": "PROFILE Professional; Mission Control reconciliation 2026-08-06",
+      "build": "MVP v1.0.0; PACK-006 COMPLETE; PACK-007 IMPLEMENTED_PENDING_CLOSEOUT; PACK-008 IMPLEMENTED_PENDING_PILOT",
       "dryRun": "PACK-006 non-provider Dry-Run COMPLETE (historical)",
       "approval": "PACK-006 COMPLETE 2026-08-05; DS-005 APPROVED; ASM-014 SET",
       "validation": "PACK-006: gates/DB/UAT/smoke PASS (DB 11/1/0; UAT 19/19; browser 30/30)",
@@ -667,7 +1060,7 @@
       "accepted": "PACK_005_ACCEPTED_WITH_FOLLOW_UPS; PACK-006 COMPLETE",
       "release": "v1.0.0",
       "production": "",
-      "operations": "Gemini free-tier pilot ready; FU-SEC-001/002 open"
+      "operations": "Gemini free-tier pilot SUCCESS; TASK-037 open; FU-SEC-001/002 open; launcherImportAt 2026-08-06T18:46:23.000Z FRESH"
     },
     "checks": {
       "tests": true,
@@ -677,8 +1070,8 @@
       "backup": false,
       "rollback": false
     },
-    "approval": "PACK-006 COMPLETE; DS-005 APPROVED; ASM-014 SET",
-    "validation": "gates/DB/UAT/smoke PASS; readyForStaging false (already pushed)"
+    "approval": "PACK-006 COMPLETE; DS-005 APPROVED; ASM-014 SET; 007/008 not COMPLETE",
+    "validation": "PACK-006 gates/DB/UAT/smoke PASS; 007/008 implemented pending closeout/pilot"
   },
   "operations": {
     "releasePlan": "Private repo; pilot after Phase 8",
@@ -692,9 +1085,11 @@
       "FU-003-02 residual: C14 transport-failure remote inject not performed (unit coverage retained)",
       "PACK-005 Auth test identities retained in non-prod (credentials untracked)",
       "DS-001 Frotcom contract unverified (future pack; not PACK-005)",
-      "PACK-006 COMPLETE 2026-08-05; DS-005 APPROVED; ASM-014 SET; provider wiring done; Gemini free-tier pilot pending",
+      "PACK-006 COMPLETE; DS-005 APPROVED; ASM-014 SET; Gemini free-tier pilot SUCCESS; default mock",
       "FU-SEC-001 / FU-SEC-002 open (npm audit residual; non-blocking)",
-      "PACK-007 not started; PACK-008 not started"
+      "PACK-007 IMPLEMENTED_PENDING_CLOSEOUT (3fb96fb); formal closeout missing",
+      "PACK-008 IMPLEMENTED_PENDING_PILOT (86bcf2f); TASK-037 open",
+      "HTML launcherImportAt recorded 2026-08-06T18:46:23.000Z (human-verified FRESH)"
     ]
   },
   "knowledge": {
@@ -745,6 +1140,20 @@
     "asm014": "RESOLVED_DURATION_SET_LEGAL_FOLLOW_UP",
     "manualBrowserSmoke": "PASS",
     "closeoutAudit": "sprints/sprint-006/CLOSEOUT-AUDIT.md",
-    "completionDate": "2026-08-05"
+    "completionDate": "2026-08-05",
+    "geminiPilot": "SUCCESS"
+  },
+  "pack007": {
+    "status": "IMPLEMENTED_PENDING_CLOSEOUT",
+    "lifecycle": "CLOSEOUT_OPEN",
+    "implementationCommit": "3fb96fb",
+    "formalCloseout": false
+  },
+  "pack008": {
+    "status": "IMPLEMENTED_PENDING_PILOT",
+    "lifecycle": "PUSHED",
+    "implementationCommit": "86bcf2f",
+    "task037": "NOT_STARTED",
+    "formalComplete": false
   }
 }
