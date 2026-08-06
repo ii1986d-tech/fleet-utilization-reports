@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
+import { ExportPanel } from "@/components/export/ExportPanel";
 import { appError, type AppError } from "@/lib/assignments/errors";
+import type { AppRole } from "@/lib/auth/roles";
 import { MAX_PDF_BYTES, MAX_PDF_PAGES } from "@/lib/transport-orders/constants";
 import {
   extractTransportOrderAction,
@@ -48,6 +50,7 @@ export default function TransportOrdersPage() {
   const [error, setError] = useState<AppError | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [canUpload, setCanUpload] = useState(false);
+  const [role, setRole] = useState<AppRole | null>(null);
   const [sessionLoaded, setSessionLoaded] = useState(false);
   const [pending, startTransition] = useTransition();
   const [dragOver, setDragOver] = useState(false);
@@ -72,10 +75,12 @@ export default function TransportOrdersPage() {
       if (isError(session)) {
         setError(session);
         setCanUpload(false);
+        setRole(null);
         setSessionLoaded(true);
         return;
       }
       setCanUpload(session.canReview);
+      setRole(session.role);
       setSessionLoaded(true);
       const result = await listTransportOrdersAction();
       if (isError(result)) {
@@ -277,6 +282,13 @@ export default function TransportOrdersPage() {
         ))}
       </ul>
       {rows.length === 0 ? <p>No orders yet.</p> : null}
+
+      {sessionLoaded && role ? (
+        <ExportPanel
+          isAdminOrManager={role === "admin" || role === "manager"}
+          isViewer={role === "viewer"}
+        />
+      ) : null}
     </div>
   );
 }

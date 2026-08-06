@@ -62,6 +62,13 @@ Default `MAPS_API_ENABLED=false` until keys, billing, and cost monitoring are re
 | Part 2 | KM delta + manual override | **IMPLEMENTED** |
 | Part 3 | UI + corridor selection | **IMPLEMENTED** |
 
+### PACK-008 (export)
+
+| Item | Status |
+|---|---|
+| Excel + PDF export | **IMPLEMENTED** |
+| Live AI in PACK-008 | **None** (export uses stored order + KM data only) |
+
 - API key: **NOT YET CONFIGURED** (user will add later in local/server secrets).
 - Module path: `src/lib/maps/` (`client`, `cache`, `cost-tracker`, `route-service`, `km-delta-service`, `haversine`).
 - Table: `transport_order_km_comparison` (migration `20260806010000_pack007_km_comparison.sql`).
